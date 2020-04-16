@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1013609504456",
+    "firebase_url": "https://chajajum-30271.firebaseio.com",
+    "project_id": "chajajum-30271",
+    "storage_bucket": "chajajum-30271.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013609504456:android:f2cdb32fbde2be9f1f8ffd",
+        "android_client_info": {
+          "package_name": "com.example.pacemaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013609504456-lo9c5d7i15f54ps3in9di14gs7ubcitu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQOtvRFpNxNZFmvNEPp8N2mwB06yvtM90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013609504456-lo9c5d7i15f54ps3in9di14gs7ubcitu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
