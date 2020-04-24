@@ -14,12 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.pacemaker.DateEvent;
 import com.example.pacemaker.R;
 import com.google.gson.Gson;
@@ -33,7 +33,6 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -44,7 +43,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -55,25 +53,12 @@ public class CalenderFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CalenderListItemAdapter mAdapter;
     private Bundle bundle;
+    private LinearLayout pageHide;
     private ArrayList<CalenderListItem> mList = new ArrayList<>();
     private ArrayList<DateEvent> schedule = new ArrayList<>();
     private Map<String, Integer> count = new HashMap<>();
     private HashMap<String, String> sList = new HashMap<>();
     private static boolean trigger = true;
-    private static int[] colorset = {
-            Color.RED,
-            Color.YELLOW,
-            Color.GREEN,
-            Color.BLUE,
-            Color.CYAN,
-            Color.DKGRAY,
-            Color.RED,
-            Color.YELLOW,
-            Color.GREEN,
-            Color.BLUE,
-            Color.CYAN,
-            Color.DKGRAY
-    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +66,14 @@ public class CalenderFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_calender, container, false);
         materialCalendarView = root.findViewById(R.id.calendarView);
         int year = Calendar.getInstance().get(Calendar.YEAR);
+        pageHide = root.findViewById(R.id.pageHide);
+
+        pageHide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -115,6 +108,14 @@ public class CalenderFragment extends Fragment {
         } );
 
         return root;
+    }
+
+    public void onStop() {
+        super.onStop();
+        count.clear();
+        sList.clear();
+        mList.clear();
+        schedule.clear();
     }
 
     public class SundayDecorator implements DayViewDecorator {
@@ -222,27 +223,36 @@ public class CalenderFragment extends Fragment {
 
         @Override
         public void drawBackground(@NonNull Canvas canvas, @NonNull Paint paint, int left, int right, int top, int baseline, int bottom, @NonNull CharSequence text, int start, int end, int lineNumber) {
-            int total = count;
+            int total = count > 2 ? 3 : count;
+            int loop = count % 3 != 0 ? (count / 3) + 1 : (count / 3);
             int leftMost = (total - 1) * -12;
 
-            for (int i = 0; i < total; i++) {
-                int oldColor = paint.getColor();
+            for(int k = 0; k < loop; k++) {
+                if(k == 1 && loop == 2) total = count % 3;
 
-                if (colorset[i % colorset.length] != 0) {
-                    paint.setColor(colorset[i % colorset.length]);
+                if(k == 2 && count > 6){
+                    float oldSIze = paint.getTextSize();
+                    paint.setTextSize(17f);
+                    canvas.drawText("+" + String.valueOf(count-6), 86, 100, paint);
+                    paint.setTextSize(oldSIze);
+                    break;
                 }
+                for (int i = 0; i < total; i++) {
+                    int oldColor = paint.getColor();
+                    paint.setColor(Color.DKGRAY);
 
-                if (i % 3 == 0) {
-                    bottom += 15;
-                    leftMost = (total - 1) * -12;
+                    if (i % 3 == 0) {
+                        bottom += 13;
+                        leftMost = (total - 1) * -12;
+                    }
+
+                    canvas.drawCircle((float) ((left + right) / 2 - leftMost), bottom + radius, radius, paint);
+                    //else if(dote == 7)    canvas.drawText("+" + String.valueOf(total - dote),left, bottom + radius, paint);
+                    //canvas.drawLine(left,bottom + leftMost, right, bottom + leftMost, paint);
+
+                    paint.setColor(oldColor);
+                    leftMost += 24;
                 }
-
-                canvas.drawCircle((float) ((left + right) / 2 - leftMost), bottom + radius, radius, paint);
-                //canvas.drawText("시험",left, bottom + radius, paint);
-                //canvas.drawLine(left,bottom + leftMost, right, bottom + leftMost, paint);
-
-                paint.setColor(oldColor);
-                leftMost += 24;
             }
         }
     }
@@ -251,14 +261,13 @@ public class CalenderFragment extends Fragment {
     public class getScheduleList extends AsyncTask<Integer, Void, CalenderListItem[]> {
 
         OkHttpClient client = new OkHttpClient();
-        Calendar calendar = new GregorianCalendar(Locale.JAPAN);
+        Calendar calendar = new GregorianCalendar(Locale.KOREA);
         int thisMonth = calendar.get(calendar.MONTH) + 1;
         int today = calendar.get(calendar.DAY_OF_MONTH);
         int curMonth = 0;
 
         @Override
         protected CalenderListItem[] doInBackground(Integer... pos) {
-
             String url = "https://nobles1030.cafe24.com/scheduleRequest.php";
 
             this.curMonth = pos[0];
@@ -286,6 +295,7 @@ public class CalenderFragment extends Fragment {
         @Override
         protected void onPostExecute(CalenderListItem[] result) {
             mList.clear();
+            if(getContext() == null) return;
 
             //Calendar eventday = Calendar.getInstance();
             if (result.length > 0) {
@@ -301,7 +311,7 @@ public class CalenderFragment extends Fragment {
                             DateEvent dda = new DateEvent(post.getMap("sYear"), post.getMap("sMonth") - 1, post.getMap("sDay"));
                             schedule.add(dda);
                             count.put(dda.getKey(), count.get(dda.getKey()) == null ? 1 : count.get(dda.getKey()) + 1);
-                            sList.put(dda.getKey(), sList.get(dda.getKey()) ==  null ? post.getCollege() + post.getTodo() +"-시작" : sList.get(dda.getKey()) + post.getCollege() + post.getTodo() + "-시작" +"\n");
+                            sList.put(dda.getKey(), sList.get(dda.getKey()) ==  null ? post.getCollege() + post.getTodo() +"-시작\n" : sList.get(dda.getKey()) + post.getCollege() + post.getTodo() + "-시작\n");
                             DateEvent dea = new DateEvent(post.getMap("eYear"), post.getMap("eMonth") - 1, post.getMap("eDay"));
                             schedule.add(dea);
                             count.put(dea.getKey(), count.get(dea.getKey()) == null ? 1 : count.get(dea.getKey()) + 1);
@@ -309,7 +319,7 @@ public class CalenderFragment extends Fragment {
                                 sList.put(dea.getKey(), sList.get(dea.getKey()) == null ? post.getCollege() + post.getTodo() +"\n" : sList.get(dea.getKey()) + post.getCollege() + post.getTodo() +"\n");
                             }
                             else{
-                                sList.put(dea.getKey(), sList.get(dea.getKey()) == null ? post.getCollege() + post.getTodo() +"\n" : sList.get(dea.getKey()) + post.getCollege() + post.getTodo() + "-마감" +"\n");
+                                sList.put(dea.getKey(), sList.get(dea.getKey()) == null ? post.getCollege() + post.getTodo() + "-마감\n" : sList.get(dea.getKey()) + post.getCollege() + post.getTodo() + "-마감\n");
                             }
                         }
                     }

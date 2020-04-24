@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.example.pacemaker.ui.calender.CalenderFragment;
 import com.example.pacemaker.ui.home.HomeFragment;
+import com.example.pacemaker.ui.mypage.MyPageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected Intent getIntent;
     private HomeFragment homeFragment;
     private CalenderFragment calenderFragment;
+    private MyPageFragment myPageFragment;
 
     //@SuppressLint("ResourceType")
     @Override
@@ -61,15 +63,18 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment = new HomeFragment();
         calenderFragment = new CalenderFragment();
+        myPageFragment = new MyPageFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
 
         homeFragment.setNextTest(test, String.valueOf(ddaycount));
+        myPageFragment.setBundle(bundle);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
+                        /*
                         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
@@ -77,10 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
                         ft1.addToBackStack(null);
                         ft1.commit();
-                        //getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
+                         */
+                        getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
                         return true;
 
                     case R.id.navigation_calender:
+                        /*
                         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -88,7 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
                         ft.addToBackStack(null);
                         ft.commit();
-                       //getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, calenderFragment).commitAllowingStateLoss();
+
+                         */
+                        getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, calenderFragment).commitAllowingStateLoss();
+                        return true;
+
+                    case R.id.navigation_myPage:
+                        getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, myPageFragment).commitAllowingStateLoss();
                         return true;
                 }
                 return false;

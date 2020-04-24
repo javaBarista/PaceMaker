@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.pacemaker.ApplyActivity;
+import com.example.pacemaker.CompetitionActivity;
+import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.R;
 
 public class HomeFragment extends Fragment {
@@ -23,6 +26,8 @@ public class HomeFragment extends Fragment {
     private Dialog dialog;
     private TextView dday;
     private TextView nextTest;
+    private LinearLayout competitionPad;
+    private LinearLayout englishPad;
     private String name;
     private String day;
 
@@ -45,6 +50,24 @@ public class HomeFragment extends Fragment {
         dialog = new Dialog(root.getContext());
         dialog.setContentView(R.xml.apply_choice_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        competitionPad = root.findViewById(R.id.competitionPad);
+        competitionPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent competitionIntent = new Intent(getContext(), CompetitionActivity.class);
+                startActivity(competitionIntent);
+            }
+        });
+
+        englishPad = root.findViewById(R.id.englishPad);
+        englishPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent englishIntent = new Intent(getContext(), EnglishActivity.class);
+                startActivity(englishIntent);
+            }
+        });
 
         applybtn.setOnClickListener(new View.OnClickListener() {
             @Override

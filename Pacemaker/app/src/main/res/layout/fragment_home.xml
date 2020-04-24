@@ -22,6 +22,7 @@
                     <FrameLayout
                         android:layout_width="340dp"
                         android:layout_height="100dp"
+                        android:layout_marginTop="30dp"
                         android:layout_gravity="center"
                         android:background="@drawable/dday_counter">
                         <LinearLayout
@@ -254,12 +255,79 @@
                             </FrameLayout>
                         </LinearLayout>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="40dp"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:id="@+id/mocTestPad">
+                            <FrameLayout
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
+                                android:background="@drawable/greedy_button"
+                                android:layout_gravity="center">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:src="@drawable/moc"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="35dp"
+                                    android:layout_gravity="center"
+                                    android:text="모의고사"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#000000"/>
+                            </FrameLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="40dp"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:id="@+id/qandaPad">
+                            <FrameLayout
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
+                                android:background="@drawable/greedy_button"
+                                android:layout_gravity="center">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:src="@drawable/qanda"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="35dp"
+                                    android:layout_gravity="center"
+                                    android:text="Q&amp;A"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#000000"/>
+                            </FrameLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </GridLayout>
 
                 <Button
                     android:layout_width="300dp"
                     android:layout_height="45dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="30dp"
                     android:background="@color/colorPrimary"
                     android:layout_gravity="center"
                     android:text="원서접수 바로가기"
