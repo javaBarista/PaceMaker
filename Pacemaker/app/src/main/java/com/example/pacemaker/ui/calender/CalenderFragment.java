@@ -1,5 +1,6 @@
 package com.example.pacemaker.ui.calender;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pacemaker.DateEvent;
+import com.example.pacemaker.ListViewItem;
 import com.example.pacemaker.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,6 +61,9 @@ public class CalenderFragment extends Fragment {
     private Map<String, Integer> count = new HashMap<>();
     private HashMap<String, String> sList = new HashMap<>();
     private static boolean trigger = true;
+    public ArrayList<CalenderListItem> calenderListItems = new ArrayList<>();
+    public ArrayList<ListViewItem> items = new ArrayList<>();
+    private ListViewItem item;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -286,6 +291,7 @@ public class CalenderFragment extends Fragment {
 
                 return posts;
 
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -339,7 +345,8 @@ public class CalenderFragment extends Fragment {
             //Adapter setting
             mAdapter = new CalenderListItemAdapter(mList);
             mRecyclerView.setAdapter(mAdapter);
-
         }
     }
+
+
 }

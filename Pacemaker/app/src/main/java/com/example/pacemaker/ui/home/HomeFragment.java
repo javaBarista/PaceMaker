@@ -2,6 +2,7 @@ package com.example.pacemaker.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,8 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.pacemaker.ApplyActivity;
 import com.example.pacemaker.CompetitionActivity;
+import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.R;
 
@@ -30,6 +34,7 @@ public class HomeFragment extends Fragment {
     private LinearLayout englishPad;
     private String name;
     private String day;
+    protected Bundle bundle;
 
     public void setNextTest(String name, String day){
         this.name = name;
@@ -46,6 +51,15 @@ public class HomeFragment extends Fragment {
         nextTest = root.findViewById(R.id.nextTest);
         dday.setText(day);
         nextTest.setText(name);
+
+        ViewGroup dday_layout = (ViewGroup) root.findViewById(R.id.dday_layout);
+        dday_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ddayActivity = new Intent(getContext(), DdayActivity.class);
+                startActivity(ddayActivity);
+            }
+        });
 
         dialog = new Dialog(root.getContext());
         dialog.setContentView(R.xml.apply_choice_dialog);
@@ -95,6 +109,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Bundle extra = this.getArguments();
+        if(extra != null) {
+            extra = getArguments();
+            String new_nextTest = extra.getString("new_nextTest");
+            String new_dday = extra.getString("new_dday");
+        }
+
         return root;
     }
+
 }
