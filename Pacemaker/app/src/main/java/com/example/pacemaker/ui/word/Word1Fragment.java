@@ -1,6 +1,7 @@
 package com.example.pacemaker.ui.word;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.pacemaker.R;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 public class Word1Fragment extends Fragment {
 
@@ -17,6 +20,7 @@ public class Word1Fragment extends Fragment {
     private String pronu;
     private String mean;
     private String gram;
+    LikeButton starCheck;
 
     public static Word1Fragment newInstance(String word, String pronu, String gram, String mean) {
         Word1Fragment fragment = new Word1Fragment();
@@ -50,6 +54,20 @@ public class Word1Fragment extends Fragment {
         pronTxt.setText(pronu);
         gramTxt.setText(gram);
         meanTxt.setText(mean);
+        starCheck = view.findViewById(R.id.like_check);
+        starCheck.setCircleEndColorRes(R.color.colorPrimary);
+
+        starCheck.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
 
         return view;
     }
