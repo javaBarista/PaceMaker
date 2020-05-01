@@ -14,6 +14,10 @@ import android.widget.GridLayout;
 
 import java.util.HashMap;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
 public class EnglishActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
@@ -170,9 +174,9 @@ public class EnglishActivity extends AppCompatActivity {
         dayMap.put("day30", day30);
 
         for(int i = 1; i <=30; i++ ){
-            if(prefs.getBoolean("day" + i, false)) {
-                dayMap.get("day" + i).setBackground(ContextCompat.getDrawable(this, R.drawable.dday_counter));
-                dayMap.get("day" + i).setTextColor(Color.parseColor("#FFA9A9A9"));
+            if(prefs.getBoolean("day" + String.valueOf(i), false)) {
+                dayMap.get("day" + String.valueOf(i)).setBackground(ContextCompat.getDrawable(this, R.drawable.dday_counter));
+                dayMap.get("day" + String.valueOf(i)).setTextColor(Color.parseColor("#FFA9A9A9"));
             }
         }
     }

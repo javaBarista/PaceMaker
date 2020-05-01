@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.pacemaker.ui.home.HomeFragment"
-        android:label="Home"
+        android:label="Pace Maker"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.pacemaker.ui.mypage.MyPageFragment"
-        android:label="MyPage"
+        android:label="Pace Maker"
         tools:layout="@layout/fragment_mypage" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.pacemaker.ui.calender.CalenderFragment"
-        android:label="Calender"
+        android:label="Pace Maker"
         tools:layout="@layout/fragment_calender" />
 </navigation>
