@@ -124,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        // SharedPreferences
-        SharedPreferences sf = getSharedPreferences(sfName, 0);
-        SharedPreferences.Editor editor = sf.edit();
-        String name = homeFragment.getNextTest_name();
-        String day = homeFragment.getNextTest_day();
-        editor.putString("test_sf", name);
-        editor.putString("day_sf", day);
-        editor.commit();
+//        // SharedPreferences
+//        SharedPreferences sf = getSharedPreferences(sfName, 0);
+//        SharedPreferences.Editor editor = sf.edit();
+//        String name = homeFragment.getNextTest_name();
+//        String day = homeFragment.getNextTest_day();
+//        editor.putString("test_sf", name);
+//        editor.putString("day_sf", day);
+//        editor.commit();
     }
 }

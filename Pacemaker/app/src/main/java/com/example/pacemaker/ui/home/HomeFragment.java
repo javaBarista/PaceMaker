@@ -3,6 +3,7 @@ package com.example.pacemaker.ui.home;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private String name;
     private String day;
     protected Bundle bundle;
+    String sfName = "dday_counter";
 
     public void setNextTest(String name, String day){
         this.name = name;
@@ -53,9 +55,12 @@ public class HomeFragment extends Fragment {
         dday.setText(day);
         nextTest.setText(name);
 
-        if (savedInstanceState != null) {
-            String data = savedInstanceState.getString("save");
-            nextTest.setText(data);
+        SharedPreferences sf = this.getActivity().getSharedPreferences(sfName, 0);
+        String test_sf = sf.getString("test_sf", "null");
+        String day_sf = sf.getString("day_sf", "null");
+        if (test_sf != null) {
+            nextTest.setText(test_sf);
+            dday.setText(day_sf);
         }
 
         ViewGroup dday_layout = (ViewGroup) root.findViewById(R.id.dday_layout);
@@ -139,12 +144,4 @@ public class HomeFragment extends Fragment {
         return dday.getText().toString();
     }
 
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        String data = nextTest.getText().toString();
-        outState.putString("save", data);
-    }
 }
