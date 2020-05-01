@@ -2,7 +2,6 @@ package com.example.pacemaker.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,14 +14,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pacemaker.ApplyActivity;
 import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.R;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
@@ -52,12 +53,17 @@ public class HomeFragment extends Fragment {
         dday.setText(day);
         nextTest.setText(name);
 
+        if (savedInstanceState != null) {
+            String data = savedInstanceState.getString("save");
+            nextTest.setText(data);
+        }
+
         ViewGroup dday_layout = (ViewGroup) root.findViewById(R.id.dday_layout);
         dday_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ddayActivity = new Intent(getContext(), DdayActivity.class);
-                startActivity(ddayActivity);
+                startActivityForResult(ddayActivity, 1);
             }
         });
 
@@ -109,14 +115,36 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Bundle extra = this.getArguments();
-        if(extra != null) {
-            extra = getArguments();
-            String new_nextTest = extra.getString("new_nextTest");
-            String new_dday = extra.getString("new_dday");
-        }
-
         return root;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode==RESULT_OK) {
+                String newName = data.getStringExtra("new_nextTest");
+                String newDay = data.getStringExtra("new_dday");
+                nextTest.setText(newName);
+                dday.setText(newDay);
+            }
+        }
+    }
+
+    public String getNextTest_name() {
+        return nextTest.getText().toString();
+    }
+    public String getNextTest_day() {
+        return dday.getText().toString();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String data = nextTest.getText().toString();
+        outState.putString("save", data);
+    }
 }

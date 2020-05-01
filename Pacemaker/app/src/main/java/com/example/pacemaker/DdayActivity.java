@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -50,7 +51,6 @@ public class DdayActivity extends AppCompatActivity  {
 
     String url = "https://nobles1030.cafe24.com/scheduleRequest2.php";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,16 +76,14 @@ public class DdayActivity extends AppCompatActivity  {
                 String collegeName = item.getCollege_name();
                 String collegeDday = item.getCollege_dday();
 
-                // homefragment d-day counter 바꿔주기
-                HomeFragment homeFragment = new HomeFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("new_nextTest",collegeName);
-                bundle.putString("new_dday", collegeDday);
-                homeFragment.setArguments(bundle);
-
                 if(getFragmentRefreshListener()!= null){
                     getFragmentRefreshListener().onRefresh();
                 }
+
+                Intent intent = new Intent();
+                intent.putExtra("new_nextTest", collegeName);
+                intent.putExtra("new_dday", collegeDday);
+                setResult(RESULT_OK, intent);
 
                 Toast.makeText(getApplicationContext(), collegeName+" D-"+collegeDday, Toast.LENGTH_LONG).show();
 

@@ -1,6 +1,7 @@
 package com.example.pacemaker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private CalenderFragment calenderFragment;
     private MyPageFragment myPageFragment;
+    String sfName = "dday_counter";
+    String testName, testDay;
 
     //@SuppressLint("ResourceType")
     @Override
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         getIntent = getIntent();
         String test = getIntent.getStringExtra("test");
+        testName = test;
         String date = getIntent.getStringExtra("date");
         bundle = getIntent.getExtras();
 
@@ -64,9 +68,14 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         calenderFragment = new CalenderFragment();
         myPageFragment = new MyPageFragment();
+
+        SharedPreferences sf = getSharedPreferences(sfName, 0);
+        testName = sf.getString("test_sf", test);
+        testDay = sf.getString("day_sf", String.valueOf(ddaycount));
+        homeFragment.setNextTest(testName, testDay);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
 
-        homeFragment.setNextTest(test, String.valueOf(ddaycount));
         myPageFragment.setBundle(bundle);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -111,4 +120,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // SharedPreferences
+        SharedPreferences sf = getSharedPreferences(sfName, 0);
+        SharedPreferences.Editor editor = sf.edit();
+        String name = homeFragment.getNextTest_name();
+        String day = homeFragment.getNextTest_day();
+        editor.putString("test_sf", name);
+        editor.putString("day_sf", day);
+        editor.commit();
+    }
 }
