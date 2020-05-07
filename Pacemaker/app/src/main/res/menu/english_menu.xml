@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Word" android:id="@+id/action_word" android:icon="@drawable/ic_word"
+        app:showAsAction="always"/>
+    <item android:title="Trans" android:id="@+id/action_trans" android:icon="@drawable/ic_translate"
+        app:showAsAction="always"/>
+</menu>

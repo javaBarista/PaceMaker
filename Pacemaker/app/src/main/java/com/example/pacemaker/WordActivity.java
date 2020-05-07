@@ -5,28 +5,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-
-import com.example.pacemaker.ui.mypage.MyPageFragment;
-import com.example.pacemaker.ui.word.Word1Fragment;
+import com.example.pacemaker.ui.word.WordFragment;
+import com.example.pacemaker.ui.word.WordForm;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.IOException;
-import java.io.InputStream;
-
+import java.util.ArrayList;
 import me.relex.circleindicator.CircleIndicator;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,82 +30,59 @@ import okhttp3.Response;
 
 public class WordActivity extends AppCompatActivity {
 
+    private ArrayList<WordForm> mList = new ArrayList<>();
     private ViewPager viewPager;
     private FragmentPagerAdapter fpAdapter;
-    private CircleIndicator circleIndicator;
+    static private CircleIndicator circleIndicator;
     private Intent getIntent;
-    private String daylist[];
     private Spinner daySpin;
     private String day;
-
-    //디비에 day값만 넘겨주고 거기에 해당하는 단어들을 오름차순으로 가져와서 class에 매핑시켜 배열로 저장 후 각 프래그먼트에 넘겨줘야한다.
-
+    private ImageButton refreshBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         viewPager = findViewById(R.id.wordPager);
-        fpAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(fpAdapter);
         circleIndicator = findViewById(R.id.indicator);
         circleIndicator.setViewPager(viewPager);
-
+        //circleIndicator.createIndicators(3,0);
+        //circleIndicator.animatePageSelected(0);
         getIntent = getIntent();
         day = getIntent.getStringExtra("day");
+        Log.d("day is : ", day.replace("day", ""));
+        new getEnglishWords().execute();
 
         daySpin = findViewById(R.id.daySpin);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_dropdown_item);
         daySpin.setAdapter(adapter);
         daySpin.setSelection(adapter.getPosition(day));
-    }
 
-    public void makeList(){
-        OkHttpClient request = new OkHttpClient();
-
-        RequestBody body = new FormBody.Builder()
-                .add("day", day.replace("day", ""))
-                .build();
-
-        request.newCall(new Request.Builder().url("https://nobles1030.cafe24.com/RequestWord.php").post(body).build()).enqueue(new Callback() {
-
+        refreshBtn = findViewById(R.id.refreshBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                new Handler(getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            String result = response.body().string();
-
-                            if(result.contains("success")){
-                                JsonElement jsonElement =  new JsonParser().parse(result.substring(result.indexOf("{"), result.indexOf("}") + 1));
-                                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                              //  url = jsonObject.get("Address").toString().replaceAll("\\/", "/").replaceAll("\"", "");
-
-                                final Handler mHandler = new Handler();
-
-
-                            }
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WordActivity.class);
+                intent.putExtra("day", daySpin.getSelectedItem().toString());
+                startActivity(intent);
+                finish();
             }
         });
+
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 1;
+        private static int NUM_ITEMS = 20;
+        private ArrayList<WordForm> mList= new ArrayList<>();
+       // private CircleIndicator indicator;
 
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        public MyPagerAdapter(FragmentManager fragmentManager,  ArrayList<WordForm> mList) {
             super(fragmentManager);
+            this.mList = mList;
         }
 
         // Returns total number of pages
@@ -122,18 +94,9 @@ public class WordActivity extends AppCompatActivity {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return Word1Fragment.newInstance("Pace Maker", "발음.......","명사", "심박 조율기");
-                case 1:
-                    //return SecondFragment.newInstance(1, "Page # 2");
-                case 2:
-                    //return ThirdFragment.newInstance(2, "Page # 3");
-                default:
-                    return null;
-            }
+            //if(position == 20) 테스트 페이지 출력
+            return WordFragment.newInstance(mList.get(position).getWord(), mList.get(position).getPron(),mList.get(position).getGram(), mList.get(position).getMean());
         }
-
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
@@ -141,4 +104,63 @@ public class WordActivity extends AppCompatActivity {
         }
 
     }
+
+    private class getEnglishWords extends AsyncTask<Void, Void, WordForm[]> {
+
+        OkHttpClient client = new OkHttpClient();
+
+        @Override
+        protected WordForm[] doInBackground(Void... voids) {
+
+            String url = "https://nobles1030.cafe24.com/requestEnglishwords.php";
+            RequestBody body = new FormBody.Builder()
+                    .add("Day", day.replace("day", ""))
+                    .build();
+
+            Request request = new Request.Builder().url(url).post(body).build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                //Json data를 Gson형식으로 파싱해 리스트 생성
+                Gson gson = new GsonBuilder().create();
+                JsonParser parser = new JsonParser();
+
+                JsonElement rootObject = parser.parse(response.body().charStream());
+                Log.d("data is:", rootObject.toString());
+                WordForm[] posts = gson.fromJson(rootObject, WordForm[].class);
+                return posts;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(WordForm[] result) {
+            if(result.length > 0){
+                for (WordForm post: result){
+                    Log.d("result is : ",String.valueOf(post));
+                    mList.add(post);
+                }
+            }
+            //Adapter setting
+            fpAdapter = new MyPagerAdapter(getSupportFragmentManager(), mList);
+            viewPager.setAdapter(fpAdapter);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

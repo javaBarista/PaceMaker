@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -96,6 +98,16 @@ public class EnglishActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.english_menu, menu);
+        MenuItem word = menu.findItem(R.id.action_word);
+        word.setVisible(false);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
         switch(item.getItemId()){
@@ -103,6 +115,11 @@ public class EnglishActivity extends AppCompatActivity {
                 // TODO : process the click event for action_search item.
                 onBackPressed();
                 return true ;
+            case R.id.action_trans:
+                Intent transIntent = new Intent(this, TranslateActivity.class);
+                startActivity(transIntent);
+                finish();
+                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 public class ApplyActivity extends AppCompatActivity {
 
     private WebView mWebView; // 웹뷰 선언
@@ -37,7 +34,7 @@ public class ApplyActivity extends AppCompatActivity {
         mWebSettings.setJavaScriptCanOpenWindowsAutomatically(false); // 자바스크립트 새창 띄우기(멀티뷰) 허용 여부
         mWebSettings.setLoadWithOverviewMode(true); // 메타태그 허용 여부
         mWebSettings.setUseWideViewPort(true); // 화면 사이즈 맞추기 허용 여부
-        mWebSettings.setSupportZoom(false); // 화면 줌 허용 여부
+        mWebSettings.setSupportZoom(true); // 화면 줌 허용 여부
         mWebSettings.setBuiltInZoomControls(false); // 화면 확대 축소 허용 여부
         mWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); // 컨텐츠 사이즈 맞추기
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부

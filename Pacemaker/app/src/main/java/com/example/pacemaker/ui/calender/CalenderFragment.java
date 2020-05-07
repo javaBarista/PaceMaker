@@ -108,7 +108,7 @@ public class CalenderFragment extends Fragment {
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Toast.makeText(root.getContext(), sList.get(date.toString()), Toast.LENGTH_LONG).show();
+                Toast.makeText(root.getContext(), sList.get(date.toString()), Toast.LENGTH_SHORT).show();
             }
         } );
 

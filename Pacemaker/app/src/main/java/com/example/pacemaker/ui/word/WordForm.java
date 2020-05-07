@@ -1,15 +1,22 @@
 package com.example.pacemaker.ui.word;
 
 public class WordForm {
-    private String num;
-    private String word;
-    private String gram;
-    private String mean;
+    private String Number;
+    private String Word;
+    private String pronunciation;
+    private String partSpeech;
+    private String meaning;
 
-    WordForm(String num, String word, String gram, String mean){
-        this.num = num;
-        this.word = word;
-        this.gram = gram;
-        this.mean = mean;
+    public WordForm(String Number, String Word, String pronunciation, String partSpeech, String meaning){
+        this.Number = Number;
+        this.Word = Word;
+        this.pronunciation = pronunciation;
+        this.partSpeech = partSpeech;
+        this.meaning = meaning;
     }
+
+    public String getWord(){ return Word; }
+    public String getPron(){ return pronunciation; }
+    public String getGram(){ return partSpeech; }
+    public String getMean(){ return meaning; }
 }

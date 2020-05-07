@@ -5,21 +5,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.pacemaker.R;
 
-public class Word1Fragment extends Fragment {
+public class WordFragment extends Fragment {
 
     private String word;
     private String pronu;
     private String mean;
     private String gram;
 
-    public static Word1Fragment newInstance(String word, String pronu, String gram, String mean) {
-        Word1Fragment fragment = new Word1Fragment();
+    public static WordFragment newInstance(String word, String pronu, String gram, String mean) {
+        WordFragment fragment = new WordFragment();
         Bundle args = new Bundle();
         args.putString("word", word);
         args.putString("pronu", pronu);
@@ -41,11 +42,12 @@ public class Word1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        @SuppressLint("ResourceType") View view = inflater.inflate(R.xml.fragment_word1, container, false);
+        @SuppressLint("ResourceType") View view = inflater.inflate(R.xml.fragment_word, container, false);
         TextView wordTxt = view.findViewById(R.id.fgword1);
         TextView pronTxt = view.findViewById(R.id.fgword1_pro);
         TextView gramTxt = view.findViewById(R.id.fgword1_gram);
         TextView meanTxt = view.findViewById(R.id.fgword1_mean);
+        ImageView favorite = view.findViewById(R.id.favorite);
         wordTxt.setText(word);
         pronTxt.setText(pronu);
         gramTxt.setText(gram);

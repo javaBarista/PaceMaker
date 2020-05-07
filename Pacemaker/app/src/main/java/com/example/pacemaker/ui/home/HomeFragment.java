@@ -16,12 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.pacemaker.ApplyActivity;
 import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
+import com.example.pacemaker.GuidelinesActivity;
 import com.example.pacemaker.R;
 
 public class HomeFragment extends Fragment {
@@ -31,6 +30,7 @@ public class HomeFragment extends Fragment {
     private TextView dday;
     private TextView nextTest;
     private LinearLayout competitionPad;
+    private LinearLayout guidlinesPad;
     private LinearLayout englishPad;
     private String name;
     private String day;
@@ -71,6 +71,15 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent competitionIntent = new Intent(getContext(), CompetitionActivity.class);
                 startActivity(competitionIntent);
+            }
+        });
+
+        guidlinesPad = root.findViewById(R.id.guidelinesPad);
+        guidlinesPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent guidIntent = new Intent(getContext(), GuidelinesActivity.class);
+                startActivity(guidIntent);
             }
         });
 

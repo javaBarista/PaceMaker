@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CompetitionActivity">
-
+    tools:context=".GuidelinesActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,20 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <Spinner
-                android:id="@+id/yearSpin"
+                android:id="@+id/collegeGuidSpin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp" />
-
-            <Spinner
-                android:id="@+id/collegeSpin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp" />
-
+                android:layout_marginLeft="10dp" />
             <Button
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
@@ -37,16 +29,13 @@
                 android:background="@drawable/send_btn"
                 android:drawableLeft="@drawable/ic_send"
                 android:paddingLeft="25dp"
-                android:id="@+id/sendBtn"/>
+                android:id="@+id/sendGuidBtn"/>
         </LinearLayout>
-
-        <ScrollView
+        <WebView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/competitionImg"/>
-        </ScrollView>
+            android:layout_height="match_parent"
+            android:id="@+id/GuidWebView">
+        </WebView>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
