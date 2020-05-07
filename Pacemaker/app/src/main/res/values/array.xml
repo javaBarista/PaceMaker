@@ -22,10 +22,15 @@
         <item>동국대학교</item>
         <item>홍익대학교</item>
         <item>이화여자대학교</item>
+        <item>아주대학교</item>
+        <item>인하대학교</item>
+        <item>한국항공대학교</item>
+        <item>한양대에리카</item>
         <item>국민대학교</item>
         <item>숭실대학교</item>
         <item>세종대학교</item>
         <item>단국대학교</item>
+        <item>과학기술대학교</item>
         <item>숙명여자대학교</item>
         <item>광운대학교</item>
         <item>명지대학교</item>
@@ -33,6 +38,14 @@
         <item>가천대학교</item>
         <item>가톨릭대학교</item>
         <item>서울여자대학교</item>
+        <item>덕성여자대학교</item>
+        <item>동덕여자대학교</item>
+        <item>경기대학교</item>
+        <item>강남대학교</item>
+        <item>산업기술대학교</item>
+        <item>한성대학교</item>
+        <item>삼육대학교</item>
+        <item>수원대학교</item>
     </string-array>
 
     <string-array name="year">
