@@ -2,8 +2,8 @@ package com.example.pacemaker.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,13 +15,20 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 35fdea7995e102c5f7a7a88184d9d91bc06bbe5b
 import com.example.pacemaker.ApplyActivity;
 import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.GuidelinesActivity;
 import com.example.pacemaker.R;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
@@ -35,6 +42,7 @@ public class HomeFragment extends Fragment {
     private String name;
     private String day;
     protected Bundle bundle;
+    String sfName = "dday_counter";
 
     public void setNextTest(String name, String day){
         this.name = name;
@@ -52,12 +60,20 @@ public class HomeFragment extends Fragment {
         dday.setText(day);
         nextTest.setText(name);
 
+        SharedPreferences sf = this.getActivity().getSharedPreferences(sfName, 0);
+        String test_sf = sf.getString("test_sf", "null");
+        String day_sf = sf.getString("day_sf", "null");
+        if (test_sf != null) {
+            nextTest.setText(test_sf);
+            dday.setText(day_sf);
+        }
+
         ViewGroup dday_layout = (ViewGroup) root.findViewById(R.id.dday_layout);
         dday_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ddayActivity = new Intent(getContext(), DdayActivity.class);
-                startActivity(ddayActivity);
+                startActivityForResult(ddayActivity, 1);
             }
         });
 
@@ -118,14 +134,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Bundle extra = this.getArguments();
-        if(extra != null) {
-            extra = getArguments();
-            String new_nextTest = extra.getString("new_nextTest");
-            String new_dday = extra.getString("new_dday");
-        }
-
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode==RESULT_OK) {
+                String newName = data.getStringExtra("new_nextTest");
+                String newDay = data.getStringExtra("new_dday");
+                nextTest.setText(newName);
+                dday.setText(newDay);
+            }
+        }
+    }
+
+    public String getNextTest_name() {
+        return nextTest.getText().toString();
+    }
+    public String getNextTest_day() {
+        return dday.getText().toString();
     }
 
 }

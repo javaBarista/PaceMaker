@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -31,8 +33,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class DdayActivity extends AppCompatActivity  {
     public ArrayList<ListViewItem> itemArrayList = new ArrayList<>();
@@ -40,6 +40,7 @@ public class DdayActivity extends AppCompatActivity  {
     private ListViewItem listViewItem;
     private ListAdapter listAdapter;
     private FragmentRefreshListener fragmentRefreshListener;
+    String sfName = "dday_counter";
 
     private static String TAG = "phptest_MainActivity";
     private static final String TAG_JSON="dday_college";
@@ -49,7 +50,6 @@ public class DdayActivity extends AppCompatActivity  {
     String mJsonString;
 
     String url = "https://nobles1030.cafe24.com/scheduleRequest2.php";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +76,25 @@ public class DdayActivity extends AppCompatActivity  {
                 String collegeName = item.getCollege_name();
                 String collegeDday = item.getCollege_dday();
 
-                // homefragment d-day counter 바꿔주기
-                HomeFragment homeFragment = new HomeFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("new_nextTest",collegeName);
-                bundle.putString("new_dday", collegeDday);
-                homeFragment.setArguments(bundle);
-
                 if(getFragmentRefreshListener()!= null){
                     getFragmentRefreshListener().onRefresh();
                 }
 
+                Intent intent = new Intent();
+                intent.putExtra("new_nextTest", collegeName);
+                intent.putExtra("new_dday", collegeDday);
+                setResult(RESULT_OK, intent);
+
                 Toast.makeText(getApplicationContext(), collegeName+" D-"+collegeDday, Toast.LENGTH_LONG).show();
+
+                // SharedPreferences
+                SharedPreferences sf = getSharedPreferences(sfName, 0);
+                SharedPreferences.Editor editor = sf.edit();
+                String name = collegeName;
+                String day = collegeDday;
+                editor.putString("test_sf", name);
+                editor.putString("day_sf", day);
+                editor.commit();
 
                 finish();
             }
