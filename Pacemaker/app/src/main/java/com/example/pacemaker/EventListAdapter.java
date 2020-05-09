@@ -61,7 +61,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 editor.commit();
             }
         });
-       
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

@@ -2,12 +2,15 @@ package com.example.pacemaker.ui.calender;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
 import android.text.style.RelativeSizeSpan;
@@ -60,7 +63,7 @@ public class CalenderFragment extends Fragment {
     private MaterialCalendarView materialCalendarView;
     private RecyclerView mRecyclerView;
     private CalenderListItemAdapter mAdapter;
-    private Bundle bundle;
+    private SharedPreferences pref;
     private LinearLayout pageHide;
     private ArrayList<CalenderListItem> mList = new ArrayList<>();
     private ArrayList<DateEvent> schedule = new ArrayList<>();
@@ -78,6 +81,7 @@ public class CalenderFragment extends Fragment {
         materialCalendarView = root.findViewById(R.id.calendarView);
         int year = Calendar.getInstance().get(Calendar.YEAR);
         pageHide = root.findViewById(R.id.pageHide);
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         pageHide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,6 +316,8 @@ public class CalenderFragment extends Fragment {
             //Calendar eventday = Calendar.getInstance();
             if (result.length > 0) {
                 for (CalenderListItem post : result) {
+                    if(pref.getBoolean(post.getCollege(), isInCollege(post.getCollege()))) continue;
+
                     int smonth = post.getMonth()[1];
                     int emonth = post.getMonth()[0];
                     if (post.getDue() > (thisMonth == 1 ? 13 : thisMonth) * 100 + today) {
@@ -351,6 +357,21 @@ public class CalenderFragment extends Fragment {
             //Adapter setting
             mAdapter = new CalenderListItemAdapter(mList);
             mRecyclerView.setAdapter(mAdapter);
+        }
+
+        private boolean isInCollege(String name){
+            Resources res = getResources();
+            String tmp[] = res.getStringArray(R.array.college);
+
+            if(name.contains("여자")) return false;
+
+            int i = 1;
+            while(i < tmp.length){
+                if(tmp[i].equals(name)) break;
+                i++;
+            }
+
+            return i < 19 ? true :false;
         }
     }
 
