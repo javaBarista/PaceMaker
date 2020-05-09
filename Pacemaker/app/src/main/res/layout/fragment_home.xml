@@ -41,6 +41,7 @@
                                 android:text="가장긴이름대학교"
                                 android:textSize="30dp"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/danghae"
                                 android:textColor="#FF4B0082"/>
                             <TextView
                                 android:layout_width="wrap_content"
@@ -50,6 +51,7 @@
                                 android:text="D -"
                                 android:textSize="30dp"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/danghae"
                                 android:textColor="#FF4B0082"/>
                             <TextView
                                 android:layout_width="wrap_content"
@@ -60,6 +62,7 @@
                                 android:text="00"
                                 android:textSize="30dp"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/danghae"
                                 android:textColor="#FF4B0082"/>
                         </LinearLayout>
                     </FrameLayout>
@@ -76,6 +79,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="0dp"
@@ -94,6 +99,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/english"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -103,7 +109,7 @@
                                     android:text="English"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -123,6 +129,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/formula"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -132,7 +139,7 @@
                                     android:text="Math"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -152,6 +159,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="3dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/school"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -161,7 +169,7 @@
                                     android:text="모집요강"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -169,6 +177,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="0dp"
@@ -187,6 +197,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/exam"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -196,7 +207,7 @@
                                     android:text="기출문제"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -216,6 +227,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/notebook"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -225,7 +237,7 @@
                                     android:text="MyNote"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -245,6 +257,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="3dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/podium"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -254,7 +267,7 @@
                                     android:text="경쟁률"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -262,6 +275,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="0dp"
@@ -281,6 +296,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/moc"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -290,7 +306,7 @@
                                     android:text="모의고사"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -311,6 +327,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/qanda"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -320,7 +337,7 @@
                                     android:text="Q&amp;A"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
 
