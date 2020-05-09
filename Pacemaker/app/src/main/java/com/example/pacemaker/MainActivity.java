@@ -3,21 +3,19 @@ package com.example.pacemaker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import com.example.pacemaker.ui.calender.CalenderFragment;
 import com.example.pacemaker.ui.home.HomeFragment;
 import com.example.pacemaker.ui.mypage.MyPageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -116,21 +114,24 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar_menu, menu);
+        return  true;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public boolean onOptionsItemSelected(MenuItem item){
 
-//        // SharedPreferences
-//        SharedPreferences sf = getSharedPreferences(sfName, 0);
-//        SharedPreferences.Editor editor = sf.edit();
-//        String name = homeFragment.getNextTest_name();
-//        String day = homeFragment.getNextTest_day();
-//        editor.putString("test_sf", name);
-//        editor.putString("day_sf", day);
-//        editor.commit();
+        switch(item.getItemId()){
+            case R.id.action_event:
+                Intent eventIntent = new Intent(getApplicationContext(), EventModifyActivity.class);
+                startActivity(eventIntent);
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

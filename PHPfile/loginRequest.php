@@ -9,7 +9,7 @@ $result = mysqli_query($conn, $db_sql);
 
 $today = date("Y/m/d");
 
-$sql = "SELECT * FROM Schedule WHERE endDate = (SELECT MIN(endDate) FROM Schedule WHERE todo = '시험' AND endDate > '".$today."');";
+$sql = "SELECT * FROM Schedule WHERE todo = '시험' AND endDate = (SELECT MIN(endDate) FROM Schedule WHERE todo = '시험' AND endDate > '".$today."');";
 $res = mysqli_query($conn, $sql);
 
 $data = mysqli_fetch_array($result);

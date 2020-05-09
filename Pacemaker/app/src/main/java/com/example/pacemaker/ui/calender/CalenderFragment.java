@@ -1,6 +1,7 @@
 package com.example.pacemaker.ui.calender;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,9 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,8 +26,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pacemaker.DateEvent;
+import com.example.pacemaker.EventModifyActivity;
 import com.example.pacemaker.ListViewItem;
 import com.example.pacemaker.R;
+import com.example.pacemaker.TranslateActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -347,6 +353,5 @@ public class CalenderFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
         }
     }
-
 
 }

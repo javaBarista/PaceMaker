@@ -17,10 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-<<<<<<< HEAD
-=======
-
->>>>>>> 35fdea7995e102c5f7a7a88184d9d91bc06bbe5b
 import com.example.pacemaker.ApplyActivity;
 import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
@@ -61,8 +57,8 @@ public class HomeFragment extends Fragment {
         nextTest.setText(name);
 
         SharedPreferences sf = this.getActivity().getSharedPreferences(sfName, 0);
-        String test_sf = sf.getString("test_sf", "null");
-        String day_sf = sf.getString("day_sf", "null");
+        String test_sf = sf.getString("test_sf", day);
+        String day_sf = sf.getString("day_sf", name);
         if (test_sf != null) {
             nextTest.setText(test_sf);
             dday.setText(day_sf);

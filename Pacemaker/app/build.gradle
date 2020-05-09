@@ -34,12 +34,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation "android.arch.lifecycle:viewmodel:1.1.0"
-<<<<<<< HEAD
-    implementation 'me.relex:circleindicator:2.1.4'
-=======
     implementation 'me.relex:circleindicator:1.2.2'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
->>>>>>> 35fdea7995e102c5f7a7a88184d9d91bc06bbe5b
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

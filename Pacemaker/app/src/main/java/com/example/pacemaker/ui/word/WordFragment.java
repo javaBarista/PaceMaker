@@ -51,7 +51,7 @@ public class WordFragment extends Fragment {
         TextView pronTxt = view.findViewById(R.id.fgword1_pro);
         TextView gramTxt = view.findViewById(R.id.fgword1_gram);
         TextView meanTxt = view.findViewById(R.id.fgword1_mean);
-        ImageView favorite = view.findViewById(R.id.favorite);
+
         wordTxt.setText(word);
         pronTxt.setText(pronu);
         gramTxt.setText(gram);
