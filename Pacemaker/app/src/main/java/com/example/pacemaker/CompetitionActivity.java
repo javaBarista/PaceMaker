@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -34,8 +36,9 @@ public class CompetitionActivity extends AppCompatActivity {
     private Spinner year;
     private Spinner college;
     private Button send;
-    private ImageView competitonImg;
+    //private ImageView competitonImg;
     private String url;
+    private PhotoView competitonImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class CompetitionActivity extends AppCompatActivity {
         ArrayAdapter collegeAdapter = ArrayAdapter.createFromResource(this, R.array.college, android.R.layout.simple_spinner_dropdown_item);
         college.setAdapter(collegeAdapter);
         send = findViewById(R.id.sendBtn);
+        //competitonImg = findViewById(R.id.competitionImg);
         competitonImg = findViewById(R.id.competitionImg);
 
         send.setOnClickListener(new View.OnClickListener() {
