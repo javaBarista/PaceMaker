@@ -81,6 +81,7 @@
                            android:layout_height="match_parent"
                            android:layout_marginLeft="20dp"
                            android:orientation="vertical"
+                           android:paddingVertical="7dp"
                            android:id="@+id/myInfo">
                            <LinearLayout
                                android:layout_width="match_parent"
@@ -90,6 +91,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="개인정보수정"
+                                    android:layout_marginTop="8dp"
                                     android:textSize="30dp"
                                     android:textStyle="bold"
                                     android:textColor="#FF696969" />
@@ -191,6 +193,7 @@
                            android:layout_marginLeft="20dp"
                            android:orientation="vertical"
                            android:id="@+id/myPage_myNote">
+
                            <TextView
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
@@ -210,6 +213,7 @@
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
                            android:layout_marginLeft="20dp"
+                           android:paddingVertical="7dp"
                            android:orientation="vertical">
                            <LinearLayout
                                android:layout_width="match_parent"
@@ -243,6 +247,7 @@
                            android:layout_height="match_parent"
                            android:layout_marginLeft="20dp"
                            android:orientation="vertical"
+                           android:paddingVertical="7dp"
                            android:id="@+id/myPage_goal">
                        <LinearLayout
                            android:layout_width="match_parent"
@@ -358,7 +363,7 @@
                    android:layout_width="300dp"
                    android:layout_height="wrap_content"
                    android:layout_gravity="center"
-                   android:layout_marginTop="80dp"
+                   android:layout_marginTop="60dp"
                    android:layout_marginBottom="20dp"
                    android:background="@drawable/logout_btn"
                    android:paddingLeft="70dp"

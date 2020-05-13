@@ -15,8 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.pacemaker.R;
 import com.example.pacemaker.ui.word.WordForm;
 import com.example.pacemaker.ui.word.WordFragment;
-import org.json.JSONObject;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -46,7 +44,6 @@ public class MyWordFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = pref.edit();
 
         String tmp = pref.getString("favorite", null);
 

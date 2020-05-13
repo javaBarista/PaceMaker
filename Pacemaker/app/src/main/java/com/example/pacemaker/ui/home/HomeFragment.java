@@ -22,7 +22,12 @@ import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.GuidelinesActivity;
+<<<<<<< HEAD
 import com.example.pacemaker.MyNoteActivity;
+=======
+import com.example.pacemaker.MainActivity;
+import com.example.pacemaker.MathActivity;
+>>>>>>> bab9b8bcfca5cd968c9edda76915eb089513f408
 import com.example.pacemaker.R;
 import com.example.pacemaker.TranslateActivity;
 
@@ -37,8 +42,12 @@ public class HomeFragment extends Fragment {
     private LinearLayout competitionPad;
     private LinearLayout guidlinesPad;
     private LinearLayout englishPad;
+<<<<<<< HEAD
     private LinearLayout mynotePad;
     private LinearLayout transPad;
+=======
+    private LinearLayout mathPad;
+>>>>>>> bab9b8bcfca5cd968c9edda76915eb089513f408
     private String name;
     private String day;
     protected Bundle bundle;
@@ -108,6 +117,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+<<<<<<< HEAD
         transPad = root.findViewById(R.id.transPad);
         transPad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +133,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent myNoteIntent = new Intent(getContext(), MyNoteActivity.class);
                 startActivity(myNoteIntent);
+=======
+        mathPad = root.findViewById(R.id.mathPad);
+        mathPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mathIntent = new Intent(getContext(), MathActivity.class);
+                startActivity(mathIntent);
+>>>>>>> bab9b8bcfca5cd968c9edda76915eb089513f408
             }
         });
 
