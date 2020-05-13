@@ -2,7 +2,9 @@ package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -50,5 +52,18 @@ public class MathActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

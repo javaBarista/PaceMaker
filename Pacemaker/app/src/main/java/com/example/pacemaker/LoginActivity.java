@@ -25,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -73,11 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("news");
-        FirebaseInstanceId.getInstance().getToken();
-        //String token = MyFirebaseInstanceIDService.getToken();
         prefs = getSharedPreferences("PaceMaker", MODE_PRIVATE);
-       // Log.d("PrefToken : ", token);
 
         login = findViewById(R.id.login);
         join = findViewById(R.id.signup);
