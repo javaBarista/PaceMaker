@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,7 +15,6 @@ public class EventModifyActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private EventListAdapter mAdapter;
-    @SuppressLint("ResourceType")
     private String tmp[];
 
     @Override

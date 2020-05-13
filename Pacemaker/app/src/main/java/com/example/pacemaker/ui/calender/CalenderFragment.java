@@ -200,16 +200,18 @@ public class CalenderFragment extends Fragment {
 
     public class EventDecorator implements DayViewDecorator {
 
-        private final int count;
+        private int test_cnt;
+        private int appli_cnt;
+        private int docu_cnt;
         private final HashSet<CalendarDay> dates;
 
 
-        public EventDecorator(Collection<CalendarDay> dates, int count) {
+        public EventDecorator(Collection<CalendarDay> dates, int test_cnt, int appli_cnt, int docu_cnt) {
             //this.color = color;
             this.dates = new HashSet<>(dates);
-
-            this.count = count;
-
+            this.test_cnt = test_cnt;
+            this.appli_cnt = appli_cnt;
+            this.docu_cnt = docu_cnt;
         }
 
         @Override
@@ -219,25 +221,49 @@ public class CalenderFragment extends Fragment {
 
         @Override
         public void decorate(DayViewFacade view) {
-
-            view.addSpan((new CalenderFragment.MultiDotSpan(5, count)));
+            view.addSpan((new CalenderFragment.MultiDotSpan(5, test_cnt, appli_cnt, docu_cnt)));
         }
-
-
     }
 
     public class MultiDotSpan implements LineBackgroundSpan {
 
         private float radius;
-        private int count;
+        private int test_cnt;
+        private int appli_cnt;
+        private int docu_cnt;
 
-        public MultiDotSpan(float radius, int count) {
+        public MultiDotSpan(float radius, int test_cnt, int appli_cnt, int docu_cnt) {
             this.radius = radius;
-            this.count = count;
+            this.test_cnt = test_cnt;
+            this.appli_cnt = appli_cnt;
+            this.docu_cnt = docu_cnt;
         }
 
         @Override
         public void drawBackground(@NonNull Canvas canvas, @NonNull Paint paint, int left, int right, int top, int baseline, int bottom, @NonNull CharSequence text, int start, int end, int lineNumber) {
+            float oldSIze = paint.getTextSize();
+            int oldColor = paint.getColor();
+            int interval = 60;
+            paint.setTextSize(18f);
+
+                if(test_cnt > 0) {
+                    paint.setColor(Color.parseColor("#FF7B68EE"));
+                    canvas.drawText("시험: " + String.valueOf(test_cnt) + "개", 33, interval, paint);
+                    interval += 19;
+                }
+                if(appli_cnt > 0) {
+                    paint.setColor(Color.parseColor("#FFFFA500"));
+                    canvas.drawText("원서: " + String.valueOf(appli_cnt) + "개", 33, interval, paint);
+                    interval += 19;
+                }
+            if(docu_cnt > 0) {
+                paint.setColor(Color.parseColor("#FF2E8B57"));
+                canvas.drawText("서류: " + String.valueOf(docu_cnt) + "개", 33, interval, paint);
+            }
+
+            paint.setTextSize(oldSIze);
+            paint.setColor(oldColor);
+            /*
             int total = count > 2 ? 3 : count;
             int loop = count % 3 != 0 ? (count / 3) + 1 : (count / 3);
             int leftMost = (total - 1) * -12;
@@ -248,7 +274,7 @@ public class CalenderFragment extends Fragment {
                 if(k == 2 && count > 6){
                     float oldSIze = paint.getTextSize();
                     paint.setTextSize(17f);
-                    canvas.drawText("+" + String.valueOf(count-6), 86, 100, paint);
+                    canvas.drawText("시험: " + String.valueOf(test_cnt) + "개", 86, 100, paint);
                     paint.setTextSize(oldSIze);
                     break;
                 }
@@ -268,7 +294,10 @@ public class CalenderFragment extends Fragment {
                     paint.setColor(oldColor);
                     leftMost += 24;
                 }
+
+
             }
+            */
         }
     }
 
@@ -316,10 +345,16 @@ public class CalenderFragment extends Fragment {
             //Calendar eventday = Calendar.getInstance();
             if (result.length > 0) {
                 for (CalenderListItem post : result) {
-                    if(pref.getBoolean(post.getCollege(), isInCollege(post.getCollege()))) continue;
+                    if(!pref.getBoolean(post.getCollege(), isInCollege(post.getCollege()))) continue;
 
                     int smonth = post.getMonth()[1];
                     int emonth = post.getMonth()[0];
+
+                    String todo = "";
+                    if(post.getTodo().contains("시험")) todo = "시험";
+                    else if(post.getTodo().contains("원서")) todo = "원서";
+                    else  todo = "서류";
+
                     if (post.getDue() > (thisMonth == 1 ? 13 : thisMonth) * 100 + today) {
                         if (smonth == curMonth || emonth == curMonth) {
                             mList.add(post);
@@ -328,12 +363,12 @@ public class CalenderFragment extends Fragment {
                             post.setMap();
                             DateEvent dda = new DateEvent(post.getMap("sYear"), post.getMap("sMonth") - 1, post.getMap("sDay"));
                             schedule.add(dda);
-                            count.put(dda.getKey(), count.get(dda.getKey()) == null ? 1 : count.get(dda.getKey()) + 1);
+                            count.put(dda.getKey() + todo, count.get(dda.getKey() + todo) == null ? 1 : count.get(dda.getKey() + todo) + 1);
                             sList.put(dda.getKey(), sList.get(dda.getKey()) ==  null ? post.getCollege() + post.getTodo() +"-시작\n" : sList.get(dda.getKey()) + post.getCollege() + post.getTodo() + "-시작\n");
                             DateEvent dea = new DateEvent(post.getMap("eYear"), post.getMap("eMonth") - 1, post.getMap("eDay"));
                             schedule.add(dea);
-                            count.put(dea.getKey(), count.get(dea.getKey()) == null ? 1 : count.get(dea.getKey()) + 1);
-                            if(post.getTodo().contains("시험")){
+                            count.put(dea.getKey() + todo, count.get(dea.getKey() + todo) == null ? 1 : count.get(dea.getKey() + todo) + 1);
+                            if(todo.equals("시험")){
                                 sList.put(dea.getKey(), sList.get(dea.getKey()) == null ? post.getCollege() + post.getTodo() +"\n" : sList.get(dea.getKey()) + post.getCollege() + post.getTodo() +"\n");
                             }
                             else{
@@ -346,11 +381,15 @@ public class CalenderFragment extends Fragment {
 
             if (trigger) {
                 for (int i = 0; i < schedule.size(); i++) {
+                    int test = count.get(schedule.get(i).getKey() + "시험") == null ? 0 : count.get(schedule.get(i).getKey() + "시험");
+                    int appli = count.get(schedule.get(i).getKey() + "원서") == null ? 0 :  count.get(schedule.get(i).getKey() + "원서");
+                    int docu = count.get(schedule.get(i).getKey() + "서류") == null ? 0 : count.get(schedule.get(i).getKey() + "서류");
+
                     Calendar eventday = Calendar.getInstance();
                     eventday.set(schedule.get(i).getDate()[0], schedule.get(i).getDate()[1], schedule.get(i).getDate()[2]);
-                    Log.d("date aaaaaaaaaa = ", schedule.get(i).getKey());
+
                     CalendarDay calendarDay = CalendarDay.from(eventday);
-                    materialCalendarView.addDecorator(new CalenderFragment.EventDecorator(Collections.singleton(calendarDay), count.get(schedule.get(i).getKey())));
+                    materialCalendarView.addDecorator(new CalenderFragment.EventDecorator(Collections.singleton(calendarDay), test, appli, docu));
                 }
             }
 

@@ -2,20 +2,18 @@ package com.example.pacemaker;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -34,7 +32,7 @@ public class CompetitionActivity extends AppCompatActivity {
     private Spinner year;
     private Spinner college;
     private Button send;
-    private ImageView competitonImg;
+    private PhotoView competitonImg;
     private String url;
 
     @Override
@@ -118,7 +116,6 @@ public class CompetitionActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
     @Override

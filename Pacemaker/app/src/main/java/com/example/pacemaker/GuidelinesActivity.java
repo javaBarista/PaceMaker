@@ -1,10 +1,16 @@
 package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.app.DownloadManager;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -36,13 +42,53 @@ public class GuidelinesActivity extends AppCompatActivity {
         collegeSpin.setAdapter(adapter);
 
         makeUrl();
-        mWebView = findViewById(R.id.GuidWebView);
+
         sendBtn = findViewById(R.id.sendGuidBtn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(collegeSpin.getSelectedItem().toString().contains("대학 선택")) Toast.makeText(getApplicationContext(), "대학을 선택해 주세요", Toast.LENGTH_SHORT).show();
                 else  onWebView(hmap.get(collegeSpin.getSelectedItem().toString()));
+            }
+        });
+
+        mWebView = findViewById(R.id.GuidWebView);
+        mWebView.setDownloadListener(new DownloadListener() {
+
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                try {
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                    request.setMimeType(mimeType);
+                    request.addRequestHeader("User-Agent", userAgent);
+                    request.setDescription("Downloading file");
+                    String fileName = contentDisposition.replace("inline; filename=", "");
+                    fileName = fileName.replaceAll("\"", "");
+                    request.setTitle(fileName);
+                    request.allowScanningByMediaScanner();
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                    dm.enqueue(request);
+                    Toast.makeText(getApplicationContext(), "Downloading File", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+
+                    if (ContextCompat.checkSelfPermission(GuidelinesActivity.this,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // Should we show an explanation?
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(GuidelinesActivity.this,
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            Toast.makeText(getBaseContext(), "첨부파일 다운로드를 위해\n동의가 필요합니다.", Toast.LENGTH_LONG).show();
+                            ActivityCompat.requestPermissions(GuidelinesActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    110);
+                        } else {
+                            Toast.makeText(getBaseContext(), "첨부파일 다운로드를 위해\n동의가 필요합니다.", Toast.LENGTH_LONG).show();
+                            ActivityCompat.requestPermissions(GuidelinesActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    110);
+                        }
+                    }
+                }
             }
         });
     }

@@ -2,33 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/snow"
-    tools:context=".WordActivity">
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="25dp"
-            android:orientation="horizontal">
-            <Spinner
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/daySpin"/>
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_refresh"
-                android:id="@+id/refreshBtn"/>
-        </LinearLayout>
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/wordPager"
+            android:id="@+id/mywordPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -37,12 +19,12 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="180dp"
             android:background="@drawable/word_frame"/>
+
         <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
+            android:id="@+id/myword_indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="-130dp"
             app:ci_drawable="@drawable/black_radius"/>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

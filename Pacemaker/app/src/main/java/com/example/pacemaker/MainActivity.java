@@ -3,6 +3,7 @@ package com.example.pacemaker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +13,8 @@ import com.example.pacemaker.ui.mypage.MyPageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private CalenderFragment calenderFragment;
     private MyPageFragment myPageFragment;
+    private BottomNavigationView navView;
     String sfName = "dday_counter";
     String testName, testDay;
 
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -72,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         testDay = sf.getString("day_sf", String.valueOf(ddaycount));
         homeFragment.setNextTest(testName, testDay);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
-
         myPageFragment.setBundle(bundle);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,34 +83,18 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
-                        /*
-                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-                        ft1.replace(R.id.nav_host_fragment, homeFragment);
-
-                        ft1.addToBackStack(null);
-                        ft1.commit();
-                         */
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
+                        bundle.putString("refreshed_page", "homeFragment");
                         return true;
 
                     case R.id.navigation_calender:
-                        /*
-                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.nav_host_fragment, calenderFragment);
-
-                        ft.addToBackStack(null);
-                        ft.commit();
-
-                         */
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, calenderFragment).commitAllowingStateLoss();
+                        bundle.putString("refreshed_page", "calenderFragment");
                         return true;
 
                     case R.id.navigation_myPage:
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, myPageFragment).commitAllowingStateLoss();
+                        bundle.putString("refreshed_page", "myPageFragment");
                         return true;
                 }
                 return false;
@@ -119,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calendar_menu, menu);
+
         return  true;
     }
 
@@ -128,10 +115,35 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.action_event:
                 Intent eventIntent = new Intent(getApplicationContext(), EventModifyActivity.class);
+                eventIntent.putExtras(bundle);
                 startActivity(eventIntent);
+               // finish();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        Log.d("this state: ", "onRestart");
+
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        switch(bundle.getString("refreshed_page", "homeFragment")) {
+            case "homeFragment":
+                ft.detach(homeFragment);
+                ft.attach(homeFragment);
+                break;
+            case "calenderFragment":
+                ft.detach(calenderFragment);
+                ft.attach(calenderFragment);
+                break;
+            case "myPageFragment":
+                ft.detach(myPageFragment);
+                ft.attach(myPageFragment);
+                break;
+        }
+        ft.commitAllowingStateLoss();
     }
 }

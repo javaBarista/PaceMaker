@@ -45,19 +45,20 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     public void onBindViewHolder(final EventListAdapter.ViewHolder holder, final int position) {
         final SharedPreferences.Editor editor = pref.edit();
         final String item = mData[position];
-        final boolean chk;
+        final boolean[] chk = new boolean[1];
 
         holder.title.setText(item);
-        if(position < 19 && !item.contains("여자")) chk = pref.getBoolean(item, true); //국숭세단 까지 여대 빼고
-        else chk = pref.getBoolean(item, false); // 그 이외
+        if(position < 19 && !item.contains("여자")) chk[0] = pref.getBoolean(item, true); //국숭세단 까지 여대 빼고
+        else chk[0] = pref.getBoolean(item, false); // 그 이외
 
-        holder.chkBox.setChecked(chk);
+        holder.chkBox.setChecked(chk[0]);
 
         holder.chkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                editor.putBoolean(item, !chk);
-                holder.chkBox.setChecked(!chk);
+                chk[0] = !chk[0];
+                editor.putBoolean(item, chk[0]);
+                holder.chkBox.setChecked(chk[0]);
                 editor.commit();
             }
         });

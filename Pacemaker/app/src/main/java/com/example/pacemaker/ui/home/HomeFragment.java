@@ -22,7 +22,9 @@ import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.GuidelinesActivity;
+import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.R;
+import com.example.pacemaker.TranslateActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -35,6 +37,8 @@ public class HomeFragment extends Fragment {
     private LinearLayout competitionPad;
     private LinearLayout guidlinesPad;
     private LinearLayout englishPad;
+    private LinearLayout mynotePad;
+    private LinearLayout transPad;
     private String name;
     private String day;
     protected Bundle bundle;
@@ -101,6 +105,24 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent englishIntent = new Intent(getContext(), EnglishActivity.class);
                 startActivity(englishIntent);
+            }
+        });
+
+        transPad = root.findViewById(R.id.transPad);
+        transPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent transIntent = new Intent(getContext(), TranslateActivity.class);
+                startActivity(transIntent);
+            }
+        });
+
+        mynotePad = root.findViewById(R.id.myNotePad);
+        mynotePad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myNoteIntent = new Intent(getContext(), MyNoteActivity.class);
+                startActivity(myNoteIntent);
             }
         });
 

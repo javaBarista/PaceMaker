@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +17,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.LoginActivity;
-import com.example.pacemaker.MainActivity;
+import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.R;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.io.IOException;
 
@@ -73,6 +64,7 @@ public class MyPageFragment extends Fragment {
     private Spinner edit_college2;
     private Spinner edit_college3;
     private Button goalSaveBtn;
+    private LinearLayout myNote;
     private String id;
     private String name;
     private String college1;
@@ -149,6 +141,15 @@ public class MyPageFragment extends Fragment {
             }
         });
 
+        myNote = root.findViewById(R.id.myPage_myNote);
+        myNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myNoteIntent = new Intent(getContext(), MyNoteActivity.class);
+                startActivity(myNoteIntent);
+            }
+        });
+
         logoutBtn = root.findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +197,7 @@ public class MyPageFragment extends Fragment {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(ispwChk && pre_pw.getText().toString() == bundle.getString("password")){
+                    if(ispwChk && bundle.getString("password").equals(pre_pw.getText().toString())){
                         String address = new_mail.getText().toString() + "@" + mailSpin.getSelectedItem().toString();
 
                         OkHttpClient saveClickEvent = new OkHttpClient();
@@ -252,7 +253,7 @@ public class MyPageFragment extends Fragment {
                         Toast.makeText(getContext(), "새로운 비밀번호를 확인하세요", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(getContext(), "입력한 이전 비밀번호를 확인하세요", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), bundle.getString("password") + "입력한 이전 비밀번호를 확인하세요", Toast.LENGTH_LONG).show();
                     }
                 }
             });

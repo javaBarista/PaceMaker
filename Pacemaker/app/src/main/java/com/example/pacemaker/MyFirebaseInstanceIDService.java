@@ -1,5 +1,7 @@
 package com.example.pacemaker;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -14,10 +16,11 @@ import okhttp3.RequestBody;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "FirebaseIIDService";
+    private static String token;
 
     @Override
     public void onTokenRefresh() {
-        String token = FirebaseInstanceId.getInstance().getToken();
+        token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + token);
 
         if(token == null){
@@ -28,7 +31,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             }
         }
 
-        // 각자 핸드폰 토큰값을 핸드폰으로 전송한다
+        // 각자 핸드폰 토큰값을 DB로 전송한다
         sendRegistrationToServer(token);
     }
 

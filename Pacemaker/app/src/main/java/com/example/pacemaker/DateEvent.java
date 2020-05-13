@@ -19,7 +19,5 @@ public class DateEvent {
         return result;
     }
 
-    public String getKey(){
-        return "CalendarDay{" + year + "-" + month + "-" + date + "}";
-    }
+    public String getKey(){ return "CalendarDay{" + year + "-" + month + "-" + date + "}"; }
 }

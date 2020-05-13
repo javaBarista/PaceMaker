@@ -32,8 +32,8 @@ public class WordActivity extends AppCompatActivity {
 
     private ArrayList<WordForm> mList = new ArrayList<>();
     private ViewPager viewPager;
-    private FragmentPagerAdapter fpAdapter;
-    static private CircleIndicator circleIndicator;
+    private MyPagerAdapter fpAdapter;
+    private CircleIndicator circleIndicator;
     private Intent getIntent;
     private Spinner daySpin;
     private String day;
@@ -49,9 +49,6 @@ public class WordActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.wordPager);
         circleIndicator = findViewById(R.id.indicator);
-        circleIndicator.setViewPager(viewPager);
-        //circleIndicator.createIndicators(3,0);
-        //circleIndicator.animatePageSelected(0);
         getIntent = getIntent();
         day = getIntent.getStringExtra("day");
         Log.d("day is : ", day.replace("day", ""));
@@ -147,6 +144,7 @@ public class WordActivity extends AppCompatActivity {
             //Adapter setting
             fpAdapter = new MyPagerAdapter(getSupportFragmentManager(), mList);
             viewPager.setAdapter(fpAdapter);
+            circleIndicator.setViewPager(viewPager);
         }
     }
 
@@ -162,5 +160,4 @@ public class WordActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

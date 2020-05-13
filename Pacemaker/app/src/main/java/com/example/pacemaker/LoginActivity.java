@@ -75,8 +75,9 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
         FirebaseInstanceId.getInstance().getToken();
-
+        //String token = MyFirebaseInstanceIDService.getToken();
         prefs = getSharedPreferences("PaceMaker", MODE_PRIVATE);
+       // Log.d("PrefToken : ", token);
 
         login = findViewById(R.id.login);
         join = findViewById(R.id.signup);

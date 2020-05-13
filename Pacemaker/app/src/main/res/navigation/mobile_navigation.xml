@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_myPage"
         android:name="com.example.pacemaker.ui.mypage.MyPageFragment"
         android:label="Pace Maker"
         tools:layout="@layout/fragment_mypage" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_calender"
         android:name="com.example.pacemaker.ui.calender.CalenderFragment"
         android:label="Pace Maker"
         tools:layout="@layout/fragment_calender" />
