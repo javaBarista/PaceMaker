@@ -298,7 +298,7 @@
                                     android:text="기출문제"
                                     android:textSize="20dp"
                                     android:textStyle="bold"
-                                    android:textColor="#000000"/>
+                                    android:textColor="#3B3B3B"/>
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -318,15 +318,16 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:src="@drawable/moc"/>
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="35dp"
                                     android:layout_gravity="center"
+                                    android:layout_marginTop="35dp"
                                     android:text="모의고사"
+                                    android:textColor="#3B3B3B"
                                     android:textSize="20dp"
-                                    android:textStyle="bold"
-                                    android:textColor="#3B3B3B"/>
+                                    android:textStyle="bold" />
                             </FrameLayout>
                         </LinearLayout>
                         <LinearLayout

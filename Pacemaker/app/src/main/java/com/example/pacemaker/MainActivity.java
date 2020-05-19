@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private CalenderFragment calenderFragment;
     private MyPageFragment myPageFragment;
     private BottomNavigationView navView;
+    private static int target = 1;
     String sfName = "dday_counter";
     String testName, testDay;
 
@@ -83,17 +84,20 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
-                        bundle.putString("refreshed_page", "homeFragment");
+                        //bundle.putString("refreshed_page", "homeFragment");
+                        target = 1;
                         return true;
 
                     case R.id.navigation_calender:
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, calenderFragment).commitAllowingStateLoss();
-                        bundle.putString("refreshed_page", "calenderFragment");
+                        //bundle.putString("refreshed_page", "calenderFragment");
+                        target = 2;
                         return true;
 
                     case R.id.navigation_myPage:
                         getSupportFragmentManager().beginTransaction() .replace(R.id.nav_host_fragment, myPageFragment).commitAllowingStateLoss();
-                        bundle.putString("refreshed_page", "myPageFragment");
+                        //bundle.putString("refreshed_page", "myPageFragment");
+                        target = 3;
                         return true;
                 }
                 return false;
@@ -129,20 +133,21 @@ public class MainActivity extends AppCompatActivity {
         Log.d("this state: ", "onRestart");
 
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        switch(bundle.getString("refreshed_page", "homeFragment")) {
-            case "homeFragment":
+        switch(target) {
+            case 1:
                 ft.detach(homeFragment);
                 ft.attach(homeFragment);
                 break;
-            case "calenderFragment":
+            case 2:
                 ft.detach(calenderFragment);
                 ft.attach(calenderFragment);
                 break;
-            case "myPageFragment":
+            case 3:
                 ft.detach(myPageFragment);
                 ft.attach(myPageFragment);
                 break;
         }
+
         ft.commitAllowingStateLoss();
     }
 }

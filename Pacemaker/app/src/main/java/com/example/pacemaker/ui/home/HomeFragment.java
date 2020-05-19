@@ -25,6 +25,7 @@ import com.example.pacemaker.GuidelinesActivity;
 import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.MathActivity;
 import com.example.pacemaker.R;
+import com.example.pacemaker.TestSelectActivity;
 import com.example.pacemaker.TranslateActivity;
 
 import static android.app.Activity.RESULT_OK;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private LinearLayout mynotePad;
     private LinearLayout transPad;
     private LinearLayout mathPad;
+    private LinearLayout testPad;
     private String name;
     private String day;
     protected Bundle bundle;
@@ -159,6 +161,15 @@ public class HomeFragment extends Fragment {
                     }
                 });
                 dialog.show();
+            }
+        });
+
+        testPad = root.findViewById(R.id.testPad);
+        testPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testSelectIntent = new Intent(root.getContext(), TestSelectActivity.class);
+                startActivity(testSelectIntent);
             }
         });
 

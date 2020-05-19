@@ -9,7 +9,7 @@ $college1 = $_POST['college1'];
 $college2 = $_POST['college2'];
 $college3 = $_POST['college3'];
 
-$db_sql = "INSERT INTO PaceMakerMembers(id, password, userName, userEmail, targetUniversity1, targetUniversity2, targetUniversity3) values('".$id."', '".$password."', '".$name."', '".$mail."', '".$college1."', '".$college2."', '".$college3."') ON DUPLICATE KEY UPDATE id = '".$id."';";
+$db_sql = "INSERT INTO PaceMakerMembers(id, password, userName, userEmail, targetUniversity1, targetUniversity2, targetUniversity3) values('".$id."', HEX(AES_ENCRYPT('".$password."', 'pwkey')), '".$name."', '".$mail."', '".$college1."', '".$college2."', '".$college3."') ON DUPLICATE KEY UPDATE id = '".$id."';";
 mysqli_query($conn, $db_sql);
 
 mysqli_close($conn);

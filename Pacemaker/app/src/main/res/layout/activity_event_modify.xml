@@ -10,6 +10,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/snow">
+        <EditText
+            android:id="@+id/event_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:drawablePadding="10dp"
+            android:hint="Search"
+            android:background="@drawable/layout_roundcorner"
+            android:elevation="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

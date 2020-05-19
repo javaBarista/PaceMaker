@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
-    private String[] mData;
+    private ArrayList<String> mData;
     private SharedPreferences pref;
     private Context context;
     private int curPos = -1;
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    EventListAdapter(String[] list, Context context) {
+    EventListAdapter(ArrayList<String> list, Context context) {
         mData = list;
         this.context = context;
         pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -44,7 +44,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     @Override
     public void onBindViewHolder(final EventListAdapter.ViewHolder holder, final int position) {
         final SharedPreferences.Editor editor = pref.edit();
-        final String item = mData[position];
+        final String item = mData.get(position);
         final boolean[] chk = new boolean[1];
 
         holder.title.setText(item);
@@ -67,7 +67,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return mData.length;
+        return mData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

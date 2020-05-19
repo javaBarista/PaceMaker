@@ -4,7 +4,7 @@ $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 $id = $_POST['id'];
 $password = $_POST['password'];
 
-$db_sql = "SELECT * FROM PaceMakerMembers WHERE id='".$id."' AND password='".$password."'";
+$db_sql = "SELECT * FROM PaceMakerMembers WHERE id='".$id."' AND AES_DECRYPT(UNHEX(password), 'pwkey')='".$password."'";
 $result = mysqli_query($conn, $db_sql);
 
 $today = date("Y/m/d");
