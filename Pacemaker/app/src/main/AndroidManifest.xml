@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pacemaker">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_new"
@@ -10,17 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".TestActivity"></activity>
         <activity android:name=".TestSelectActivity" />
         <activity
             android:name=".MyNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MathActivity" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".MathActivity"></activity>
+
+        android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EventModifyActivity" />
         <activity android:name=".TranslateActivity" />
         <activity android:name=".GuidelinesActivity" />
         <activity android:name=".DdayActivity" />
         <activity android:name=".WordActivity" />
+        <activity android:name=".WordTestActivity" />
         <activity android:name=".EnglishActivity" />
         <activity
             android:name=".SplashActivity"
@@ -49,6 +59,7 @@
             </intent-filter>
         </service>
     </application>
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />

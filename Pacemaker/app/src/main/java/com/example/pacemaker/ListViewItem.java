@@ -4,6 +4,13 @@ public class ListViewItem {
     private String college_name;
     private String college_dday;
 
+    public ListViewItem() {}
+
+    public ListViewItem(String college_name, String college_dday){
+        this.college_name = college_name;
+        this.college_dday = college_dday;
+    }
+
     public void setCollege_name(String college_name) {
         this.college_name = college_name;
     }

@@ -73,7 +73,7 @@ public class WordActivity extends AppCompatActivity {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 20;
+        private static int NUM_ITEMS = 21;
         private ArrayList<WordForm> mList= new ArrayList<>();
        // private CircleIndicator indicator;
 
@@ -92,7 +92,11 @@ public class WordActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             //if(position == 20) 테스트 페이지 출력
-            return WordFragment.newInstance(mList.get(position).getWord(), mList.get(position).getPron(),mList.get(position).getGram(), mList.get(position).getMean());
+            if(position == 20) {
+                return WordFragment.newInstance(mList.get(position).getWord(), "", "", "", "b", mList.get(position).getMean());
+            } else {
+                return WordFragment.newInstance(mList.get(position).getWord(), mList.get(position).getPron(),mList.get(position).getGram(), mList.get(position).getMean());
+            }
         }
         // Returns the page title for the top indicator
         @Override
@@ -141,6 +145,9 @@ public class WordActivity extends AppCompatActivity {
                     mList.add(post);
                 }
             }
+            WordForm last = new WordForm("21", "\n\n\n단어 TEST", "", "", day);
+            mList.add(last);
+
             //Adapter setting
             fpAdapter = new MyPagerAdapter(getSupportFragmentManager(), mList);
             viewPager.setAdapter(fpAdapter);
@@ -160,4 +167,5 @@ public class WordActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

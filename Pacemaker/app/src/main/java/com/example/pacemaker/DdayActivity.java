@@ -84,8 +84,7 @@ public class DdayActivity extends AppCompatActivity  {
                 intent.putExtra("new_nextTest", collegeName);
                 intent.putExtra("new_dday", collegeDday);
                 setResult(RESULT_OK, intent);
-
-                Toast.makeText(getApplicationContext(), collegeName+" D-"+collegeDday, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), collegeName+" D-"+collegeDday, Toast.LENGTH_LONG).show();
 
                 // SharedPreferences
                 SharedPreferences sf = getSharedPreferences(sfName, 0);
