@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -15,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.pacemaker.R.drawable.formula;
 import static com.example.pacemaker.R.drawable.ic_add_circle_outline_black_24dp;
 import static com.example.pacemaker.R.drawable.ic_remove_circle_outline_black_24dp;
 
@@ -24,6 +29,7 @@ public class MathActivity extends AppCompatActivity {
     private List expandableListTitle;
     private HashMap expandableListDetail;
     private HashMap<Integer, Boolean> hmap = new HashMap<>();
+    private EditText editSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +66,10 @@ public class MathActivity extends AppCompatActivity {
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
                 ImageView fap_btn = v.findViewById(R.id.mathfap);
-                if(hmap.get(groupPosition)) {
+                if (hmap.get(groupPosition)) {
                     fap_btn.setImageResource(ic_remove_circle_outline_black_24dp);
                     hmap.put(groupPosition, false);
-                }
-                else{
+                } else {
                     fap_btn.setImageResource(ic_add_circle_outline_black_24dp);
                     hmap.put(groupPosition, true);
                 }
@@ -79,16 +84,63 @@ public class MathActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        editSearch = (EditText) findViewById(R.id.search_category);
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                for (int n=0; n<expandableListAdapter.getGroupCount(); n++) {
+                    expandableListView.expandGroup(i);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editSearch.getText().toString().length() == 0) {
+                    expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+                    expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, expandableListDetail);
+                    expandableListView.setAdapter(expandableListAdapter);
+                } else {
+                    expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+                    HashMap<String, List<String>> ListDetail = new HashMap<>();
+
+                    for (int i = 0; i < 3; i++) {
+                        List<String> search = new ArrayList<>();
+
+                        List<String> state = ExpandableListDataPump.getData().get(expandableListTitle.get(i).toString());
+                        for (int j = 0; j < state.size(); j++) {
+                            if (state.get(j).toString().contains(editSearch.getText().toString())) {
+                                search.add(state.get(j));
+                            }
+                        }
+                        if (search.size() != 0) {
+                            ListDetail.put(expandableListTitle.get(i).toString(), search);
+                        }
+                    }
+                    Log.d("List Search Result", ListDetail.toString());
+                    expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, ListDetail);
+                    expandableListView.setAdapter(expandableListAdapter);
+                    for (int i=0; i<expandableListAdapter.getGroupCount(); i++) {
+                        expandableListView.expandGroup(i);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 // TODO : process the click event for action_search item.
                 onBackPressed();
-                return true ;
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

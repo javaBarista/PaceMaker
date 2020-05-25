@@ -12,13 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 
 import java.util.HashMap;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 
 public class EnglishActivity extends AppCompatActivity {
 
@@ -54,6 +49,27 @@ public class EnglishActivity extends AppCompatActivity {
     private Button day28;
     private Button day29;
     private Button day30;
+    private Button day31;
+    private Button day32;
+    private Button day33;
+    private Button day34;
+    private Button day35;
+    private Button day36;
+    private Button day37;
+    private Button day38;
+    private Button day39;
+    private Button day40;
+    private Button day41;
+    private Button day42;
+    private Button day43;
+    private Button day44;
+    private Button day45;
+    private Button day46;
+    private Button day47;
+    private Button day48;
+    private Button day49;
+    private Button day50;
+    private Button DayTest_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +111,41 @@ public class EnglishActivity extends AppCompatActivity {
         day28.setOnClickListener(new ClickEvent());
         day29.setOnClickListener(new ClickEvent());
         day30.setOnClickListener(new ClickEvent());
+        day31.setOnClickListener(new ClickEvent());
+        day32.setOnClickListener(new ClickEvent());
+        day33.setOnClickListener(new ClickEvent());
+        day34.setOnClickListener(new ClickEvent());
+        day35.setOnClickListener(new ClickEvent());
+        day36.setOnClickListener(new ClickEvent());
+        day37.setOnClickListener(new ClickEvent());
+        day38.setOnClickListener(new ClickEvent());
+        day39.setOnClickListener(new ClickEvent());
+        day40.setOnClickListener(new ClickEvent());
+        day41.setOnClickListener(new ClickEvent());
+        day42.setOnClickListener(new ClickEvent());
+        day43.setOnClickListener(new ClickEvent());
+        day44.setOnClickListener(new ClickEvent());
+        day45.setOnClickListener(new ClickEvent());
+        day46.setOnClickListener(new ClickEvent());
+        day47.setOnClickListener(new ClickEvent());
+        day48.setOnClickListener(new ClickEvent());
+        day49.setOnClickListener(new ClickEvent());
+        day50.setOnClickListener(new ClickEvent());
+
+        // day 누적 테스트
+        DayTest_btn = (Button) findViewById(R.id.selectDay_Test_btn);
+        DayTest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EnglishActivity.this, WordTestSelectActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.english_menu, menu);
         MenuItem word = menu.findItem(R.id.action_word);
@@ -108,13 +154,13 @@ public class EnglishActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 // TODO : process the click event for action_search item.
                 onBackPressed();
-                return true ;
+                return true;
             case R.id.action_trans:
                 Intent transIntent = new Intent(this, TranslateActivity.class);
                 startActivity(transIntent);
@@ -125,7 +171,7 @@ public class EnglishActivity extends AppCompatActivity {
         }
     }
 
-    private void link_Button(){
+    private void link_Button() {
         dayMap = new HashMap<>();
         prefs = getSharedPreferences("PaceMaker", MODE_PRIVATE);
 
@@ -159,6 +205,27 @@ public class EnglishActivity extends AppCompatActivity {
         day28 = findViewById(R.id.day28);
         day29 = findViewById(R.id.day29);
         day30 = findViewById(R.id.day30);
+        day31 = findViewById(R.id.day31);
+        day32 = findViewById(R.id.day32);
+        day33 = findViewById(R.id.day33);
+        day34 = findViewById(R.id.day34);
+        day35 = findViewById(R.id.day35);
+        day36 = findViewById(R.id.day36);
+        day37 = findViewById(R.id.day37);
+        day38 = findViewById(R.id.day38);
+        day39 = findViewById(R.id.day39);
+        day40 = findViewById(R.id.day40);
+        day41 = findViewById(R.id.day41);
+        day42 = findViewById(R.id.day42);
+        day43 = findViewById(R.id.day43);
+        day44 = findViewById(R.id.day44);
+        day45 = findViewById(R.id.day45);
+        day46 = findViewById(R.id.day46);
+        day47 = findViewById(R.id.day47);
+        day48 = findViewById(R.id.day48);
+        day49 = findViewById(R.id.day49);
+        day50 = findViewById(R.id.day50);
+
         dayMap.put("day1", day1);
         dayMap.put("day2", day2);
         dayMap.put("day3", day3);
@@ -189,9 +256,29 @@ public class EnglishActivity extends AppCompatActivity {
         dayMap.put("day28", day28);
         dayMap.put("day29", day29);
         dayMap.put("day30", day30);
+        dayMap.put("day31", day31);
+        dayMap.put("day32", day32);
+        dayMap.put("day33", day33);
+        dayMap.put("day34", day34);
+        dayMap.put("day35", day35);
+        dayMap.put("day36", day36);
+        dayMap.put("day37", day37);
+        dayMap.put("day38", day38);
+        dayMap.put("day39", day39);
+        dayMap.put("day40", day40);
+        dayMap.put("day41", day41);
+        dayMap.put("day42", day42);
+        dayMap.put("day43", day43);
+        dayMap.put("day44", day44);
+        dayMap.put("day45", day45);
+        dayMap.put("day46", day46);
+        dayMap.put("day47", day47);
+        dayMap.put("day48", day48);
+        dayMap.put("day49", day49);
+        dayMap.put("day50", day50);
 
-        for(int i = 1; i <=30; i++ ){
-            if(prefs.getBoolean("day" + String.valueOf(i), false)) {
+        for (int i = 1; i <= 50; i++) {
+            if (prefs.getBoolean("day" + String.valueOf(i), false)) {
                 dayMap.get("day" + String.valueOf(i)).setBackground(ContextCompat.getDrawable(this, R.drawable.dday_counter));
                 dayMap.get("day" + String.valueOf(i)).setTextColor(Color.parseColor("#FFA9A9A9"));
             }
@@ -200,6 +287,7 @@ public class EnglishActivity extends AppCompatActivity {
 
     class ClickEvent implements Button.OnClickListener {
         private Intent intent = new Intent(getApplicationContext(), WordActivity.class);
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -292,6 +380,66 @@ public class EnglishActivity extends AppCompatActivity {
                     break;
                 case R.id.day30:
                     intent.putExtra("day", "day30");
+                    break;
+                case R.id.day31:
+                    intent.putExtra("day", "day31");
+                    break;
+                case R.id.day32:
+                    intent.putExtra("day", "day32");
+                    break;
+                case R.id.day33:
+                    intent.putExtra("day", "day33");
+                    break;
+                case R.id.day34:
+                    intent.putExtra("day", "day34");
+                    break;
+                case R.id.day35:
+                    intent.putExtra("day", "day35");
+                    break;
+                case R.id.day36:
+                    intent.putExtra("day", "day36");
+                    break;
+                case R.id.day37:
+                    intent.putExtra("day", "day37");
+                    break;
+                case R.id.day38:
+                    intent.putExtra("day", "day38");
+                    break;
+                case R.id.day39:
+                    intent.putExtra("day", "day39");
+                    break;
+                case R.id.day40:
+                    intent.putExtra("day", "day40");
+                    break;
+                case R.id.day41:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day42:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day43:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day44:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day45:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day46:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day47:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day48:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day49:
+                    intent.putExtra("day", "day41");
+                    break;
+                case R.id.day50:
+                    intent.putExtra("day", "day41");
                     break;
             }
             startActivity(intent);

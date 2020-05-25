@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,8 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pacemaker.R;
+import com.example.pacemaker.WordTestAccumulationActivity;
+import com.example.pacemaker.WordTestActivity;
 
 import java.net.Proxy;
+import java.util.Arrays;
+import java.util.Random;
 
 public class WordTestFragment extends Fragment {
     private String num;
@@ -41,7 +46,13 @@ public class WordTestFragment extends Fragment {
     private String mean4;
     private String answer;
     private String day;
-    RadioGroup radioGroup;
+    private RadioGroup radioGroup;
+    private TextView checktv;
+    private ImageView checkImg;
+    int[] numArr = {0, 1, 2, 3};
+    private String[] strArr = new  String[4];
+    int n;
+    int count;
 
     public WordTestFragment() {
     }
@@ -73,7 +84,12 @@ public class WordTestFragment extends Fragment {
             mean4 = getArguments().getString("mean4", "");
             answer = getArguments().getString("answer","");
             day = getArguments().getString("day", "");
+            strArr[0] = mean1;
+            strArr[1] = mean2;
+            strArr[2] = mean3;
+            strArr[3] = mean4;
         }
+        numArr = shuffle(numArr, 10);
     }
 
     @Override
@@ -83,9 +99,10 @@ public class WordTestFragment extends Fragment {
 
         TextView numtv = (TextView) view.findViewById(R.id.test_number);
         TextView wordtv = (TextView) view.findViewById(R.id.test_word);
-        final TextView checktv = (TextView) view.findViewById(R.id.checkTv);
-        final ImageView checkImg = (ImageView) view.findViewById(R.id.checkImg);
+        checktv = (TextView) view.findViewById(R.id.checkTv);
+        checkImg = (ImageView) view.findViewById(R.id.checkImg);
         Button testDone = (Button) view.findViewById(R.id.test_done);
+        Button testDone2 = (Button) view.findViewById(R.id.test_done);
 
         radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
         final RadioButton mean1tv = (RadioButton) view.findViewById(R.id.test_mean1);
@@ -95,113 +112,230 @@ public class WordTestFragment extends Fragment {
 
         numtv.setText(num);
         wordtv.setText(word);
-        mean1tv.setText(mean1);
-        mean2tv.setText(mean2);
-        mean3tv.setText(mean3);
-        mean4tv.setText(mean4);
+        mean1tv.setText(strArr[numArr[0]]);
+        mean2tv.setText(strArr[numArr[1]]);
+        mean3tv.setText(strArr[numArr[2]]);
+        mean4tv.setText(strArr[numArr[3]]);
 
-        mean1tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    if (mean1.equals(answer)) {
-                        mean1tv.setTextColor(Color.parseColor("#933FE2"));
+        if (!(day.contains("-"))) {
+            mean1tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean1tv.getText().toString().equals(answer)) {
+                            correct(mean1tv);
+                            n = ((WordTestActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean1tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+            mean2tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean2tv.getText().toString().equals(answer)) {
+                            correct(mean2tv);
+                            n = ((WordTestActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean2tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+            mean3tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean3tv.getText().toString().equals(answer)) {
+                            correct(mean3tv);
+                            n = ((WordTestActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean3tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+            mean4tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean4tv.getText().toString().equals(answer)) {
+                            correct(mean4tv);
+                            n = ((WordTestActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean4tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            if (num.equals("5/5")) {
+                testDone.setVisibility(View.VISIBLE);
+                testDone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        count = ((WordTestActivity) getActivity()).countN();
+                        AlertDialog.Builder alertConfirm = new AlertDialog.Builder(getContext());
+                        alertConfirm.setMessage("5개중 "+ count +"개 맞췄습니다\n학습을 완료합니다");
+                        alertConfirm.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (count == 5) {
+                                    //SharedPreferences
+                                    SharedPreferences sf = getActivity().getSharedPreferences("PaceMaker", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sf.edit();
+                                    editor.putBoolean("day"+day, true);
+                                    editor.commit();
+                                    getActivity().finish();
+                                } else {
+                                    getActivity().finish();
+                                }
+                            }
+                        });
+                        alertConfirm.setNegativeButton("취소", null);
+                        AlertDialog alert = alertConfirm.create();
+                        alert.show();
+                    }
+                });
+            }
+        } else {
+
+            mean1tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean1tv.getText().toString().equals(answer)) {
 //                        Toast toast = Toast.makeText(getContext(), "정답입니다", Toast.LENGTH_SHORT);
 //                        ViewGroup group = (ViewGroup) toast.getView();
 //                        TextView msg = (TextView) group.getChildAt(0);
 //                        msg.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
 //                        toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
 //                        toast.show();
-                        checktv.setText("정답입니다");
-                        checkImg.setImageResource(R.drawable.correct_button);
-                    } else {
-                        checktv.setText("오답입니다");
-                        checkImg.setImageResource(R.drawable.xmark);
+                            correct(mean1tv);
+                            n = ((WordTestAccumulationActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean1tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
                     }
-                    checkImg.setVisibility(View.VISIBLE);
-                    checktv.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-        mean2tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    if (mean2tv.getText().toString().equals(answer)) {
-                        mean2tv.setTextColor(Color.parseColor("#933FE2"));
-                        checktv.setText("정답입니다");
-                        checkImg.setImageResource(R.drawable.correct_button);
-                    } else {
-                        checktv.setText("오답입니다");
-                        checkImg.setImageResource(R.drawable.xmark);
+            });
+            mean2tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean2tv.getText().toString().equals(answer)) {
+                            correct(mean2tv);
+                            n = ((WordTestAccumulationActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean2tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
                     }
-                    checkImg.setVisibility(View.VISIBLE);
-                    checktv.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-        mean3tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    if (mean3tv.getText().toString().equals(answer)) {
-                        mean3tv.setTextColor(Color.parseColor("#933FE2"));
-                        checkImg.setImageResource(R.drawable.correct_button);
-                        checktv.setText("정답입니다");
-                    } else {
-                        checkImg.setImageResource(R.drawable.xmark);
-                        checktv.setText("오답입니다");
+            });
+            mean3tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean3tv.getText().toString().equals(answer)) {
+                            correct(mean3tv);
+                            n = ((WordTestAccumulationActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean3tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
                     }
-                    checkImg.setVisibility(View.VISIBLE);
-                    checktv.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-        mean4tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    if (mean4tv.getText().toString().equals(answer)) {
-                        mean4tv.setTextColor(Color.parseColor("#933FE2"));
-                        checkImg.setImageResource(R.drawable.correct_button);
-                        checktv.setText("정답입니다");
-                    } else {
-                        checkImg.setImageResource(R.drawable.xmark);
-                        checktv.setText("오답입니다");
+            });
+            mean4tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        if (mean4tv.getText().toString().equals(answer)) {
+                            correct(mean4tv);
+                            n = ((WordTestAccumulationActivity) getActivity()).counter();
+                        } else {
+                            incorrect(mean4tv);
+                        }
+                        checkImg.setVisibility(View.VISIBLE);
+                        checktv.setVisibility(View.VISIBLE);
                     }
-                    checkImg.setVisibility(View.VISIBLE);
-                    checktv.setVisibility(View.VISIBLE);
                 }
-            }
-        });
+            });
 
-        if (num.equals("5/5")) {
-            testDone.setVisibility(View.VISIBLE);
-        }
-        testDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertConfirm = new AlertDialog.Builder(getContext());
-                alertConfirm.setMessage("학습을 완료합니다");
-                alertConfirm.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            if (num.equals("20/20")) {
+                testDone.setVisibility(View.VISIBLE);
+                testDone.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //SharedPreferences
-                        SharedPreferences sf = getActivity().getSharedPreferences("PaceMaker", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sf.edit();
-                        editor.putBoolean("day"+day, true);
-                        editor.commit();
-
-                        getActivity().finish();
+                    public void onClick(View view) {
+                        count = ((WordTestAccumulationActivity) getActivity()).countN();
+                        AlertDialog.Builder alertConfirm = new AlertDialog.Builder(getContext());
+                        alertConfirm.setMessage("20개중 "+ count +"개 맞췄습니다\n학습을 완료합니다");
+                        alertConfirm.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getActivity().finish();
+                            }
+                        });
+                        alertConfirm.setNegativeButton("취소", null);
+                        AlertDialog alert = alertConfirm.create();
+                        alert.show();
                     }
                 });
-                alertConfirm.setNegativeButton("취소", null);
-                AlertDialog alert = alertConfirm.create();
-                alert.show();
             }
-        });
+        }
 
         return view;
     }
 
+    void correct(RadioButton radioButton) {
+        radioButton.setTextColor(Color.parseColor("#933FE2"));
+        checktv.setText("정답입니다");
+        checkImg.setImageResource(R.drawable.correct_button);
+        enabledFalse();
+    }
+
+    void incorrect(RadioButton radioButton) {
+        checktv.setText("오답입니다");
+        checkImg.setImageResource(R.drawable.xmark);
+        for(int i = 0; i < radioGroup.getChildCount(); i++){
+            if (((RadioButton)radioGroup.getChildAt(i)).getText().toString().equals(answer)) {
+                ((RadioButton)radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#933FE2"));
+            }
+        }
+        enabledFalse();
+    }
+
+    void enabledFalse() {
+        for(int i = 0; i < radioGroup.getChildCount(); i++){
+            ((RadioButton)radioGroup.getChildAt(i)).setEnabled(false);
+        }
+    }
+
+    private static int[] shuffle(int[] array, int count) {
+        int temp1, temp2, randomNum1, randomNum2;
+        for (int i = 0; i < count; i++) {
+            randomNum1 = (int)(Math.random()*array.length);
+            temp1 = array[randomNum1];
+            randomNum2 = (int)(Math.random()*array.length);
+            temp2 = array[randomNum2];
+            array[randomNum1] = temp2;
+            array[randomNum2] = temp1;
+        }
+        return array;
+    }
 }
