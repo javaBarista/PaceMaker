@@ -17,7 +17,7 @@
             <com.github.chrisbanes.photoview.PhotoView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/testtest"/>
+                android:id="@+id/test_reading"/>
         </ScrollView>
     </LinearLayout>
 </RelativeLayout>

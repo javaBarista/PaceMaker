@@ -1,10 +1,8 @@
 package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TestSelectActivity extends AppCompatActivity {
@@ -26,6 +25,7 @@ public class TestSelectActivity extends AppCompatActivity {
     private TextView questions;
     private Button startBtn;
     private HashMap<String, String> hmap = new HashMap<>();
+    ArrayList<String> yearList = new ArrayList<String>();
     private Bundle bundle = new Bundle();
 
     @Override
@@ -39,7 +39,7 @@ public class TestSelectActivity extends AppCompatActivity {
         makeInfo();
 
         year_spin = findViewById(R.id.test_year_spin);
-        ArrayAdapter yearAdapter = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, yearList);
         year_spin.setAdapter(yearAdapter);
         college_spin = findViewById(R.id.test_college_spin);
         ArrayAdapter collegeAdapter = ArrayAdapter.createFromResource(this, R.array.college, android.R.layout.simple_spinner_dropdown_item);
@@ -68,18 +68,18 @@ public class TestSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
-                int t = Integer.parseInt(hmap.get(college_spin.getSelectedItem().toString() + "시간"));
-                int c = Integer.parseInt(hmap.get(college_spin.getSelectedItem().toString() + "문항"));
-                bundle.putInt("time", t);
-                bundle.putInt("count", c);
+                bundle.putInt("time", Integer.parseInt(hmap.get(college_spin.getSelectedItem().toString() + "시간")));
+                bundle.putString("college", college_spin.getSelectedItem().toString());
+                bundle.putString("year", year_spin.getSelectedItem().toString());
                 testIntent.putExtras(bundle);
                 startActivity(testIntent);
-                //여기서 웹 요청하고 번들에 시험문제 담아서 다음 액티비티로 전달해야 함
             }
         });
     }
 
     private void makeInfo(){
+        yearList.add("2019");
+
         hmap.put("가천대학교" + "시간", "60");
         hmap.put("가천대학교" + "문항", "40");
         /*

@@ -17,62 +17,73 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/test_question"/>
-            <LinearLayout
+            <Button
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:visibility="gone"
+                android:background="@drawable/dday_counter"
+                android:layout_gravity="right"
+                android:text="본문보기"
+                android:id="@+id/reading_open"/>
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/ans_radio">
+                <RadioButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="①"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:id="@+id/test_select1"
-                    android:checked="false" />
-                <CheckBox
-                    android:layout_width="wrap_content"
+                    android:id="@+id/test_select1"/>
+                <RadioButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:text="②"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:id="@+id/test_select2"
-                    android:checked="false" />
-                <CheckBox
-                    android:layout_width="wrap_content"
+                    android:id="@+id/test_select2"/>
+                <RadioButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:text="③"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:id="@+id/test_select3"
-                    android:checked="false" />
-                <CheckBox
-                    android:layout_width="wrap_content"
+                    android:id="@+id/test_select3"/>
+                <RadioButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:text="④"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:id="@+id/test_select4"
-                    android:checked="false" />
-                <CheckBox
-                    android:layout_width="wrap_content"
+                    android:id="@+id/test_select4"/>
+                <RadioButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:text="⑤"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:id="@+id/test_select5"
-                    android:checked="false" />
-        </LinearLayout>
+                    android:id="@+id/test_select5"/>
+        </RadioGroup>
         </LinearLayout>
     </ScrollView>
 

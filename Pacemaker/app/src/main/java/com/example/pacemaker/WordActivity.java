@@ -38,6 +38,7 @@ public class WordActivity extends AppCompatActivity {
     private Spinner daySpin;
     private String day;
     private ImageButton refreshBtn;
+    private GetEnglishWords getEnglishWords = new GetEnglishWords();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class WordActivity extends AppCompatActivity {
         getIntent = getIntent();
         day = getIntent.getStringExtra("day");
         Log.d("day is : ", day.replace("day", ""));
-        new getEnglishWords().execute();
+        getEnglishWords.execute();
 
         daySpin = findViewById(R.id.daySpin);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_dropdown_item);
@@ -74,8 +75,7 @@ public class WordActivity extends AppCompatActivity {
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 20;
-        private ArrayList<WordForm> mList= new ArrayList<>();
-       // private CircleIndicator indicator;
+        private ArrayList<WordForm> mList;
 
         public MyPagerAdapter(FragmentManager fragmentManager,  ArrayList<WordForm> mList) {
             super(fragmentManager);
@@ -102,7 +102,7 @@ public class WordActivity extends AppCompatActivity {
 
     }
 
-    private class getEnglishWords extends AsyncTask<Void, Void, WordForm[]> {
+    private class GetEnglishWords extends AsyncTask<Void, Void, WordForm[]> {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -160,4 +160,11 @@ public class WordActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getEnglishWords.cancel(true);
+    }
+
 }
