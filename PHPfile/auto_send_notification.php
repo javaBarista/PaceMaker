@@ -50,7 +50,8 @@ if(mysqli_num_rows($result) > 0 ){
 	}
 }
 
-$today = date("Y/m/d");
+$today = '2020/06/10';
+//$today = date("Y/m/d"); 원래는 이거
 $msql = "SELECT * FROM Schedule WHERE startDate = '".$today."' OR endDate = '".$today."';";
 $data = mysqli_query($conn, $msql);
 
