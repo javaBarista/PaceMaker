@@ -43,6 +43,14 @@ public class MathActivity extends AppCompatActivity {
         hmap.put(0, true);
         hmap.put(1, true);
         hmap.put(2, true);
+        hmap.put(3, true);
+        hmap.put(4, true);
+        hmap.put(5, true);
+        hmap.put(6, true);
+        hmap.put(7, true);
+        hmap.put(8, true);
+        hmap.put(9, true);
+        hmap.put(10, true);
 
         expandableListView = (ExpandableListView) findViewById(R.id.math_extendable_list);
         expandableListDetail = ExpandableListDataPump.getData();
@@ -108,7 +116,7 @@ public class MathActivity extends AppCompatActivity {
                     expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
                     HashMap<String, List<String>> ListDetail = new HashMap<>();
 
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 11; i++) {
                         List<String> search = new ArrayList<>();
 
                         List<String> state = ExpandableListDataPump.getData().get(expandableListTitle.get(i).toString());
