@@ -11,10 +11,5 @@ Pace Maker
 #### 푸시 알림을 위한 설계
 * fcm 사용
 * 생성된 Token값은 php를 이용해 자동으로 서버DB로 올리도록 설계
-## Xampp 혹은 Bitnami 사용시 해당 경로에 htdocs 폴더 안에 auto_send_notification.php파일 넣고 xampp 혹은 Bitnami 실행↓
-
-## Xampp 가동
-
-<img src="https://user-images.githubusercontent.com/48575996/72768989-80831500-3c3c-11ea-9c80-8dfd3e3bc606.png" width="80%"></img>  
 
 ## 올려놓은 .bat의 배치파일을 윈도우 스케줄러에 등록 기본작업만들기 -> 나머진 쉬움
