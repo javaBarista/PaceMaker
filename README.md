@@ -17,4 +17,4 @@ ChajAjUm
 
 <img src="https://user-images.githubusercontent.com/48575996/72768989-80831500-3c3c-11ea-9c80-8dfd3e3bc606.png" width="80%"></img>  
 
-## 올려놓은 .bat의 매치파일을 윈도우 스케줄러에 등록 기본작업만들기 -> 나머진 쉬움
+## 올려놓은 .bat의 배치파일을 윈도우 스케줄러에 등록 기본작업만들기 -> 나머진 쉬움
