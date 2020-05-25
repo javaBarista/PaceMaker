@@ -28,7 +28,8 @@ import java.net.URL;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebase";
-    private static String imgurl, iconurl;
+    private static String imgurl;
+    private static int request_code = 0;
 
     public MyFirebaseMessagingService(){ }
 
@@ -48,8 +49,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             wakeLock.release();
 
             imgurl = remoteMessage.getData().get("imgurl");
-            iconurl = remoteMessage.getData().get("iconurl");
-            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), getBitmapfromUrl(imgurl), getBitmapfromUrl(iconurl));
+            request_code = Integer.valueOf(remoteMessage.getData().get("request_code"));
+            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), getBitmapfromUrl(imgurl), request_code);
         }
 
         // Check if message contains a notification payload.
@@ -58,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void sendNotification(String title, String body, Bitmap image, Bitmap icon) {
+    private void sendNotification(String title, String body, Bitmap image, int request_code) {
 
         if (title == null){
             title = "공지사항";
@@ -71,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //newItem.setBody(body);
 
         //pendingIntent 에 mainIntent를 적재하여 외부 앱이나 백/포 그란운드에서 해당앱의 메인화면을 요청
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, userIntent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, request_code /* Request code */, userIntent,
                 PendingIntent.FLAG_ONE_SHOT);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -80,7 +81,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //안드로이드 버전이 Oreo(26)보다 낮은 버전일시 채널 생성 없이 푸시를 사용한다.
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
             NotificationCompat.Builder notificationBuilder;
-            if(icon == null) {
+
                 notificationBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.university)
                         .setContentTitle(title) //디폴트 타이틀이 아닌 사용자가 원하는 타이틀로 대체
@@ -91,20 +92,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setVibrate(new long[]{1000, 1000}) //진동 알림
                         .setSound(defaultSoundUri) //기본 사용자의 알림소리에 따른다
                         .setContentIntent(pendingIntent);
-            }
-            else{
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.university)
-                        .setContentTitle(title) //디폴트 타이틀이 아닌 사용자가 원하는 타이틀로 대체
-                        .setContentText("↓scroll down")   //디폴트 내용가 아닌 사용자가 원하는 내용으로 대체
-                        .setAutoCancel(true)    //사용자가 알림을 터치시 삭제(?)
-                        .setLargeIcon(icon)
-                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(image).setSummaryText(body).bigLargeIcon(null))
-                        .setVibrate(new long[]{1000, 1000}) //진동 알림
-                        .setSound(defaultSoundUri) //기본 사용자의 알림소리에 따른다
-                        .setContentIntent(pendingIntent);
-            }
-            mNotificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+
+            mNotificationManager.notify(request_code /* ID of notification */, notificationBuilder.build());
             // The id of the channel.
         }
         String id = "my_channel_01";
@@ -144,7 +134,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 // Sets an ID for the notification, so it can be updated.
-            int notifyID = 1;
+            int notifyID = request_code;
 
 // Create a notification and set the notification channel.
             Notification notification;
@@ -153,7 +143,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentTitle(title)
                         .setContentText(body)
                         .setSmallIcon(R.drawable.university)
-                        .setLargeIcon(icon)
                         .setChannelId(id)
                         .setStyle(new Notification.BigTextStyle().setBigContentTitle(title).bigText(body))
                         .setAutoCancel(true)
@@ -164,7 +153,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notification = new Notification.Builder(this)
                         .setSmallIcon(R.drawable.university)
                         .setContentTitle(title)
-                        .setLargeIcon(icon)
                         .setContentText("↓scroll down")
                         .setStyle(new Notification.BigPictureStyle().bigPicture(image).setSummaryText(body).bigLargeIcon((Bitmap) null))
                         .setChannelId(id)

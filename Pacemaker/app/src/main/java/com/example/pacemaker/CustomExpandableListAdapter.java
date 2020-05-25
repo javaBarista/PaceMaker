@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,8 +52,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
-                .size();
+        if (expandableListDetail.get(this.expandableListTitle.get(listPosition)) == null) {
+            List<String> list = new ArrayList<String>();
+            expandableListDetail.put(this.expandableListTitle.get(listPosition), list);
+            return list.size();
+        } else {
+            return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+                    .size();
+        }
     }
 
     @Override
@@ -83,6 +91,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
         return convertView;
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
     }
 
     @Override
