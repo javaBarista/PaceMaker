@@ -1,7 +1,5 @@
 package com.example.pacemaker.ui.calender;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -17,9 +15,6 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -29,10 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pacemaker.DateEvent;
-import com.example.pacemaker.EventModifyActivity;
 import com.example.pacemaker.ListViewItem;
 import com.example.pacemaker.R;
-import com.example.pacemaker.TranslateActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -105,13 +98,13 @@ public class CalenderFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
-        new CalenderFragment.getScheduleList().execute(materialCalendarView.getCurrentDate().getMonth() + 1);
+       new GetScheduleList().execute(materialCalendarView.getCurrentDate().getMonth() + 1);
 
         materialCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
                 trigger = false;
-                new CalenderFragment.getScheduleList().execute(materialCalendarView.getCurrentDate().getMonth() + 1);
+                new GetScheduleList().execute(materialCalendarView.getCurrentDate().getMonth() + 1);
             }
         });
 
@@ -263,46 +256,12 @@ public class CalenderFragment extends Fragment {
 
             paint.setTextSize(oldSIze);
             paint.setColor(oldColor);
-            /*
-            int total = count > 2 ? 3 : count;
-            int loop = count % 3 != 0 ? (count / 3) + 1 : (count / 3);
-            int leftMost = (total - 1) * -12;
 
-            for(int k = 0; k < loop; k++) {
-                if(k == 1 && loop == 2) total = count % 3;
-
-                if(k == 2 && count > 6){
-                    float oldSIze = paint.getTextSize();
-                    paint.setTextSize(17f);
-                    canvas.drawText("시험: " + String.valueOf(test_cnt) + "개", 86, 100, paint);
-                    paint.setTextSize(oldSIze);
-                    break;
-                }
-                for (int i = 0; i < total; i++) {
-                    int oldColor = paint.getColor();
-                    paint.setColor(Color.DKGRAY);
-
-                    if (i % 3 == 0) {
-                        bottom += 13;
-                        leftMost = (total - 1) * -12;
-                    }
-
-                    canvas.drawCircle((float) ((left + right) / 2 - leftMost), bottom + radius, radius, paint);
-                    //else if(dote == 7)    canvas.drawText("+" + String.valueOf(total - dote),left, bottom + radius, paint);
-                    //canvas.drawLine(left,bottom + leftMost, right, bottom + leftMost, paint);
-
-                    paint.setColor(oldColor);
-                    leftMost += 24;
-                }
-
-
-            }
-            */
         }
     }
 
 
-    public class getScheduleList extends AsyncTask<Integer, Void, CalenderListItem[]> {
+    public class GetScheduleList extends AsyncTask<Integer, Void, CalenderListItem[]> {
 
         OkHttpClient client = new OkHttpClient();
         Calendar calendar = new GregorianCalendar(Locale.KOREA);

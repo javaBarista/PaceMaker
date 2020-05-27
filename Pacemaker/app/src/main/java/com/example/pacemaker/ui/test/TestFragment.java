@@ -20,22 +20,33 @@ import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 import com.example.pacemaker.R;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.io.InputStream;
 
 public class TestFragment extends Fragment {
     private SharedPreferences pref;
+    private String college;
+    private String year;
+    private String num;
     private String address;
     private String text;
     private boolean isOpen;
     private String part;
     private int answer;
     private JSONArray jsonArray;
+    private boolean isChk;
 
-    public static TestFragment newInstance(String address, String text, Boolean isOpen, String part, int answer) {
+    public static TestFragment newInstance(String year, String college, String num, String address, String text, Boolean isOpen, String part, int answer) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
+        args.putString("year", year);
+        args.putString("college", college);
+        args.putString("num", num);
         args.putString("address", address);
         args.putString("text", text);
         args.putBoolean("isOpen", isOpen);
@@ -50,6 +61,9 @@ public class TestFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        year = getArguments().getString("year", "");
+        college = getArguments().getString("college", "");
+        num = getArguments().getString("num", "");
         address = getArguments().getString("address", "");
         text = getArguments().getString("text", "");
         isOpen = getArguments().getBoolean("isOpen");
@@ -60,13 +74,39 @@ public class TestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        @SuppressLint("ResourceType") View view = inflater.inflate(R.xml.fragment_test, container, false);
+        @SuppressLint("ResourceType") final View view = inflater.inflate(R.xml.fragment_test, container, false);
         final SharedPreferences.Editor editor = pref.edit();
 
         final PhotoView question = view.findViewById(R.id.test_question);
         RadioGroup select_ans = view.findViewById(R.id.ans_radio);
         Button reading = view.findViewById(R.id.reading_open);
 
+        final String arr = "{" +"\"num\":"+"\""+num+"\""+ "," + "\"address\":"+"\""+address+"\"" + "," + "\"text\":"+"\""+text+"\"" + "," + "\"part\":"+"\""+part+"\"" + ","  + "\"answer\":"+"\""  +String.valueOf(answer)+"\"" + "}";
+        try {
+            String tmp = pref.getString(year + college + "result", null);
+            jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        isChk = false;
+        for(int i = 0; i < jsonArray.length(); i++){
+            try {
+                Log.d("json len is :", jsonArray.getString(i));
+                JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                if(num.equals(String.valueOf(jsonObject.get("num")).replace("\"", ""))){
+                    isChk = true;
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(!isChk) {
+            jsonArray.put(arr);
+            editor.putString(year + college + "result", String.valueOf(jsonArray));
+            editor.commit();
+        }
         final Handler mHandler = new Handler();
         new Thread(new Runnable(){
             @Override
@@ -130,10 +170,65 @@ public class TestFragment extends Fragment {
 
         select_ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                int my_ans = -1;
                 switch (i) {
                     case R.id.test_select1:
+                        my_ans = 1;
                         break;
+                    case R.id.test_select2:
+                        my_ans = 2;
+                        break;
+                    case R.id.test_select3:
+                        my_ans = 3;
+                        break;
+                    case R.id.test_select4:
+                        my_ans = 4;
+                        break;
+                    case R.id.test_select5:
+                        my_ans = 5;
+                        break;
+                }
 
+                if(answer == my_ans){
+                    try {
+                        String tmp = pref.getString(year + college + "result", null);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    int a = 0;
+                    while(a < jsonArray.length()){
+                        try {
+                            if(String.valueOf(jsonArray.get(a)).contains(address)) break;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        a++;
+                    }
+                    jsonArray.remove(i);
+                    editor.putString(year + college + "result", String.valueOf(jsonArray));
+                    editor.commit();
+                }
+                else {
+                    isChk = false;
+                    for(int j = 0; j < jsonArray.length(); j++){
+                        try {
+                            Log.d("json len is :", jsonArray.getString(j));
+                            JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(j));
+                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+                            if(num.equals(String.valueOf(jsonObject.get("num")).replace("\"", ""))){
+                                isChk = true;
+                                break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(!isChk) {
+                        jsonArray.put(arr);
+                        editor.putString(year + college + "result", String.valueOf(jsonArray));
+                        editor.commit();
+                    }
                 }
             }
         });

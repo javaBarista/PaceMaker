@@ -2,7 +2,9 @@ package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,9 +17,11 @@ import java.util.HashMap;
 
 public class TestSelectActivity extends AppCompatActivity {
 
+    private SharedPreferences pref;
     private Spinner year_spin;
     private Spinner college_spin;
     private Button sendBtn;
+    private Button resultBtn;
     private LinearLayout testNotify;
     private TextView year;
     private TextView college;
@@ -32,6 +36,7 @@ public class TestSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testselect);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,19 +65,35 @@ public class TestSelectActivity extends AppCompatActivity {
                 time.setText(hmap.get(college_spin.getSelectedItem().toString() + "시간"));
                 questions.setText(hmap.get(college_spin.getSelectedItem().toString() + "문항"));
                 testNotify.setVisibility(View.VISIBLE);
+                if(pref.getBoolean(year_spin.getSelectedItem().toString() + college_spin.getSelectedItem().toString() + "complete", false)) resultBtn.setVisibility(View.VISIBLE);
+                else resultBtn.setVisibility(View.GONE);
             }
         });
 
         startBtn = findViewById(R.id.test_start);
+        resultBtn = findViewById(R.id.go_result_btn);
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent testIntent = new Intent(getApplicationContext(), TestActivity.class);
                 bundle.putInt("time", Integer.parseInt(hmap.get(college_spin.getSelectedItem().toString() + "시간")));
+                bundle.putString("count", hmap.get(college_spin.getSelectedItem().toString() + "문항"));
                 bundle.putString("college", college_spin.getSelectedItem().toString());
                 bundle.putString("year", year_spin.getSelectedItem().toString());
                 testIntent.putExtras(bundle);
                 startActivity(testIntent);
+            }
+        });
+
+        resultBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
+                bundle.putString("count", hmap.get(college_spin.getSelectedItem().toString() + "문항"));
+                bundle.putString("college", college_spin.getSelectedItem().toString());
+                bundle.putString("year", year_spin.getSelectedItem().toString());
+                resultIntent.putExtras(bundle);
+                startActivity(resultIntent);
             }
         });
     }

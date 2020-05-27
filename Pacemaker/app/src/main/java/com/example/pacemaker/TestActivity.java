@@ -7,18 +7,25 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.pacemaker.ui.test.TestFinishFragment;
 import com.example.pacemaker.ui.test.TestForm;
 import com.example.pacemaker.ui.test.TestFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -28,6 +35,7 @@ import okhttp3.Response;
 
 public class TestActivity extends AppCompatActivity {
 
+    private SharedPreferences pref;
     private ViewPager testPager;
     private MyPagerAdapter myPagerAdapter;
     private Bundle bundle;
@@ -35,6 +43,7 @@ public class TestActivity extends AppCompatActivity {
     private TextView timmer;
     private ArrayList<TestForm> mList= new ArrayList<>();
     private CountDownTimer countDownTimer;
+    private MakeTestList makeTestList = new MakeTestList();
     private int time;
     private long MILLISINFUTURE = 60000; //* 분 하면 나옴
     private final long COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
@@ -44,9 +53,13 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences.Editor editor = pref.edit();
 
         getIntent = getIntent();
         bundle = getIntent.getExtras();
+        editor.putString(bundle.getString("year") + bundle.getString("college") + "result", null); //테스트 시작전 틀린문제 비우기
+        editor.commit();
 
         time = bundle.getInt("time");
         timmer = findViewById(R.id.timmer);
@@ -64,22 +77,48 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onFinish() { //시간이 다 되면 액티비티 종료
                 Toast.makeText(getApplicationContext(), "시험이 종료되었습니다.", Toast.LENGTH_LONG).show();
-                //결과용 액티비티 만들어야하나....?
+                //남은 문제 전부 오답처리
+                JSONArray jsonArray = null;
+                editor.putBoolean(bundle.getString("year") + bundle.getString("college") + "complete", true);
+                editor.commit();
+
+                for(int i = testPager.getCurrentItem() + 1; i < mList.size(); i++){
+                    String arr = "{" +"\"num\":"+"\""+mList.get(i).getNum()+"\""+ "," + "\"address\":"+"\""+mList.get(i).getAddress()+"\"" + "," + "\"text\":"+"\""+mList.get(i).getMain_text()+"\"" + "," + "\"part\":"+"\""+mList.get(i).getPart()+"\"" + ","  + "\"answer\":"+"\""+String.valueOf(mList.get(i).getAnswer())+"\"" + "}";
+                    try {
+                        String tmp = pref.getString(bundle.getString("year") + bundle.getString("college") + "result", null);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    jsonArray.put(arr);
+                    editor.putString(bundle.getString("year") + bundle.getString("college") + "result", String.valueOf(jsonArray));
+                    editor.commit();
+                }
+                Intent resultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
+                resultIntent.putExtras(bundle);
+                startActivity(resultIntent);
+                finish();
             }
         }.start();
 
         testPager = findViewById(R.id.testPager);
-        new makeTestList().execute(bundle.getString("year"), bundle.getString("college"));
+        makeTestList.execute(bundle.getString("year"), bundle.getString("college"));
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS;
         private ArrayList<TestForm> mList;
+        private Bundle bundle;
+        private String year;
+        private String college;
 
-        public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<TestForm> mList) {
+        public MyPagerAdapter(FragmentManager fragmentManager, Bundle bundle, ArrayList<TestForm> mList) {
             super(fragmentManager);
             this.mList = mList;
-            NUM_ITEMS = mList.size();
+            this.bundle = bundle;
+            this.year = bundle.getString("year");
+            this.college = bundle.getString("college");
+            NUM_ITEMS = mList.size() + 1;
         }
 
         // Returns total number of pages
@@ -91,7 +130,8 @@ public class TestActivity extends AppCompatActivity {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            return TestFragment.newInstance(mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
+           if(position == NUM_ITEMS - 1) return TestFinishFragment.newInstance(bundle);
+           else return TestFragment.newInstance(year, college, mList.get(position).getNum(), mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
         }
         // Returns the page title for the top indicator
         @Override
@@ -101,8 +141,7 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
-
-    private class makeTestList extends AsyncTask<String, Void, TestForm[]> {
+    private class MakeTestList extends AsyncTask<String, Void, TestForm[]> {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -142,7 +181,7 @@ public class TestActivity extends AppCompatActivity {
                     mList.add(post);
                 }
             }
-            myPagerAdapter = new TestActivity.MyPagerAdapter(getSupportFragmentManager(), mList);
+            myPagerAdapter = new TestActivity.MyPagerAdapter(getSupportFragmentManager(), bundle, mList);
             testPager.setAdapter(myPagerAdapter);
         }
     }
@@ -159,5 +198,11 @@ public class TestActivity extends AppCompatActivity {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        makeTestList.cancel(true);
     }
 }
