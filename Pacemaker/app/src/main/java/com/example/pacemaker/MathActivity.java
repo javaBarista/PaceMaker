@@ -1,25 +1,19 @@
 package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.example.pacemaker.R.drawable.formula;
 import static com.example.pacemaker.R.drawable.ic_add_circle_outline_black_24dp;
 import static com.example.pacemaker.R.drawable.ic_remove_circle_outline_black_24dp;
 
