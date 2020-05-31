@@ -1086,7 +1086,6 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
                 <Button
-                    android:visibility="invisible"
                     android:layout_width="100dp"
                     android:layout_height="55dp"
                     android:layout_marginBottom="10dp"

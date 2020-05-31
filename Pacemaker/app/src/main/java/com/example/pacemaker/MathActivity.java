@@ -1,6 +1,8 @@
 package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,7 +32,6 @@ public class MathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_math);
 
-        setTitle("Math");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -83,6 +84,14 @@ public class MathActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
+
+                String formula_name = expandableListAdapter.getChild(groupPosition, childPosition).toString();
+                String category_name = expandableListAdapter.getGroup(groupPosition).toString();
+                Intent intent = new Intent(MathActivity.this, MathFormulaActivity.class);
+                intent.putExtra("formula_name", formula_name);
+                intent.putExtra("category_name", category_name);
+                startActivity(intent);
+
                 return false;
             }
         });
@@ -123,7 +132,7 @@ public class MathActivity extends AppCompatActivity {
                             ListDetail.put(expandableListTitle.get(i).toString(), search);
                         }
                     }
-                    Log.d("List Search Result", ListDetail.toString());
+                    //Log.d("List Search Result", ListDetail.toString());
                     expandableListAdapter = new CustomExpandableListAdapter(getApplicationContext(), expandableListTitle, ListDetail);
                     expandableListView.setAdapter(expandableListAdapter);
                     for (int i=0; i<expandableListAdapter.getGroupCount(); i++) {

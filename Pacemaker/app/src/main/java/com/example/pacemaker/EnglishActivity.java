@@ -69,6 +69,7 @@ public class EnglishActivity extends AppCompatActivity {
     private Button day48;
     private Button day49;
     private Button day50;
+    private Button day51;
     private Button DayTest_btn;
 
     @Override
@@ -131,6 +132,7 @@ public class EnglishActivity extends AppCompatActivity {
         day48.setOnClickListener(new ClickEvent());
         day49.setOnClickListener(new ClickEvent());
         day50.setOnClickListener(new ClickEvent());
+        day51.setOnClickListener(new ClickEvent());
 
         // day 누적 테스트
         DayTest_btn = (Button) findViewById(R.id.selectDay_Test_btn);
@@ -225,6 +227,7 @@ public class EnglishActivity extends AppCompatActivity {
         day48 = findViewById(R.id.day48);
         day49 = findViewById(R.id.day49);
         day50 = findViewById(R.id.day50);
+        day51 = findViewById(R.id.day51);
 
         dayMap.put("day1", day1);
         dayMap.put("day2", day2);
@@ -276,8 +279,9 @@ public class EnglishActivity extends AppCompatActivity {
         dayMap.put("day48", day48);
         dayMap.put("day49", day49);
         dayMap.put("day50", day50);
+        dayMap.put("day51", day51);
 
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= 51; i++) {
             if (prefs.getBoolean("day" + String.valueOf(i), false)) {
                 dayMap.get("day" + String.valueOf(i)).setBackground(ContextCompat.getDrawable(this, R.drawable.dday_counter));
                 dayMap.get("day" + String.valueOf(i)).setTextColor(Color.parseColor("#FFA9A9A9"));
@@ -415,31 +419,34 @@ public class EnglishActivity extends AppCompatActivity {
                     intent.putExtra("day", "day41");
                     break;
                 case R.id.day42:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day42");
                     break;
                 case R.id.day43:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day43");
                     break;
                 case R.id.day44:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day44");
                     break;
                 case R.id.day45:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day45");
                     break;
                 case R.id.day46:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day46");
                     break;
                 case R.id.day47:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day47");
                     break;
                 case R.id.day48:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day48");
                     break;
                 case R.id.day49:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day49");
                     break;
                 case R.id.day50:
-                    intent.putExtra("day", "day41");
+                    intent.putExtra("day", "day50");
+                    break;
+                case R.id.day51:
+                    intent.putExtra("day", "day51");
                     break;
             }
             startActivity(intent);
