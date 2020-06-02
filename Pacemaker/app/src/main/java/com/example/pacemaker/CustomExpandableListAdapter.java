@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.example.pacemaker.R.drawable.ic_add_circle_outline_black_24dp;
+import static com.example.pacemaker.R.drawable.ic_remove_circle_outline_black_24dp;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
@@ -78,18 +82,29 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int listPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public View getGroupView(final int listPosition, final boolean isExpanded,
+                             View convertView, final ViewGroup parent) {
         String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.math_list_group, null);
         }
-        TextView listTitleTextView = (TextView) convertView
-                .findViewById(R.id.listTitle);
+        TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
+        ImageView fap_btn = (ImageView) convertView.findViewById(R.id.mathfap);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+        int imageResourceId = isExpanded ? ic_remove_circle_outline_black_24dp : ic_add_circle_outline_black_24dp;
+        fap_btn.setImageResource(imageResourceId);
+
+        fap_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isExpanded) ((ExpandableListView) parent).collapseGroup(listPosition);
+                else ((ExpandableListView) parent).expandGroup(listPosition, true);
+            }
+        });
+
         return convertView;
     }
 

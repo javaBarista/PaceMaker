@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/textColor1"
-        android:paddingLeft="50dp"
+        android:paddingLeft="20dp"
         android:paddingTop="15dp"
         android:textSize="20dp"
         android:elevation="3dp"
@@ -28,7 +28,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="right"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:src="@drawable/ic_add_circle_outline_black_24dp"
             android:id="@+id/mathfap"/>
         </LinearLayout>

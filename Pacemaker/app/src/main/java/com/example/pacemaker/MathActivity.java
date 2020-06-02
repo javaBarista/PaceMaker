@@ -64,22 +64,6 @@ public class MathActivity extends AppCompatActivity {
             }
         });
 
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                ImageView fap_btn = v.findViewById(R.id.mathfap);
-                if (hmap.get(groupPosition)) {
-                    fap_btn.setImageResource(ic_remove_circle_outline_black_24dp);
-                    hmap.put(groupPosition, false);
-                } else {
-                    fap_btn.setImageResource(ic_add_circle_outline_black_24dp);
-                    hmap.put(groupPosition, true);
-                }
-                return false;
-            }
-        });
-
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,

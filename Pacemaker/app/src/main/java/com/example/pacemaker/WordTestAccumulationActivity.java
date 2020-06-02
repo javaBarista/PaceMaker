@@ -27,6 +27,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class WordTestAccumulationActivity extends AppCompatActivity {
     private ViewPager mPager;
@@ -37,6 +39,7 @@ public class WordTestAccumulationActivity extends AppCompatActivity {
     private ArrayList<WordTestForm> wordList = new ArrayList<>();
     private ArrayList<ListViewItem> arrayList = new ArrayList<>();
     private ArrayList<String> nAnswerList = new ArrayList<>();
+    private ArrayList<String> parts = new ArrayList<>();
     private Intent getIntent;
     String mJsonString;
     private static String TAG = "phptest_TestWord2";
@@ -155,22 +158,38 @@ public class WordTestAccumulationActivity extends AppCompatActivity {
 
             for (int i = 0; i < 20; i++) {
                 JSONObject item = jsonArray.getJSONObject(i);
+
                 String Word;
                 String Answer;
+                String partSpeech;
                 Word = item.getString("Word");
                 Answer = item.getString("Mean");
+                partSpeech = item.getString("partSpeech");
                 ListViewItem items = new ListViewItem(Word, Answer);
                 arrayList.add(items);
+                parts.add(partSpeech);
             }
             for (int i = 20; i < jsonArray.length(); i++) {
                 JSONObject item = jsonArray.getJSONObject(i);
+
                 String nAnswer;
+                String ps;
                 nAnswer = item.getString("nA1");
-                nAnswerList.add(nAnswer);
+                ps = item.getString("ps");
+                ListViewItem items = new ListViewItem(ps, nAnswer);
+                arrayList.add(items);
             }
 
             for (int i = 0; i < 20; i++) {
-                wordTestForm = new WordTestForm(arrayList.get(i).getCollege_name(), arrayList.get(i).getCollege_dday(), nAnswerList.get(i).toString(), nAnswerList.get(i + 20).toString(), nAnswerList.get(i + 40).toString());
+                List<String> nA = new ArrayList<String>();
+                for (int j = 20; j < jsonArray.length(); j++) {
+                    if (parts.get(i).equals(arrayList.get(j).getCollege_name())) {
+                        nA.add(arrayList.get(j).getCollege_dday());
+                    }
+                }
+                Collections.shuffle(nA);
+
+                wordTestForm = new WordTestForm(arrayList.get(i).getCollege_name(), arrayList.get(i).getCollege_dday(), nA.get(0).toString(), nA.get(1).toString(), nA.get(2).toString());
                 wordList.add(wordTestForm);
             }
             mPagerAdapter = new MPagerAdapter(getSupportFragmentManager(), wordList);

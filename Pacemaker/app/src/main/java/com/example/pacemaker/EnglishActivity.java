@@ -3,6 +3,7 @@ package com.example.pacemaker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -71,12 +72,14 @@ public class EnglishActivity extends AppCompatActivity {
     private Button day50;
     private Button day51;
     private Button DayTest_btn;
+    public static Activity _EnglishActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_engish);
 
+        _EnglishActivity = EnglishActivity.this;
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -451,5 +454,12 @@ public class EnglishActivity extends AppCompatActivity {
             }
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        link_Button();
     }
 }

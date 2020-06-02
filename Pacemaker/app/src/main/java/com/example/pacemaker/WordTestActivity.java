@@ -54,6 +54,7 @@ public class WordTestActivity extends AppCompatActivity {
     private Intent getIntent;
     private ArrayList<WordTestForm> wordList = new ArrayList<>();
     private ArrayList<ListViewItem> arrayList = new ArrayList<>();
+    private ArrayList<String> parts = new ArrayList<>();
     private static String dayInfo;
     WordTestForm wordTestForm;
     private static String TAG = "phptest_TestWord";
@@ -168,20 +169,46 @@ public class WordTestActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(mJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
 
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < 5; i++) {
                 JSONObject item = jsonArray.getJSONObject(i);
 
                 String Word = item.getString("Word");
                 String meaning = item.getString("meaning");
+                String partSpeech = item.getString("partSpeech");
 
                 ListViewItem items = new ListViewItem(Word, meaning);
                 arrayList.add(items);
-                //wordTestForm = new WordTestForm(Number, Word, pronunciation, partSpeech, meaning);
-                //wordList.add(wordTestForm);
+                parts.add(partSpeech);
+            }
+
+            for (int i = 5; i < jsonArray.length(); i++) {
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String meaning = item.getString("meaning");
+                String partSpeech = item.getString("partSpeech");
+
+                ListViewItem items = new ListViewItem(partSpeech, meaning);
+                arrayList.add(items);
             }
 
             for (int i = 0; i < 5; i++) {
-                wordTestForm = new WordTestForm(arrayList.get(i).getCollege_name(), arrayList.get(i).getCollege_dday(), arrayList.get(i + 5).getCollege_dday(), arrayList.get(i + 10).getCollege_dday(), arrayList.get(i + 15).getCollege_dday());
+                List<String> nA = new ArrayList<String>();
+
+                for (int j = 5; j < jsonArray.length(); j++) {
+                    if (parts.get(i).equals(arrayList.get(j).getCollege_name())) {
+                        nA.add(arrayList.get(j).getCollege_dday());
+                        Collections.shuffle(nA);
+                    }
+                }
+                if (nA.size() < 3) {
+                    int n = jsonArray.length()-1;
+                    do {
+                        nA.add(arrayList.get(n).getCollege_dday());
+                        n--;
+                    } while (nA.size() == 3);
+                }
+
+                wordTestForm = new WordTestForm(arrayList.get(i).getCollege_name(), arrayList.get(i).getCollege_dday(), nA.get(0).toString(), nA.get(1).toString(), nA.get(2).toString());
                 wordList.add(wordTestForm);
             }
             mPagerAdapter = new MPagerAdapter(getSupportFragmentManager(), wordList);
