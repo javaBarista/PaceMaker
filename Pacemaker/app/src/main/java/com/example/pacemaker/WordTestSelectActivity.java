@@ -50,8 +50,13 @@ public class WordTestSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WordTestSelectActivity.this, WordTestAccumulationActivity.class);
-                intent.putExtra("startDay", startDay);
-                intent.putExtra("endDay", endDay);
+                if (Integer.parseInt(startDay.substring(3)) > Integer.parseInt(endDay.substring(3))) {
+                    intent.putExtra("startDay", endDay);
+                    intent.putExtra("endDay", startDay);
+                } else {
+                    intent.putExtra("startDay", startDay);
+                    intent.putExtra("endDay", endDay);
+                }
                 startActivity(intent);
             }
         });

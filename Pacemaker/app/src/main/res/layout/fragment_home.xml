@@ -99,6 +99,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/english"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -128,6 +129,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/formula"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -157,6 +159,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="3dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/transicon"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -194,6 +197,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="3dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/school"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -223,6 +227,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/notebook"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -252,6 +257,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="3dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/podium"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -289,6 +295,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="8dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/exam"/>
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -317,6 +324,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/moc"/>
 
                                 <TextView
@@ -346,6 +354,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
                                     android:layout_marginTop="5dp"
+                                    android:padding="7dp"
                                     android:src="@drawable/qanda"/>
                                 <TextView
                                     android:layout_width="wrap_content"

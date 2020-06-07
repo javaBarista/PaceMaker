@@ -29,7 +29,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.R;
+import com.example.pacemaker.WordActivity;
 import com.example.pacemaker.WordTestAccumulationActivity;
 import com.example.pacemaker.WordTestActivity;
 
@@ -196,6 +198,8 @@ public class WordTestFragment extends Fragment {
                                     SharedPreferences.Editor editor = sf.edit();
                                     editor.putBoolean("day"+day, true);
                                     editor.commit();
+
+                                    ((EnglishActivity)EnglishActivity._EnglishActivity).onResume();
                                     getActivity().finish();
                                 } else {
                                     getActivity().finish();

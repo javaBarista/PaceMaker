@@ -49,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="#FFDCDCDC"
+                android:paddingHorizontal="10dp"
                 android:id="@+id/fromTxt"/>
             <Button
                 android:layout_width="100dp"
@@ -62,11 +63,13 @@
                 android:textSize="18dp"
                 android:id="@+id/trans_btn"/>
             <TextView
+                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"
                 android:background="#FFD8BFD8"
+                android:textSize="20dp"
                 android:id="@+id/toTxt"/>
         </LinearLayout>
     </ScrollView>

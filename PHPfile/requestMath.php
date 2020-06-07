@@ -2,8 +2,9 @@
 $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 
 $subject = $_POST['subject'];
+$detail = $_POST['detail'];
 
-$db_sql = "SELECT address FROM math_formula WHERE subject = '".$subject."';";
+$db_sql = "SELECT address FROM math_formula WHERE subject = '".$subject."' AND detail = '".$detail."';";
 $result = mysqli_query($conn, $db_sql);
 
 $data = mysqli_fetch_array($result);
