@@ -22,10 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -36,6 +34,7 @@ import okhttp3.Response;
 public class TestActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private ViewPager testPager;
     private MyPagerAdapter myPagerAdapter;
     private Bundle bundle;
@@ -44,6 +43,8 @@ public class TestActivity extends AppCompatActivity {
     private ArrayList<TestForm> mList= new ArrayList<>();
     private CountDownTimer countDownTimer;
     private MakeTestList makeTestList = new MakeTestList();
+    private String year;
+    private String college;
     private int time;
     private long MILLISINFUTURE = 60000; //* 분 하면 나옴
     private final long COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
@@ -53,12 +54,16 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        final SharedPreferences.Editor editor = pref.edit();
+
+        pref =  PreferenceManager.getDefaultSharedPreferences(this);
+        editor = pref.edit();
 
         getIntent = getIntent();
         bundle = getIntent.getExtras();
-        editor.putString(bundle.getString("year") + bundle.getString("college") + "result", null); //테스트 시작전 틀린문제 비우기
+        year = bundle.getString("year");
+        college = bundle.getString("college");
+        editor.putString(year + college + "result", null); //테스트 시작전 틀린문제 비우기
+        editor.putBoolean(year + college + "complete", false);
         editor.commit();
 
         time = bundle.getInt("time");
@@ -77,23 +82,9 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onFinish() { //시간이 다 되면 액티비티 종료
                 Toast.makeText(getApplicationContext(), "시험이 종료되었습니다.", Toast.LENGTH_LONG).show();
-                //남은 문제 전부 오답처리
-                JSONArray jsonArray = null;
-                editor.putBoolean(bundle.getString("year") + bundle.getString("college") + "complete", true);
+                editor.putBoolean(year + college + "complete", true);
                 editor.commit();
 
-                for(int i = testPager.getCurrentItem() + 1; i < mList.size(); i++){
-                    String arr = "{" +"\"num\":"+"\""+mList.get(i).getNum()+"\""+ "," + "\"address\":"+"\""+mList.get(i).getAddress()+"\"" + "," + "\"text\":"+"\""+mList.get(i).getMain_text()+"\"" + "," + "\"part\":"+"\""+mList.get(i).getPart()+"\"" + ","  + "\"answer\":"+"\""+String.valueOf(mList.get(i).getAnswer())+"\"" + "}";
-                    try {
-                        String tmp = pref.getString(bundle.getString("year") + bundle.getString("college") + "result", null);
-                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    jsonArray.put(arr);
-                    editor.putString(bundle.getString("year") + bundle.getString("college") + "result", String.valueOf(jsonArray));
-                    editor.commit();
-                }
                 Intent resultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
                 resultIntent.putExtras(bundle);
                 startActivity(resultIntent);
@@ -183,6 +174,19 @@ public class TestActivity extends AppCompatActivity {
             }
             myPagerAdapter = new TestActivity.MyPagerAdapter(getSupportFragmentManager(), bundle, mList);
             testPager.setAdapter(myPagerAdapter);
+            JSONArray jsonArray = null;
+            for(int i = 0; i < mList.size(); i++){
+                String arr = "{" +"\"num\":"+"\""+mList.get(i).getNum()+"\""+ "," + "\"address\":"+"\""+mList.get(i).getAddress()+"\"" + "," + "\"text\":"+"\""+mList.get(i).getMain_text()+"\"" + "," + "\"part\":"+"\""+mList.get(i).getPart()+"\"" + ","  + "\"answer\":"+"\""+String.valueOf(mList.get(i).getAnswer())+"\"" + "}";
+                try {
+                    String tmp = pref.getString(year + college + "result", null);
+                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                jsonArray.put(arr);
+                editor.putString(year + college + "result", String.valueOf(jsonArray));
+                editor.commit();
+            }
         }
     }
 

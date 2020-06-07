@@ -81,32 +81,6 @@ public class TestFragment extends Fragment {
         RadioGroup select_ans = view.findViewById(R.id.ans_radio);
         Button reading = view.findViewById(R.id.reading_open);
 
-        final String arr = "{" +"\"num\":"+"\""+num+"\""+ "," + "\"address\":"+"\""+address+"\"" + "," + "\"text\":"+"\""+text+"\"" + "," + "\"part\":"+"\""+part+"\"" + ","  + "\"answer\":"+"\""  +String.valueOf(answer)+"\"" + "}";
-        try {
-            String tmp = pref.getString(year + college + "result", null);
-            jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        isChk = false;
-        for(int i = 0; i < jsonArray.length(); i++){
-            try {
-                Log.d("json len is :", jsonArray.getString(i));
-                JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                if(num.equals(String.valueOf(jsonObject.get("num")).replace("\"", ""))){
-                    isChk = true;
-                    break;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(!isChk) {
-            jsonArray.put(arr);
-            editor.putString(year + college + "result", String.valueOf(jsonArray));
-            editor.commit();
-        }
         final Handler mHandler = new Handler();
         new Thread(new Runnable(){
             @Override
@@ -189,13 +163,13 @@ public class TestFragment extends Fragment {
                         break;
                 }
 
+                String tmp = pref.getString(year + college + "result", null);
+                try {
+                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if(answer == my_ans){
-                    try {
-                        String tmp = pref.getString(year + college + "result", null);
-                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     int a = 0;
                     while(a < jsonArray.length()){
                         try {
@@ -205,11 +179,12 @@ public class TestFragment extends Fragment {
                         }
                         a++;
                     }
-                    jsonArray.remove(i);
+                    jsonArray.remove(a);
                     editor.putString(year + college + "result", String.valueOf(jsonArray));
                     editor.commit();
                 }
                 else {
+                    String arr = "{" +"\"num\":"+"\""+num+"\""+ "," + "\"address\":"+"\""+address+"\"" + "," + "\"text\":"+"\""+text+"\"" + "," + "\"part\":"+"\""+part+"\"" + ","  + "\"answer\":"+"\""  +String.valueOf(answer)+"\"" + "}";
                     isChk = false;
                     for(int j = 0; j < jsonArray.length(); j++){
                         try {

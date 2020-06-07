@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,6 +64,7 @@ public class CalenderFragment extends Fragment {
     private static boolean trigger = true;
     public ArrayList<CalenderListItem> calenderListItems = new ArrayList<>();
     public ArrayList<ListViewItem> items = new ArrayList<>();
+    private Toast toast;
     private ListViewItem item;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -111,7 +111,9 @@ public class CalenderFragment extends Fragment {
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Toast.makeText(root.getContext(), sList.get(date.toString()), Toast.LENGTH_SHORT).show();
+                if(toast != null) toast.cancel();
+                toast = Toast.makeText(root.getContext(), sList.get(date.toString()), Toast.LENGTH_SHORT);
+                toast.show();
             }
         } );
 
@@ -182,7 +184,7 @@ public class CalenderFragment extends Fragment {
         @Override
         public void decorate(DayViewFacade view) {
             view.addSpan(new StyleSpan(Typeface.BOLD));
-            view.addSpan(new RelativeSizeSpan(1.4f));
+            //view.addSpan(new RelativeSizeSpan(1.4f));
             view.addSpan(new ForegroundColorSpan(Color.GREEN));
         }
 

@@ -82,6 +82,7 @@ public class TestSelectActivity extends AppCompatActivity {
                 bundle.putString("year", year_spin.getSelectedItem().toString());
                 testIntent.putExtras(bundle);
                 startActivity(testIntent);
+                finish();
             }
         });
 
