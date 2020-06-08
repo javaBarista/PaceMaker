@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.pacemaker.ui.test.TestFinishFragment;
@@ -45,6 +47,9 @@ public class TestActivity extends AppCompatActivity {
     private MakeTestList makeTestList = new MakeTestList();
     private String year;
     private String college;
+    private int count;
+    private Button prevBtn;
+    private Button nextBtn;
     private int time;
     private long MILLISINFUTURE = 60000; //* 분 하면 나옴
     private final long COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
@@ -62,6 +67,7 @@ public class TestActivity extends AppCompatActivity {
         bundle = getIntent.getExtras();
         year = bundle.getString("year");
         college = bundle.getString("college");
+        count = Integer.parseInt(bundle.getString("count"));
         editor.putString(year + college + "result", null); //테스트 시작전 틀린문제 비우기
         editor.putBoolean(year + college + "complete", false);
         editor.commit();
@@ -94,6 +100,23 @@ public class TestActivity extends AppCompatActivity {
 
         testPager = findViewById(R.id.testPager);
         makeTestList.execute(bundle.getString("year"), bundle.getString("college"));
+
+        prevBtn = findViewById(R.id.prevBtn);
+        nextBtn = findViewById(R.id.nextBtn);
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(testPager.getCurrentItem() > 0) testPager.setCurrentItem(testPager.getCurrentItem() - 1);
+                else Toast.makeText(getApplicationContext(), "처음 페이지 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(testPager.getCurrentItem() < count) testPager.setCurrentItem(testPager.getCurrentItem() + 1);
+                else Toast.makeText(getApplicationContext(), "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

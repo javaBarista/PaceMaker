@@ -55,7 +55,8 @@ public class WordTestActivity extends AppCompatActivity {
     private ArrayList<WordTestForm> wordList = new ArrayList<>();
     private ArrayList<ListViewItem> arrayList = new ArrayList<>();
     private ArrayList<String> parts = new ArrayList<>();
-    private static String dayInfo;
+    private static int start;
+    private static int end;
     WordTestForm wordTestForm;
     private static String TAG = "phptest_TestWord";
     String mJsonString;
@@ -68,7 +69,8 @@ public class WordTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_word_test);
         mPager = findViewById(R.id.test_pager);
         getIntent = getIntent();
-        dayInfo = getIntent.getStringExtra("dayInfo").substring(3);
+        start = getIntent.getIntExtra("start", 0);
+        end = getIntent.getIntExtra("end", 0);
 
         getTestData getTestData = new getTestData();
         getTestData.execute("https://nobles1030.cafe24.com/requestEnglishTestwords.php?");
@@ -91,7 +93,7 @@ public class WordTestActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int i) {
             return WordTestFragment.newInstance((i+1)+"/5", wordList.get(i).getTestWord(), wordList.get(i).getAnswer(),
-                   wordList.get(i).getnAnswer1(), wordList.get(i).getnAnswer2(), wordList.get(i).getnAnswer3(),wordList.get(i).getAnswer(), dayInfo);
+                   wordList.get(i).getnAnswer1(), wordList.get(i).getnAnswer2(), wordList.get(i).getnAnswer3(),wordList.get(i).getAnswer(), true, start, end);
         }
 
         @Override
@@ -107,7 +109,7 @@ public class WordTestActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String url = strings[0];
             try {
-                String selectDay = "Day=" + dayInfo;
+                String selectDay = "start=" + String.valueOf(start) + "&" + "end=" + String.valueOf(end);
                 URL serverURL = new URL(url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) serverURL.openConnection();
 

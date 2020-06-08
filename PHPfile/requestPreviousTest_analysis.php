@@ -3,35 +3,36 @@ $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 
 $college = $_POST['college'];
 $year = $_POST['year'];
-$id=$_POST['id'];
+$id = $_POST['id'];
+$score = $_POST['score'];
 
-$db_sql = "SELECT score FROM PaceMaker_PreviousTests_analysis WHERE college = '".$college."' AND year = '".$year."' AND id = '".$id."';";
-$result = mysqli_query($conn, $db_sql);
+$db_sql = "SELECT * FROM PaceMaker_PreviousTests_analysis WHERE college = '".$college."' AND year = '".$year."' AND id = '".$id."';";
+$res = mysqli_query($conn, $db_sql);
 
-if(mysqli_query($con,$result)){
+if(mysqli_num_rows($res) > 0){
     $sql = "UPDATE PaceMaker_PreviousTests_analysis SET score = '".$score."' WHERE college = '".$college."' AND year = '".$year."' AND id = '".$id."';";
-    mysqli_query($conn, $sql);
 }
 else{
-    $sql = "INSERT INTO PaceMaker_PreviousTests_analysis(college, year, id, score) values('".$college."', '".$year."', '".$id."', '".$score."') ON DUPLICATE KEY UPDATE id = '".$id."';";
-    mysqli_query($conn, $sql);
+    $sql = "INSERT INTO PaceMaker_PreviousTests_analysis(college, year, id, score) values('".$college."', '".$year."', '".$id."', '".$score."');";
 }
+mysqli_query($conn, $sql);
 
-$select_query = "SELECT COUNT(*) FROM `PaceMaker_PreviousTests_analysis` WHERE `college` = '".$college."' AND '".$year."';";
-$result_set = mysqli_query($conn, $select_query);
+$select_all = "SELECT COUNT(id) AS cnt FROM PaceMaker_PreviousTests_analysis WHERE college = '".$college."' AND '".$year."';";
+$all_result = mysqli_query($conn, $select_all);
+$all = mysqli_fetch_array($all_result);
 
-for($i=0;$row1=mysqli_fetch_array($result_set);$i++){
-  $rank="SELECT (SELECT COUNT(*) + 1 FROM `PaceMaker_PreviousTests_analysis` WHERE score > a.score) AS rank
-  FROM `PaceMaker_PreviousTests_analysis` AS a
-  WHERE `college` = '".$college."' AND `year` = '".$year."' AND `id` = '".$id."'
+$select_rank="SELECT (SELECT COUNT(*) + 1 FROM PaceMaker_PreviousTests_analysis WHERE score > a.score) AS rak
+  FROM PaceMaker_PreviousTests_analysis AS a
+  WHERE college = '".$college."' AND year = '".$year."' AND id = '".$id."'
   ORDER BY a.score;";
-}
+$rank_result = mysqli_query($conn, $select_rank);
+$rank = mysqli_fetch_array($rank_result);
 
-if(mysqli_query($con,$rank)){
-  echo json_encode(success, JSON_UNESCAPED_UNICODE);
-} else {
-  echo json_encode(failure, JSON_UNESCAPED_UNICODE);
-}
+$array = array(
+  'all' => $all["cnt"],
+  'rank' => $rank["rak"]
+);
+echo json_encode($array, JSON_UNESCAPED_UNICODE);
 
 mysqli_close($conn);
 ?>

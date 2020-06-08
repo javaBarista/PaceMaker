@@ -1,8 +1,9 @@
 <?php
 $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
-$day=$_POST['Day'];
+$start=$_POST['start'];
+$end=$_POST['end'];
 
-$db_sql = "SELECT Number, Word, pronunciation, partSpeech, meaning FROM English_words WHERE Day = '".$day."' ORDER BY (Number) ASC;";
+$db_sql = "SELECT * FROM English_words WHERE Id BETWEEN '".$start."' AND '".$end."' ORDER BY (Id) ASC;";
 $data = mysqli_query($conn, $db_sql);
 
 if(mysqli_num_rows($data) > 0 ){

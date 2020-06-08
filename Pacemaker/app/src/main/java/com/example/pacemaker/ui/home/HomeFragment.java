@@ -22,6 +22,7 @@ import com.example.pacemaker.CompetitionActivity;
 import com.example.pacemaker.DdayActivity;
 import com.example.pacemaker.EnglishActivity;
 import com.example.pacemaker.GuidelinesActivity;
+import com.example.pacemaker.MockupTestSelectActivity;
 import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.MathActivity;
 import com.example.pacemaker.R;
@@ -43,9 +44,11 @@ public class HomeFragment extends Fragment {
     private LinearLayout transPad;
     private LinearLayout mathPad;
     private LinearLayout testPad;
+    private LinearLayout mocTestPad;
+    private LinearLayout qandaPad;
     private String name;
     private String day;
-    protected Bundle bundle;
+    protected Bundle bundle = new Bundle();
     String sfName = "dday_counter";
 
     public void setNextTest(String name, String day){
@@ -169,9 +172,22 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent testSelectIntent = new Intent(root.getContext(), TestSelectActivity.class);
+                testSelectIntent.putExtras(bundle);
                 startActivity(testSelectIntent);
             }
         });
+
+        mocTestPad = root.findViewById(R.id.mocTestPad);
+        mocTestPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mocTestSelectIntent = new Intent(root.getContext(), MockupTestSelectActivity.class);
+                mocTestSelectIntent.putExtras(bundle);
+                startActivity(mocTestSelectIntent);
+            }
+        });
+
+        qandaPad = root.findViewById(R.id.qandaPad);
 
         return root;
     }

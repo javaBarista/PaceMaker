@@ -1,9 +1,7 @@
 package com.example.pacemaker;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import com.example.pacemaker.ui.mynote.MyMathFragment;
 import com.example.pacemaker.ui.mynote.MyTestFragment;
 import com.example.pacemaker.ui.mynote.MyWordFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -31,7 +29,7 @@ public class MyNoteActivity extends AppCompatActivity {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+        private static int NUM_ITEMS = 3;
 
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
@@ -51,6 +49,8 @@ public class MyNoteActivity extends AppCompatActivity {
               case 0:
                   return MyWordFragment.newInstance();
               case 1:
+                  return MyMathFragment.newInstance();
+              case 2:
                   return MyTestFragment.newInstance();
           }
           return  null;
@@ -62,6 +62,8 @@ public class MyNoteActivity extends AppCompatActivity {
                 case 0:
                     return "My Word";
                 case 1:
+                    return "My Math";
+                case 2:
                     return "My Test";
             }
             return null;

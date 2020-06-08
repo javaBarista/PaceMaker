@@ -1,14 +1,14 @@
 package com.example.pacemaker.ui.word;
 
 public class WordForm {
-    private String Number;
+    private String Id;
     private String Word;
     private String pronunciation;
     private String partSpeech;
     private String meaning;
 
-    public WordForm(String Number, String Word, String pronunciation, String partSpeech, String meaning){
-        this.Number = Number;
+    public WordForm(String Id, String Word, String pronunciation, String partSpeech, String meaning){
+        this.Id = Id;
         this.Word = Word;
         this.pronunciation = pronunciation;
         this.partSpeech = partSpeech;

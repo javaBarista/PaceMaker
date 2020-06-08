@@ -8,6 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -32,6 +38,10 @@ public class MyWordFragment extends Fragment {
     private JSONArray jsonArray;
     private SharedPreferences pref;
     private ArrayList<WordForm> mList = new ArrayList<>();
+    private ArrayList<String> wordItem = new ArrayList<>();
+    private Spinner myWordSpin;
+    private Button prevBtn;
+    private Button nextBtn;
 
     public static MyWordFragment newInstance() {
         MyWordFragment fragment = new MyWordFragment();
@@ -61,12 +71,12 @@ public class MyWordFragment extends Fragment {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
                     WordForm temp = new WordForm(String.valueOf(i), String.valueOf(jsonObject.get("word")).replace("\"", ""), String.valueOf(jsonObject.get("proun")).replace("\"", ""), String.valueOf(jsonObject.get("gram")).replace("\"", ""), String.valueOf(jsonObject.get("mean")).replace("\"", ""));
                     mList.add(temp);
+                    wordItem.add(String.valueOf(i + 1) + ". " + temp.getWord());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
-
     }
 
     @Override
@@ -79,6 +89,38 @@ public class MyWordFragment extends Fragment {
         myPagerAdapter = new MyWordFragment.MyPagerAdapter(getChildFragmentManager(), mList);
         viewPager.setAdapter(myPagerAdapter);
         circleIndicator.setViewPager(viewPager);
+        myWordSpin = view.findViewById(R.id.myWordSpin);
+        prevBtn = view.findViewById(R.id.myword_prevBtn);
+        nextBtn = view.findViewById(R.id.myword_nextBtn);
+        ArrayAdapter adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, wordItem);
+        myWordSpin.setAdapter(adapter);
+
+        myWordSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String s = String.valueOf(myWordSpin.getSelectedItem());
+                viewPager.setCurrentItem(Integer.parseInt(s.substring(0, s.indexOf("."))) - 1);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(viewPager.getCurrentItem() > 0) viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                else Toast.makeText(getContext(), "처음 페이지 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(viewPager.getCurrentItem() < jsonArray.length() - 1) viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                else Toast.makeText(getContext(), "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 

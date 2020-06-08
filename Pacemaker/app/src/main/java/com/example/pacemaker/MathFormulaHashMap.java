@@ -29,7 +29,7 @@ public class MathFormulaHashMap {
         imgUrlList.put("미분계수", "miboonkeysu.png");
         imgUrlList.put("연속함수", "hamsoo_yeonsok.png");
         imgUrlList.put("고계 도함수", "kokeydo.png");
-        imgUrlList.put("테일러 급수", "taylor.png");
+        imgUrlList.put("테일러급수", "taylor.png");
         imgUrlList.put("속도와 가속도", "sokdo.png");
         imgUrlList.put("미분법 기본 공식", "miboongibonkong.png");
         imgUrlList.put("평균값 정리 및 극한", "pyeongkun.png");

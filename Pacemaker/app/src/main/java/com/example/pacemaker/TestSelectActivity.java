@@ -30,13 +30,16 @@ public class TestSelectActivity extends AppCompatActivity {
     private Button startBtn;
     private HashMap<String, String> hmap = new HashMap<>();
     ArrayList<String> yearList = new ArrayList<String>();
-    private Bundle bundle = new Bundle();
+    private Intent getIntent;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testselect);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+        getIntent = getIntent();
+        bundle = getIntent.getExtras();
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,6 +107,14 @@ public class TestSelectActivity extends AppCompatActivity {
 
         hmap.put("가천대학교" + "시간", "60");
         hmap.put("가천대학교" + "문항", "40");
+        hmap.put("서강대학교" + "시간", "60");
+        hmap.put("서강대학교" + "문항", "40");
+        hmap.put("성균관대학교" + "시간", "60");
+        hmap.put("성균관대학교" + "문항", "50");
+        hmap.put("중앙대학교" + "시간", "60");
+        hmap.put("중앙대학교" + "문항", "40");
+        hmap.put("한양대학교" + "시간", "60");
+        hmap.put("한양대학교" + "문항", "41");
         /*
         hmap.put("가톨릭대학교", "http://ipsi.catholic.ac.kr/pages/?p=24&mj=04");
         hmap.put("강남대학교", "https://admission.kangnam.ac.kr/jeonhyung/yogang.htm?ctg_cd=transfer");
@@ -120,10 +131,10 @@ public class TestSelectActivity extends AppCompatActivity {
         hmap.put("산업기술대학교", "https://iphak.kpu.ac.kr/transfer/guide.htm");
         hmap.put("삼육대학교", "http://ipsi.syu.ac.kr/2016_syu/pages/index.asp?p=20&mj=04");
         hmap.put("상명대학교", "https://admission.smu.ac.kr:2012/_seoul/iphak/mojip.html?bbsid=seoul_mojib&ctg_cd=pyunip");
-        hmap.put("서강대학교", "http://admission.sogang.ac.kr/admission/html/transfer/guide.asp");
+
         hmap.put("서울시립대학교", "https://admission.uos.ac.kr/admission/pyunib/info.do?epTicket=LOG");
         hmap.put("서울여자대학교", "http://admission.swu.ac.kr/ipsi/mojip.htm?ctg_cd=transfer");
-        hmap.put("성균관대학교", "https://admission.skku.edu/iphak/sub_pyunip.htm");
+
         hmap.put("세종대학교", "http://ipsi.sejong.ac.kr/sub_page/sub4/0101.asp?tab1=4");
         hmap.put("수원대학교", "https://ipsi.suwon.ac.kr/index.html?menuno=2068");
         hmap.put("숙명여자대학교", "http://admission.sookmyung.ac.kr/enter/html/transfer/guide.asp");
@@ -131,12 +142,12 @@ public class TestSelectActivity extends AppCompatActivity {
         hmap.put("아주대학교", "http://www.iajou.ac.kr/pyuniphak/mojip.do?gb=mojip");
         hmap.put("이화여자대학교", "https://admission.ewha.ac.kr/enter/doc/transfer/guide.asp");
         hmap.put("인하대학교", "https://admission.inha.ac.kr/cms/FR_CON/index.do?MENU_ID=620");
-        hmap.put("중앙대학교", "https://admission.cau.ac.kr/guide/plan.html?ctg_cd=entry");
+
         hmap.put("한국외국어대학교", "https://adms.hufs.ac.kr/enter/html/transfer/guide.asp");
         hmap.put("한국항공대학교", "http://ibhak.kau.ac.kr/admission/html/transfer/guide.asp");
         hmap.put("한성대학교", "http://enter.hansung.ac.kr/?m1=menu03%25&m2=sub00%25&board=application%25&application=8%25");
         hmap.put("한양대에리카", "http://goerica.hanyang.ac.kr/admission/html/transfer/guide.asp");
-        hmap.put("한양대학교", "https://go.hanyang.ac.kr/new/2015/03/req.html");
+
         hmap.put("홍익대학교", "https://admission.hongik.ac.kr/guide/guide?kind=transfer");
          */
     }

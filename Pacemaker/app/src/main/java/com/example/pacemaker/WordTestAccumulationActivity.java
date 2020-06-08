@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.pacemaker.ui.word.WordTestForm;
@@ -31,10 +33,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class WordTestAccumulationActivity extends AppCompatActivity {
+    private SharedPreferences pref;
     private ViewPager mPager;
     private WordTestAccumulationActivity.MPagerAdapter mPagerAdapter;
-    private static String startDay;
-    private static String endDay;
+    private static int startDay;
+    private static int endDay;
+    private int voca_count;
     WordTestForm wordTestForm;
     private ArrayList<WordTestForm> wordList = new ArrayList<>();
     private ArrayList<ListViewItem> arrayList = new ArrayList<>();
@@ -51,10 +55,12 @@ public class WordTestAccumulationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_test_accumulation);
 
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        voca_count = pref.getInt("voca_setting_count", 20);
         mPager = findViewById(R.id.accumulation_test_pager);
         getIntent = getIntent();
-        startDay = getIntent.getStringExtra("startDay").substring(3);
-        endDay = getIntent.getStringExtra("endDay").substring(3);
+        startDay = getIntent.getIntExtra("start", 0);
+        endDay = getIntent.getIntExtra("end", 0);
 
         getTestData2 getTestData = new getTestData2();
         getTestData.execute("https://nobles1030.cafe24.com/wordTest2.php?");
@@ -77,7 +83,7 @@ public class WordTestAccumulationActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int i) {
             return WordTestFragment.newInstance((i + 1) + "/20", wordList.get(i).getTestWord(), wordList.get(i).getAnswer(),
-                    wordList.get(i).getnAnswer1(), wordList.get(i).getnAnswer2(), wordList.get(i).getnAnswer3(), wordList.get(i).getAnswer(), startDay + "-" + endDay);
+                    wordList.get(i).getnAnswer1(), wordList.get(i).getnAnswer2(), wordList.get(i).getnAnswer3(), wordList.get(i).getAnswer(), false, startDay, endDay);
         }
 
         @Override
@@ -94,7 +100,9 @@ public class WordTestAccumulationActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String url = strings[0];
             try {
-                String selectDay = "Day1=" + startDay + "&" + "Day2=" + endDay;
+                int start = (startDay * voca_count) - voca_count + 1;
+                int end = (endDay * voca_count);
+                String selectDay = "Day1=" + String.valueOf(start) + "&" + "Day2=" + String.valueOf(end);
                 URL serverURL = new URL(url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) serverURL.openConnection();
 

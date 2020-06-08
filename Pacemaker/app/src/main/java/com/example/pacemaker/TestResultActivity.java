@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +27,16 @@ import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TestResultActivity extends AppCompatActivity {
 
@@ -46,6 +57,9 @@ public class TestResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_result);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getIntent = getIntent();
         bundle = getIntent.getExtras();
@@ -87,7 +101,53 @@ public class TestResultActivity extends AppCompatActivity {
         mAdapter = new TestRecyclerAdapter(mList, this);
         mRecyclerView.setAdapter(mAdapter);
 
-        //웹 디비에 결과 저장 리턴은 같은 년도의 같은 대학 점수 분에 내 성적의 랭크
+        ranking = findViewById(R.id.result_ranking);
+        OkHttpClient requestRanking = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("college", bundle.getString("college"))
+                .add("year", bundle.getString("year"))
+                .add("id", pref.getString("id", ""))
+                .add("score", score.getText().toString())
+                .build();
+        requestRanking.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/requestPreviousTest_analysis.php").post(body).build()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                new Handler(getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String result = response.body().string();
+                            Log.d("ranking is ", result);
+                            JsonElement jsonElement =  new JsonParser().parse(result);
+                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                            ranking.setText(String.valueOf(jsonObject.get("rank")).replace("\"", "") + "/" + String.valueOf(jsonObject.get("all")).replace("\"", ""));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            // ...
+            // ...
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

@@ -27,8 +27,9 @@ public class WordFragment extends Fragment {
     private String pronu;
     private String mean;
     private String gram;
-    private String b="";
-    String day;
+    private Boolean b;
+    private int start;
+    private int end;
     private JSONArray jsonArray;
     LikeButton starCheck;
     Button testStart;
@@ -44,15 +45,13 @@ public class WordFragment extends Fragment {
         return fragment;
     }
 
-    public static WordFragment newInstance(String word, String pronu, String gram, String mean, String b, String day) {
+    public static WordFragment newInstance(String word, Boolean b, int start, int end) {
         WordFragment fragment = new WordFragment();
         Bundle args = new Bundle();
         args.putString("word", word);
-        args.putString("pronu", pronu);
-        args.putString("gram", gram);
-        args.putString("mean", mean);
-        args.putString("b", b);
-        args.putString("dayinfo", day);
+        args.putInt("start", start);
+        args.putInt("end", end);
+        args.putBoolean("b", b);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,14 +66,14 @@ public class WordFragment extends Fragment {
         pronu = getArguments().getString("pronu", "");
         gram = getArguments().getString("gram", "");
         mean = getArguments().getString("mean", "");
-        if (b!=null) {
-            b = getArguments().getString("b", "");
-            day = getArguments().getString("dayinfo", "");
-        }
+        b = getArguments().getBoolean("b", false);
+        start = getArguments().getInt("start", 0);
+        end = getArguments().getInt("end", 0);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         @SuppressLint("ResourceType") View view = inflater.inflate(R.xml.fragment_word, container, false);
         final SharedPreferences.Editor editor = pref.edit();
@@ -98,7 +97,7 @@ public class WordFragment extends Fragment {
         starCheck.setLiked(pref.getBoolean(word, false));
 
         // word test 시작 화면 설정
-        if(b.equals("b")) {
+        if(b) {
             starCheck.setVisibility(View.INVISIBLE);
             pronTxt.setVisibility(View.GONE);
             gramTxt.setVisibility(View.GONE);
@@ -114,7 +113,8 @@ public class WordFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), WordTestActivity.class);
-                intent.putExtra("dayInfo", day);
+                intent.putExtra("start", start);
+                intent.putExtra("end", end);
                 startActivity(intent);
             }
         });

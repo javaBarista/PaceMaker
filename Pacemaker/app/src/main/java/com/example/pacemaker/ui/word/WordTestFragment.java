@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -47,7 +48,9 @@ public class WordTestFragment extends Fragment {
     private String mean3;
     private String mean4;
     private String answer;
-    private String day;
+    private int start;
+    private int end;
+    private boolean isOneday;
     private RadioGroup radioGroup;
     private TextView checktv;
     private ImageView checkImg;
@@ -59,7 +62,7 @@ public class WordTestFragment extends Fragment {
     public WordTestFragment() {
     }
 
-    public static WordTestFragment newInstance(String num, String word, String mean1, String mean2, String mean3, String mean4, String answer, String day) {
+    public static WordTestFragment newInstance(String num, String word, String mean1, String mean2, String mean3, String mean4, String answer, boolean isOneday, int start, int end) {
         WordTestFragment fragment = new WordTestFragment();
         Bundle args = new Bundle();
         args.putString("num", num);
@@ -69,7 +72,9 @@ public class WordTestFragment extends Fragment {
         args.putString("mean3", mean3);
         args.putString("mean4", mean4);
         args.putString("answer", answer);
-        args.putString("day", day);
+        args.putBoolean("isOneday", isOneday);
+        args.putInt("start", start);
+        args.putInt("end", end);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,7 +90,9 @@ public class WordTestFragment extends Fragment {
             mean3 = getArguments().getString("mean3", "");
             mean4 = getArguments().getString("mean4", "");
             answer = getArguments().getString("answer","");
-            day = getArguments().getString("day", "");
+            isOneday = getArguments().getBoolean("isOneday", true);
+            start = getArguments().getInt("start", 0);
+            end = getArguments().getInt("end", 0);
             strArr[0] = mean1;
             strArr[1] = mean2;
             strArr[2] = mean3;
@@ -119,7 +126,7 @@ public class WordTestFragment extends Fragment {
         mean3tv.setText(strArr[numArr[2]]);
         mean4tv.setText(strArr[numArr[3]]);
 
-        if (!(day.contains("-"))) {
+        if (isOneday) {
             mean1tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -194,9 +201,11 @@ public class WordTestFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (count == 5) {
                                     //SharedPreferences
-                                    SharedPreferences sf = getActivity().getSharedPreferences("PaceMaker", Context.MODE_PRIVATE);
+                                    SharedPreferences sf = PreferenceManager.getDefaultSharedPreferences(getContext());
                                     SharedPreferences.Editor editor = sf.edit();
-                                    editor.putBoolean("day"+day, true);
+                                    int day = end / (sf.getInt("voca_setting_count", 20));
+                                    Log.d("test result is", "DAY "+String.valueOf(day));
+                                    editor.putBoolean("DAY "+ String.valueOf(day), true);
                                     editor.commit();
 
                                     ((EnglishActivity)EnglishActivity._EnglishActivity).onResume();

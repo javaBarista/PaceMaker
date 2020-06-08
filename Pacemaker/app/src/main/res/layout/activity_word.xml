@@ -16,16 +16,17 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="25dp"
             android:orientation="horizontal">
-            <Spinner
-                android:layout_width="120dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/daySpin"/>
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_refresh"
-                android:id="@+id/refreshBtn"/>
+                android:text="단어선택 : "
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/daySpin"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/wordPager"
@@ -41,8 +42,42 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="-130dp"
+            android:layout_marginTop="-100dp"
             app:ci_drawable="@drawable/black_radius"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-100dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/dday_counter"
+                android:text="&lt; Prev"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:layout_gravity="left"
+                android:textStyle="italic"
+                android:id="@+id/word_prevBtn"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical">
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/dday_counter"
+                    android:text="next &gt;"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:layout_gravity="right"
+                    android:textStyle="italic"
+                    android:id="@+id/word_nextBtn"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

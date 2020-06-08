@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -28,6 +29,7 @@ import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,6 +44,8 @@ import static android.os.Looper.getMainLooper;
 
 public class MyPageFragment extends Fragment {
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private TextView myName;
     private TextView myId;
     private Button logoutBtn;
@@ -59,18 +63,23 @@ public class MyPageFragment extends Fragment {
     private EditText new_mail;
     private Spinner mailSpin;
     private Button saveBtn;
+    private Button vocaBtn;
     private LinearLayout goal;
     private Spinner edit_college1;
     private Spinner edit_college2;
     private Spinner edit_college3;
+    private Spinner countSpin;
     private Button goalSaveBtn;
     private LinearLayout myNote;
+    private LinearLayout vocaSetting;
+    private LinearLayout vocaLayout;
     private String id;
     private String name;
     private String college1;
     private String college2;
     private String college3;
     private ArrayAdapter adapter;
+    private boolean isSetchk = false;
     private boolean isMyInfo = false;
     private boolean ispwChk = false;
     private boolean isCollegeChk = false;
@@ -87,6 +96,9 @@ public class MyPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_mypage, container, false);
+
+        pref =  PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = pref.edit();
 
         myName = root.findViewById(R.id.myName);
         myId = root.findViewById(R.id.myId);
@@ -138,6 +150,37 @@ public class MyPageFragment extends Fragment {
             public void onClick(View v) {
                 isCollegeChk = !isCollegeChk;
                 goalEdit();
+            }
+        });
+
+        vocaSetting = root.findViewById(R.id.setDailyVocaBtn);
+        vocaLayout = root.findViewById(R.id.setDailyVocaLayout);
+
+        countSpin = root.findViewById(R.id.daySettingSpin);
+        ArrayList<Integer> dayCount = new ArrayList<>();
+        for(int i = 20; i <= 50; i += 5) dayCount.add(i);
+        ArrayAdapter vocaAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, dayCount);
+        countSpin.setAdapter(vocaAdapter);
+        countSpin.setSelection(vocaAdapter.getPosition(pref.getInt("voca_setting_count", 20)));
+
+        vocaBtn = root.findViewById(R.id.vocaSetBtn);
+        vocaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putInt("voca_setting_count", (Integer) countSpin.getSelectedItem());
+                editor.commit();
+                isSetchk = false;
+                vocaLayout.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "변경완료.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        vocaSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSetchk = !isSetchk;
+                if(isSetchk) vocaLayout.setVisibility(View.VISIBLE);
+                else vocaLayout.setVisibility(View.GONE);
             }
         });
 
