@@ -48,8 +48,6 @@ public class EnglishActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //link_Button();
-
         // day 누적 테스트
         DayTest_btn = (Button) findViewById(R.id.selectDay_Test_btn);
         DayTest_btn.setOnClickListener(new View.OnClickListener() {

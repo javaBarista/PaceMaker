@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        prefs = getSharedPreferences("PaceMaker", MODE_PRIVATE);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);;
 
         login = findViewById(R.id.login);
         join = findViewById(R.id.signup);
@@ -169,7 +170,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //비동기작업으로 로그인 정보를 넘긴다.
                 OkHttpClient loginBtnClickEvent = new OkHttpClient();
-                SharedPreferences prefs = getSharedPreferences("PaceMaker", MODE_PRIVATE);
                 final SharedPreferences.Editor editor = prefs.edit();
 
                 RequestBody body = new FormBody.Builder()
@@ -288,7 +288,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(isvaild && ispwChk && passwordText.getText().toString().length() > 5 && name.getText().toString().length() > 2){
                     final OkHttpClient joinBtnClickEvent = new OkHttpClient();
-                    SharedPreferences prefs = getSharedPreferences("ChajAjUm", MODE_PRIVATE);
                     final SharedPreferences.Editor editor = prefs.edit();
 
                     String address = mailList.getSelectedItem().toString().equals("선택 안함") ? "" : mail.getText().toString() + "@" + mailList.getSelectedItem().toString();

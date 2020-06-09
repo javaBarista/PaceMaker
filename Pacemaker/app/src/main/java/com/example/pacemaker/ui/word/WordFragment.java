@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.example.pacemaker.R;
@@ -55,7 +54,6 @@ public class WordFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -160,7 +158,6 @@ public class WordFragment extends Fragment {
                 editor.putString("favorite", String.valueOf(jsonArray));
                 editor.putBoolean(word, false);
                 editor.commit();
-
             }
         });
 
