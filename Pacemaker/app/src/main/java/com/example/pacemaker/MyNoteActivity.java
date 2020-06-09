@@ -21,9 +21,6 @@ public class MyNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_note);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.myNote_view_pager);
         viewPager.setAdapter(myPagerAdapter);
@@ -69,20 +66,6 @@ public class MyNoteActivity extends AppCompatActivity {
                     return "My Test";
             }
             return null;
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home :
-                // TODO : process the click event for action_search item.
-                onBackPressed();
-                return true ;
-            // ...
-            // ...
-            default :
-                return super.onOptionsItemSelected(item);
         }
     }
 }
