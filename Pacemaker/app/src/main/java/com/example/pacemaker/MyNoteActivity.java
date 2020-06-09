@@ -1,6 +1,7 @@
 package com.example.pacemaker;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import com.example.pacemaker.ui.mynote.MyMathFragment;
 import com.example.pacemaker.ui.mynote.MyTestFragment;
 import com.example.pacemaker.ui.mynote.MyWordFragment;
@@ -20,17 +21,18 @@ public class MyNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_note);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.myNote_view_pager);
         viewPager.setAdapter(myPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
-
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -67,6 +69,20 @@ public class MyNoteActivity extends AppCompatActivity {
                     return "My Test";
             }
             return null;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            // ...
+            // ...
+            default :
+                return super.onOptionsItemSelected(item);
         }
     }
 }

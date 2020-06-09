@@ -64,6 +64,7 @@ public class MyPageFragment extends Fragment {
     private Spinner mailSpin;
     private Button saveBtn;
     private Button vocaBtn;
+    private Button onedu;
     private LinearLayout goal;
     private Spinner edit_college1;
     private Spinner edit_college2;
@@ -99,6 +100,17 @@ public class MyPageFragment extends Fragment {
 
         pref =  PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = pref.edit();
+
+        onedu = root.findViewById(R.id.on_eduBtn);
+        onedu.setText(String.valueOf(pref.getInt(id+"onedu", 0)));
+        onedu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putInt(id+"onedu", 100);
+                editor.commit();
+                onedu.setText("100");
+            }
+        });
 
         myName = root.findViewById(R.id.myName);
         myId = root.findViewById(R.id.myId);

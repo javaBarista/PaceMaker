@@ -25,6 +25,7 @@ import com.example.pacemaker.GuidelinesActivity;
 import com.example.pacemaker.MockupTestSelectActivity;
 import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.MathActivity;
+import com.example.pacemaker.QandAActivity;
 import com.example.pacemaker.R;
 import com.example.pacemaker.TestSelectActivity;
 import com.example.pacemaker.TranslateActivity;
@@ -188,6 +189,13 @@ public class HomeFragment extends Fragment {
         });
 
         qandaPad = root.findViewById(R.id.qandaPad);
+        qandaPad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent qandaIntent = new Intent(root.getContext(), QandAActivity.class);
+                startActivity(qandaIntent);
+            }
+        });
 
         return root;
     }

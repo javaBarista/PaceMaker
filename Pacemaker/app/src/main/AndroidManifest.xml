@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MockupTestSelectActivity"></activity>
+        <activity android:name=".QandAActivity"></activity>
+        <activity android:name=".MockupTestSelectActivity" />
         <activity android:name=".MathFormulaActivity" />
         <activity android:name=".TestResultActivity" />
         <activity android:name=".WordTestAccumulationActivity" />

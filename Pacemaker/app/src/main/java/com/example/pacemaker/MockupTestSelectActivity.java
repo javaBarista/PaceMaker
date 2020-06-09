@@ -28,6 +28,7 @@ public class MockupTestSelectActivity extends AppCompatActivity {
     private Button testStartBtn;
     private Button sendBtn;
     private Button resultBtn;
+    private final int max_moctest = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MockupTestSelectActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mocSpin = findViewById(R.id.moc_num_spin);
-        for(int i = 1; i < 3; i++) mocItem.add(String.valueOf(i) + "회");
+        for(int i = 1; i <= max_moctest; i++) mocItem.add(String.valueOf(i) + "회");
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mocItem);
         mocSpin.setAdapter(adapter);
 
