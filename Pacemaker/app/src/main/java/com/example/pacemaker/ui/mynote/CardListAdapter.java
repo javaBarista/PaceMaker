@@ -1,10 +1,13 @@
 package com.example.pacemaker.ui.mynote;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pacemaker.MathFormulaHashMap;
 import com.example.pacemaker.R;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.like.IconType;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -55,9 +59,13 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(final CardListAdapter.ViewHolder holder, int position) {
         final SharedPreferences.Editor editor = pref.edit();
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.xml.test_reading);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         final CardForm item = mData.get(position);
 
         holder.cardname1.setText(item.getName1());
@@ -90,6 +98,37 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                     });
                 }
             }).start();
+
+
+            holder.cardframe2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final PhotoView testReading = dialog.findViewById(R.id.test_reading);
+                    final Handler readingHandler = new Handler();
+                    new Thread(new Runnable(){
+                        @Override
+                        public void run(){
+                            Bitmap bitmap = null;
+                            try {
+                                // Download Image from URL
+                                InputStream input = new java.net.URL(imgUrl2).openStream();
+                                // Decode Bitmap
+                                bitmap = BitmapFactory.decodeStream(input);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            final Bitmap readingBitmap = bitmap;
+                            readingHandler.post(new Runnable(){
+                                @Override
+                                public void run(){
+                                    testReading.setImageBitmap(readingBitmap);
+                                }
+                            });
+                        }
+                    }).start();
+                    dialog.show();
+                }
+            });
         }
         final String imgUrl1 = "http://nobles1030.cafe24.com/mathMaterial/" + hmap.get(item.getName1());
 
@@ -116,6 +155,36 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                 });
             }
         }).start();
+
+        holder.cardframe1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final PhotoView testReading = dialog.findViewById(R.id.test_reading);
+                final Handler readingHandler = new Handler();
+                new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        Bitmap bitmap = null;
+                        try {
+                            // Download Image from URL
+                            InputStream input = new java.net.URL(imgUrl1).openStream();
+                            // Decode Bitmap
+                            bitmap = BitmapFactory.decodeStream(input);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        final Bitmap readingBitmap = bitmap;
+                        readingHandler.post(new Runnable(){
+                            @Override
+                            public void run(){
+                                testReading.setImageBitmap(readingBitmap);
+                            }
+                        });
+                    }
+                }).start();
+                dialog.show();
+            }
+        });
 
         holder.starCheck1.setOnLikeListener(new OnLikeListener() {
             String arr = "{" +"\"name\":"+"\""+item.getName1()+"\""+ "}";

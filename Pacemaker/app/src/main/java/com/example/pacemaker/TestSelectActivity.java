@@ -114,7 +114,7 @@ public class TestSelectActivity extends AppCompatActivity {
         hmap.put("중앙대학교" + "시간", "60");
         hmap.put("중앙대학교" + "문항", "40");
         hmap.put("한양대학교" + "시간", "60");
-        hmap.put("한양대학교" + "문항", "41");
+        hmap.put("한양대학교" + "문항", "40");
         /*
         hmap.put("가톨릭대학교", "http://ipsi.catholic.ac.kr/pages/?p=24&mj=04");
         hmap.put("강남대학교", "https://admission.kangnam.ac.kr/jeonhyung/yogang.htm?ctg_cd=transfer");

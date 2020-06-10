@@ -38,12 +38,6 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="180dp"
             android:background="@drawable/word_frame"/>
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="-100dp"
-            app:ci_drawable="@drawable/black_radius"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +72,12 @@
                     android:id="@+id/word_nextBtn"/>
             </LinearLayout>
         </LinearLayout>
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="-100dp"
+            app:ci_drawable="@drawable/black_radius"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

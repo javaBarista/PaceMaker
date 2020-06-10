@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.pacemaker.MocTestResultActivity;
 import com.example.pacemaker.R;
 import com.example.pacemaker.TestResultActivity;
 
@@ -41,12 +42,22 @@ public class TestFinishFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putBoolean(bundle.getString("year") + bundle.getString("college") + "complete", true);
-                editor.commit();
-                Intent intent = new Intent(getContext(), TestResultActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                getActivity().finish();
+                if(!bundle.getString("college", "").equals("")) {
+                    editor.putBoolean(bundle.getString("year") + bundle.getString("college") + "complete", true);
+                    editor.commit();
+                    Intent intent = new Intent(getContext(), TestResultActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else{
+                    editor.putBoolean("moc_test" + bundle.getString("moc_test") + "complete", true);
+                    editor.commit();
+                    Intent intent = new Intent(getContext(), MocTestResultActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
 

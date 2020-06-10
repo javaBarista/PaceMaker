@@ -33,7 +33,7 @@ public class EnglishActivity extends AppCompatActivity {
     private EnglishListAdapter mAdapter;
     private ArrayList<DayForm> dayMap = new ArrayList<>();
     private Button DayTest_btn;
-    private final int max_count = 1020;
+    private final double max_count = 1020;
     private int voca_count;
     public static Activity _EnglishActivity;
 
@@ -61,7 +61,7 @@ public class EnglishActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.english_day_item);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int day = (int) ceil((double)(max_count / voca_count));
+        int day = (int) ceil(max_count / (double)voca_count);
         int rem = 0;
         if(day % 3 != 0){
             rem = (day % 3);

@@ -101,9 +101,9 @@ public class WordActivity extends AppCompatActivity {
         private ArrayList<WordForm> mList= new ArrayList<>();
        // private CircleIndicator indicator;
 
-        public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<WordForm> mList, int count) {
+        public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<WordForm> mList) {
             super(fragmentManager);
-            NUM_ITEMS = count + 1;
+            NUM_ITEMS = mList.size();
             this.mList = mList;
         }
 
@@ -182,7 +182,7 @@ public class WordActivity extends AppCompatActivity {
             //Adapter setting
             ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, wordItem);
             daySpin.setAdapter(adapter);
-            fpAdapter = new MyPagerAdapter(getSupportFragmentManager(), mList, voca_count);
+            fpAdapter = new MyPagerAdapter(getSupportFragmentManager(), mList);
             viewPager.setAdapter(fpAdapter);
             circleIndicator.setViewPager(viewPager);
         }

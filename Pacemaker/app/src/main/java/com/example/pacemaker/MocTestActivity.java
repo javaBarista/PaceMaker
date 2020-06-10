@@ -33,7 +33,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TestActivity extends AppCompatActivity {
+public class MocTestActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -45,8 +45,7 @@ public class TestActivity extends AppCompatActivity {
     private ArrayList<TestForm> mList= new ArrayList<>();
     private CountDownTimer countDownTimer;
     private MakeTestList makeTestList = new MakeTestList();
-    private String year;
-    private String college;
+    private String moc_num;
     private int count;
     private Button prevBtn;
     private Button nextBtn;
@@ -58,23 +57,21 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-
+        setContentView(R.layout.activity_moc_test);
         pref =  PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
 
         getIntent = getIntent();
         bundle = getIntent.getExtras();
-        year = bundle.getString("year");
-        college = bundle.getString("college");
+        moc_num = bundle.getString("moc_num");
 
         count = Integer.parseInt(bundle.getString("count"));
-        editor.putString(year + college + "result", null); //테스트 시작전 틀린문제 비우기
-        editor.putBoolean(year + college + "complete", false);
+        editor.putString("moc_test" + moc_num + "result", null); //테스트 시작전 틀린문제 비우기
+        editor.putBoolean("moc_test" + moc_num + "complete", false);
         editor.commit();
 
         time = bundle.getInt("time");
-        timmer = findViewById(R.id.timmer);
+        timmer = findViewById(R.id.moc_timmer);
         countDownTimer = new CountDownTimer(MILLISINFUTURE * time, COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -89,21 +86,21 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onFinish() { //시간이 다 되면 액티비티 종료
                 Toast.makeText(getApplicationContext(), "시험이 종료되었습니다.", Toast.LENGTH_LONG).show();
-                editor.putBoolean(year + college + "complete", true);
+                editor.putBoolean("moc_test" + moc_num + "complete", true);
                 editor.commit();
 
-                Intent resultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
-                resultIntent.putExtras(bundle);
-                startActivity(resultIntent);
+                Intent mocTestResultIntent = new Intent(getApplicationContext(), MocTestResultActivity.class);
+                mocTestResultIntent.putExtras(bundle);
+                startActivity(mocTestResultIntent);
                 finish();
             }
         }.start();
 
-        testPager = findViewById(R.id.testPager);
-        makeTestList.execute(bundle.getString("year"), bundle.getString("college"));
+        testPager = findViewById(R.id.moctestPager);
+        makeTestList.execute(moc_num);
 
-        prevBtn = findViewById(R.id.prevBtn);
-        nextBtn = findViewById(R.id.nextBtn);
+        prevBtn = findViewById(R.id.moc_prevBtn);
+        nextBtn = findViewById(R.id.moc_nextBtn);
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,15 +121,13 @@ public class TestActivity extends AppCompatActivity {
         private static int NUM_ITEMS;
         private ArrayList<TestForm> mList;
         private Bundle bundle;
-        private String year;
-        private String college;
+        private String moc_num;
 
         public MyPagerAdapter(FragmentManager fragmentManager, Bundle bundle, ArrayList<TestForm> mList) {
             super(fragmentManager);
             this.mList = mList;
             this.bundle = bundle;
-            this.year = bundle.getString("year");
-            this.college = bundle.getString("college");
+            this.moc_num = bundle.getString("moc_num");
             NUM_ITEMS = mList.size() + 1;
         }
 
@@ -145,8 +140,8 @@ public class TestActivity extends AppCompatActivity {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-           if(position == NUM_ITEMS - 1) return TestFinishFragment.newInstance(bundle);
-           else return TestFragment.newInstance(year, college, mList.get(position).getNum(), mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
+            if(position == NUM_ITEMS - 1) return TestFinishFragment.newInstance(bundle);
+            else return TestFragment.newInstance("moc_test", moc_num, mList.get(position).getNum(), mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
         }
         // Returns the page title for the top indicator
         @Override
@@ -163,10 +158,9 @@ public class TestActivity extends AppCompatActivity {
         @Override
         protected TestForm[] doInBackground(String... str) {
 
-            String url = "https://nobles1030.cafe24.com/requestPreviousTest.php";
+            String url = "https://nobles1030.cafe24.com/";
             @SuppressLint("WrongThread") RequestBody body = new FormBody.Builder()
-                    .add("year", str[0])
-                    .add("college", str[1])
+                    .add("moc_num", str[0])
                     .build();
 
             Request request = new Request.Builder().url(url).post(body).build();
@@ -196,19 +190,19 @@ public class TestActivity extends AppCompatActivity {
                     mList.add(post);
                 }
             }
-            myPagerAdapter = new TestActivity.MyPagerAdapter(getSupportFragmentManager(), bundle, mList);
+            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), bundle, mList);
             testPager.setAdapter(myPagerAdapter);
             JSONArray jsonArray = null;
             for(int i = 0; i < mList.size(); i++){
                 String arr = "{" +"\"num\":"+"\""+mList.get(i).getNum()+"\""+ "," + "\"address\":"+"\""+mList.get(i).getAddress()+"\"" + "," + "\"text\":"+"\""+mList.get(i).getMain_text()+"\"" + "," + "\"part\":"+"\""+mList.get(i).getPart()+"\"" + ","  + "\"answer\":"+"\""+String.valueOf(mList.get(i).getAnswer())+"\"" + "}";
                 try {
-                    String tmp = pref.getString(year + college + "result", null);
+                    String tmp = pref.getString("moc_test" + moc_num + "result", null);
                     jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 jsonArray.put(arr);
-                editor.putString(year + college + "result", String.valueOf(jsonArray));
+                editor.putString("moc_test" + moc_num + "result", String.valueOf(jsonArray));
                 editor.commit();
             }
         }

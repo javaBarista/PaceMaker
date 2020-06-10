@@ -58,21 +58,31 @@ public class MockupTestSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 linearLayout.setVisibility(View.VISIBLE);
                 textView.setText(mocSpin.getSelectedItem().toString());
-                if(pref.getBoolean(mocSpin.getSelectedItem().toString() + "complete", false)) resultBtn.setVisibility(View.VISIBLE);
+                if(pref.getBoolean("moc_test" + mocSpin.getSelectedItem().toString() + "complete", false)) resultBtn.setVisibility(View.VISIBLE);
             }
         });
 
         testStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent mocTestIntent = new Intent(getApplicationContext(), MocTestActivity.class);
+                bundle.putInt("time", 60);
+                bundle.putString("count", "40");
+                bundle.putString("moc_num", mocSpin.getSelectedItem().toString());
+                mocTestIntent.putExtras(bundle);
+                startActivity(mocTestIntent);
+                finish();
             }
         });
 
         resultBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent mocResultIntent = new Intent(getApplicationContext(), MocTestResultActivity.class);
+                bundle.putString("count", "40");
+                bundle.putString("moc_num", mocSpin.getSelectedItem().toString());
+                mocResultIntent.putExtras(bundle);
+                startActivity(mocResultIntent);
             }
         });
     }
