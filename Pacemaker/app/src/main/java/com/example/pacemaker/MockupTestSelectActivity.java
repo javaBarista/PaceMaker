@@ -21,9 +21,11 @@ public class MockupTestSelectActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private Intent getIntent;
     private ArrayList<String> mocItem = new ArrayList<>();
+    private ArrayList<String> subItem = new ArrayList<>();
     private Bundle bundle;
     private LinearLayout linearLayout;
     private Spinner mocSpin;
+    private Spinner subSpin;
     private TextView textView;
     private Button testStartBtn;
     private Button sendBtn;
@@ -46,6 +48,12 @@ public class MockupTestSelectActivity extends AppCompatActivity {
         for(int i = 1; i <= max_moctest; i++) mocItem.add(String.valueOf(i) + "회");
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mocItem);
         mocSpin.setAdapter(adapter);
+
+        subSpin = findViewById(R.id.moc_sub_spin);
+        subItem.add("영어");
+        subItem.add("수학");
+        ArrayAdapter subAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, subItem);
+        subSpin.setAdapter(subAdapter);
 
         linearLayout = findViewById(R.id.moctest_notify);
         textView = findViewById(R.id.selected_moc_num);

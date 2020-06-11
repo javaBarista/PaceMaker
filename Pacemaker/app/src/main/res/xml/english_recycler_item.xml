@@ -19,7 +19,7 @@
             <Button
                 android:layout_width="100dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="7dp"
                 android:layout_gravity="center"
                 android:background="@drawable/day_button"
                 android:text="Day 1"
@@ -54,7 +54,7 @@
             <Button
                 android:layout_width="100dp"
                 android:layout_height="55dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="7dp"
                 android:layout_gravity="center"
                 android:background="@drawable/day_button"
                 android:text="Day 3"

@@ -9,7 +9,14 @@ $college1 = $_POST['college1'];
 $college2 = $_POST['college2'];
 $college3 = $_POST['college3'];
 
-$db_sql = "INSERT INTO PaceMakerMembers(id, password, userName, userEmail, targetUniversity1, targetUniversity2, targetUniversity3) values('".$id."', HEX(AES_ENCRYPT('".$password."', 'pwkey')), '".$name."', '".$mail."', '".$college1."', '".$college2."', '".$college3."') ON DUPLICATE KEY UPDATE id = '".$id."';";
+$db_sql = "INSERT INTO PaceMakerMembers(id, password, userName, userEmail) values('".$id."', HEX(AES_ENCRYPT('".$password."', 'pwkey')), '".$name."', '".$mail."') ON DUPLICATE KEY UPDATE id = '".$id."';";
+mysqli_query($conn, $db_sql);
+
+$db_sql = "INSERT INTO PaceMaker_Target_University(userId, num, university_name) values('".$id."', 1, '".$college1."');";
+mysqli_query($conn, $db_sql);
+$db_sql = "INSERT INTO PaceMaker_Target_University(userId, num, university_name) values('".$id."', 2, '".$college2."');";
+mysqli_query($conn, $db_sql);
+$db_sql = "INSERT INTO PaceMaker_Target_University(userId, num, university_name) values('".$id."', 3, '".$college3."');";
 mysqli_query($conn, $db_sql);
 
 mysqli_close($conn);

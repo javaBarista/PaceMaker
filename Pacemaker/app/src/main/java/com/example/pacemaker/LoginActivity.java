@@ -201,14 +201,22 @@ public class LoginActivity extends AppCompatActivity {
                                         JsonElement jsonElement =  new JsonParser().parse(result.substring(result.indexOf("{"), result.indexOf("}") + 1));
                                         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
+                                        String s_col = result.substring(result.indexOf("[{") + 1, result.indexOf("}]") + 1);
+                                        String college[] = new String[3];
+                                        for(int i = 0; i < 3; i++){
+                                            college[i] = s_col.substring(s_col.indexOf("university_name") + 17, s_col.indexOf("}")).replaceAll("\"","");
+                                            s_col = s_col.substring(s_col.indexOf("},{") + 1, s_col.length());
+                                            Log.d("sdhudghusgew", s_col);
+                                        }
+
                                         editor.commit();
                                         Intent mainmenu = new Intent(getApplicationContext(), MainActivity.class);
                                         bundle.putString("id", id.getText().toString());
                                         bundle.putString("password", password.getText().toString());
                                         bundle.putString("name", jsonObject.get("name").toString().replaceAll("\"",""));
-                                        bundle.putString("college1", jsonObject.get("college1").toString().replaceAll("\"",""));
-                                        bundle.putString("college2", jsonObject.get("college2").toString().replaceAll("\"",""));
-                                        bundle.putString("college3", jsonObject.get("college3").toString().replaceAll("\"",""));
+                                        bundle.putString("college1", college[0]);
+                                        bundle.putString("college2", college[1]);
+                                        bundle.putString("college3", college[2]);
                                         if(jsonObject.get("mail").toString().length() > 5) {
                                             String temp =  jsonObject.get("mail").toString().replace("\"", "");
                                             bundle.putString("mail", temp.substring(0, temp.indexOf("@")));
@@ -347,8 +355,12 @@ public class LoginActivity extends AppCompatActivity {
                     chkDialog.show();
                 }
 
-                else if(passwordText.getText().toString().length() < 6 && name.getText().toString().length() < 4){
-                    Toast.makeText(getApplicationContext(), "비밀번호와 이름은 빈칸일 수 없습니다.", Toast.LENGTH_LONG).show();
+                else if(passwordText.getText().toString().length() < 6){
+                    Toast.makeText(getApplicationContext(), "비밀번호는 최소 6자 이상으로 해주세요.", Toast.LENGTH_LONG).show();
+                }
+
+                else if(name.getText().toString().length() < 2){
+                    Toast.makeText(getApplicationContext(), "이름을 최소 2글자 이상으로 해주세요.", Toast.LENGTH_LONG).show();
                 }
 
                 else if(!ispwChk){

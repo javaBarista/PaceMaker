@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pacemaker.MathFormulaHashMap;
 import com.example.pacemaker.R;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.like.IconType;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -217,7 +220,10 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                 int i = 0;
                 while(i < jsonArray.length()){
                     try {
-                        if(String.valueOf(jsonArray.get(i)).contains(item.getName1())) break;
+                        Log.d("json len is :", jsonArray.getString(i));
+                        JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        if(item.getName1().equals(String.valueOf(jsonObject.get("name")).replace("\"", ""))) break;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -262,7 +268,10 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                 int i = 0;
                 while(i < jsonArray.length()){
                     try {
-                        if(String.valueOf(jsonArray.get(i)).contains(item.getName2())) break;
+                        Log.d("json len is :", jsonArray.getString(i));
+                        JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        if(item.getName2().equals(String.valueOf(jsonObject.get("name")).replace("\"", ""))) break;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

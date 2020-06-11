@@ -11,6 +11,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import org.json.JSONArray;
@@ -106,7 +109,10 @@ public class MathFormulaActivity extends AppCompatActivity {
                 int i = 0;
                 while(i < jsonArray.length()){
                     try {
-                        if(String.valueOf(jsonArray.get(i)).contains(name)) break;
+                        Log.d("json len is :", jsonArray.getString(i));
+                        JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        if(name.equals(String.valueOf(jsonObject.get("name")).replace("\"", ""))) break;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
