@@ -3,6 +3,7 @@ package com.example.pacemaker.ui.mynote;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,10 +15,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pacemaker.AnswerActivity;
 import com.example.pacemaker.MathFormulaHashMap;
 import com.example.pacemaker.R;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -29,13 +35,24 @@ import com.like.LikeButton;
 import com.like.OnLikeListener;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private JSONArray jsonArray;
+    private JSONArray testJsonArray;
     private ArrayList<CardForm> mData;
     private SharedPreferences pref;
     private Context context;
@@ -73,15 +90,26 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         final CardForm item = mData.get(position);
 
-        holder.cardname1.setText(item.getName1());
-        holder.cardname2.setText(item.getName2());
-
         final Handler mHandler = new Handler();
         final Handler mHandler2 = new Handler();
 
+        //Test Part---------------------------------------------------------------------------------------------------------------------
         if(istest){
+            holder.cardname1.setText(item.getTitle1());
+            holder.cardname2.setText(item.getTitle2());
+
             holder.starCheck1.setVisibility(View.GONE);
             holder.starCheck2.setVisibility(View.GONE);
+
+            final Dialog chk_dialog = new Dialog(context);
+            chk_dialog.setContentView(R.xml.qanda_check_dialog);
+            chk_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            final Button button = chk_dialog.findViewById(R.id.check_qanda_btn);
+            TextView dddd = chk_dialog.findViewById(R.id.if_test_delete);
+            dddd.setVisibility(View.GONE);
+            TextView qqqq = chk_dialog.findViewById(R.id.if_test_use_it);
+            qqqq.setText("삭제하시겠습니까??");
+            button.setText(" 삭제 ");
 
             new Thread(new Runnable() {
                 @Override
@@ -105,6 +133,91 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                     });
                 }
             }).start();
+
+            holder.cardframe1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AnswerActivity.class);
+                    intent.putExtra("id", pref.getString("id", ""));
+                    intent.putExtra("num", item.getNum1());
+                    intent.putExtra("year", item.getYear1());
+                    intent.putExtra("name", item.getName1());
+                    intent.putExtra("testNum", item.getTestNum1());
+                    intent.putExtra("date", item.getDate1());
+                    context.startActivity(intent);
+                }
+            });
+
+            holder.cardframe1.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+                    final boolean[] sds = new boolean[1];
+                    sds[0] = false;
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            OkHttpClient longClickEvent = new OkHttpClient();
+
+                            RequestBody body = new FormBody.Builder()
+                                    .add("num", item.getNum1())
+                                    .build();
+                            longClickEvent.newCall(new Request.Builder().url("https://nobles1030.cafe24.com/request_removeQuestion.php").post(body).build()).enqueue(new Callback() {
+
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    new Handler(context.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                String result = response.body().string();
+                                                if (result.contains("success")) {
+                                                    try {
+                                                        String tmp = pref.getString("ask_favorite_test", null);
+                                                        testJsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                    int i = 0;
+                                                    while (i < testJsonArray.length()) {
+                                                        try {
+                                                            JsonElement jsonElement = new JsonParser().parse(testJsonArray.getString(i));
+                                                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+                                                            if (item.getNum1().equals(String.valueOf(jsonObject.get("num")).replace("\"", "")))
+                                                                break;
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        i++;
+                                                    }
+                                                    testJsonArray.remove(i);
+                                                    editor.putString("ask_favorite_test", String.valueOf(testJsonArray));
+                                                    editor.putBoolean(item.getYear1() + item.getName1() + item.getTestNum1() + "ask", true);
+                                                    editor.commit();
+                                                    sds[0] = true;
+                                                    chk_dialog.dismiss();
+                                                    Toast.makeText(context, "질문이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                                    holder.cardframe1.setVisibility(View.GONE);
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    chk_dialog.show();
+                    return sds[0];
+                }
+            });
 
             if (item.getName2().equals("NO")) holder.cardframe2.setVisibility(View.GONE);
             else{
@@ -130,9 +243,96 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                         });
                     }
                 }).start();
+
+                holder.cardframe2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, AnswerActivity.class);
+                        intent.putExtra("id", pref.getString("id", ""));
+                        intent.putExtra("num", item.getNum2());
+                        intent.putExtra("year", item.getYear2());
+                        intent.putExtra("name", item.getName2());
+                        intent.putExtra("testNum", item.getTestNum2());
+                        intent.putExtra("date", item.getDate2());
+                        context.startActivity(intent);
+                    }
+                });
+
+                holder.cardframe2.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        final boolean[] sds = new boolean[1];
+                        sds[0] = false;
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                OkHttpClient longClickEvent = new OkHttpClient();
+
+                                RequestBody body = new FormBody.Builder()
+                                        .add("num", item.getNum2())
+                                        .build();
+                                longClickEvent.newCall(new Request.Builder().url("https://nobles1030.cafe24.com/request_removeQuestion.php").post(body).build()).enqueue(new Callback() {
+
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, final Response response) throws IOException {
+                                        new Handler(context.getMainLooper()).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String result = response.body().string();
+                                                    if (result.contains("success")) {
+                                                        try {
+                                                            String tmp = pref.getString("ask_favorite_test", null);
+                                                            testJsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                        int i = 0;
+                                                        while (i < testJsonArray.length()) {
+                                                            try {
+                                                                JsonElement jsonElement = new JsonParser().parse(testJsonArray.getString(i));
+                                                                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                                                                if (item.getNum2().equals(String.valueOf(jsonObject.get("num")).replace("\"", "")))
+                                                                    break;
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                            i++;
+                                                        }
+                                                        testJsonArray.remove(i);
+                                                        editor.putString("ask_favorite_test", String.valueOf(testJsonArray));
+                                                        editor.putBoolean(item.getYear2() + item.getName2() + item.getTestNum2() + "ask", true);
+                                                        editor.commit();
+                                                        sds[0] = true;
+                                                        chk_dialog.dismiss();
+                                                        Toast.makeText(context, "질문이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                                        holder.cardframe2.setVisibility(View.GONE);
+                                                    }
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                        chk_dialog.show();
+                        return sds[0];
+                    }
+                });
             }
         }
+        //Math Part---------------------------------------------------------------------------------------------------------------------
         else {
+            holder.cardname1.setText(item.getName1());
+            holder.cardname2.setText(item.getName2());
+
             holder.starCheck1.setLiked(pref.getBoolean(item.getName1(), false));
             if (item.getName2().equals("NO")) holder.cardframe2.setVisibility(View.GONE);
             else {
@@ -384,7 +584,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
 
     private Bitmap bitmapResize(Bitmap bitmap){
 
-        int width = 180; // 축소시킬 너비
+        int width = 160; // 축소시킬 너비
         int height = 100; // 축소시킬 높이
         float bmpWidth = bitmap.getWidth();
         float bmpHeight = bitmap.getHeight();

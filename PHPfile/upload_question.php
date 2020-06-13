@@ -7,17 +7,19 @@ $name = $_POST['name'];
 $num = $_POST['testNum'];
 $today = date("Y/m/d");
 
-$db_sql = "INSERT INTO QuestionBoard(userId, year, name, testNum, uploadDate) values('".$id."', '".$year."', '".$name."', '".$num."' ,'".$today."');";
+$db_sql = "INSERT INTO QuestionBoard(userID, year, name, testNum, uploadDate) values('".$id."', '".$year."', '".$name."', '".$num."' ,'".$today."');";
 mysqli_query($conn, $db_sql);
 
-$sql = "SELECT num, year, name  FROM QuestionBoard WHERE userId='".$id."' AND year='".$year."' AND name='".$name."' AND uploadDate='".$today."';";
+$sql = "SELECT num, year, name, testNum, uploadDate FROM QuestionBoard WHERE userId='".$id."' AND year='".$year."' AND name='".$name."' AND testNum='".$num."' AND uploadDate='".$today."';";
 $result = mysqli_query($conn, $sql);
 $data = mysqli_fetch_array($result);
 
 $array = array(
   'num' => $data["num"],
   'year' => $data["year"],
-  'name' => $data["name"]
+  'name' => $data["name"],
+  'testNum' => $data["testNum"],
+  'uploadDate' => $data["uploadDate"]
 );
 
 echo json_encode($array, JSON_UNESCAPED_UNICODE);

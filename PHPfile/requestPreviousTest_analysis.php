@@ -21,7 +21,7 @@ $select_all = "SELECT COUNT(id) AS cnt FROM PaceMaker_PreviousTests_analysis WHE
 $all_result = mysqli_query($conn, $select_all);
 $all = mysqli_fetch_array($all_result);
 
-$select_rank="SELECT (SELECT COUNT(*) + 1 FROM PaceMaker_PreviousTests_analysis WHERE score > a.score) AS rak
+$select_rank="SELECT (SELECT COUNT(*) + 1 FROM PaceMaker_PreviousTests_analysis WHERE score > a.score AND college = '".$college."' AND year = '".$year."') AS rak
   FROM PaceMaker_PreviousTests_analysis AS a
   WHERE college = '".$college."' AND year = '".$year."' AND id = '".$id."'
   ORDER BY a.score;";

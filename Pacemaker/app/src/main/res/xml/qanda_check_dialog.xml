@@ -19,7 +19,8 @@
             android:text="질문 등록시 1원두가 소모됩니다."
             android:textStyle="bold"
             android:textSize="20dp"
-            android:textColor="#FF000000"/>
+            android:textColor="#FF000000"
+            android:id="@+id/if_test_delete"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +29,8 @@
             android:text="등록하시겠습니까??"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:textColor="#FF000000"/>
+            android:textColor="#FF000000"
+            android:id="@+id/if_test_use_it"/>
         <Button
             android:layout_width="150dp"
             android:layout_height="40dp"

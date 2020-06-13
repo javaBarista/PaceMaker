@@ -6,15 +6,15 @@ public class QandAForm {
     String userID;
     String year;
     String name;
-    String imgUrl;
+    String testNum;
     String uploadDate;
 
-    public QandAForm(String num, String userID, String year, String name, String imgUrl, String uploadDate){
+    public QandAForm(String num, String userID, String year, String name, String testNum, String uploadDate){
         this.num = num;
         this.userID = userID;
         this.year = year;
         this.name = name;
-        this.imgUrl = imgUrl;
+        this.testNum = testNum;
         this.uploadDate = uploadDate;
     }
 
@@ -22,6 +22,6 @@ public class QandAForm {
     public String getUserID(){ return  userID; }
     public String getYear() { return year; }
     public String getName() { return name; }
-    public String getImgUrl() { return imgUrl; }
+    public String getTestNum() { return testNum; }
     public String getUploadDate() { return uploadDate; }
 }

@@ -93,9 +93,7 @@ public class TestRecyclerAdapter extends RecyclerView.Adapter<TestRecyclerAdapte
                                 saveClickEvent.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/upload_question.php").post(body).build()).enqueue(new Callback() {
 
                                     @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        //로그인 실패시 인터넷 연결확인이 필요하기 떄문에 토스트메시지 제공해야함
-                                    }
+                                    public void onFailure(Call call, IOException e) {}
 
                                     @Override
                                     public void onResponse(Call call, final Response response) throws IOException {
@@ -104,8 +102,9 @@ public class TestRecyclerAdapter extends RecyclerView.Adapter<TestRecyclerAdapte
                                             public void run() {
                                                 try {
                                                     String result = response.body().string();
+                                                    Log.d("result 1111= ", result);
                                                     result = result.substring(result.indexOf("{"), result.indexOf("}"));
-                                                    result += ("," + "\"testNum\":"+"\""+item.getNum()+"\""+ "," + "\"image\":"+"\""+item.getAddress()+"\""+ "," + "\"text\":"+"\""+item.getMain_text()+"\""+"}");
+                                                    result += ("," + "\"image\":"+"\""+item.getAddress()+"\"" +"}");
                                                     Log.d("result == ", result);
                                                     try {
                                                         String tmp = pref.getString("ask_favorite_test", null);
@@ -118,6 +117,7 @@ public class TestRecyclerAdapter extends RecyclerView.Adapter<TestRecyclerAdapte
                                                     editor.putBoolean(year + college + item.getNum() + "ask", false);
                                                     editor.putInt(pref.getString("id", "") + "onedu", onedu - 1);
                                                     editor.commit();
+                                                    holder.btn.setEnabled(false);
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }

@@ -2,17 +2,13 @@ package com.example.pacemaker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class QandAListAdapter extends RecyclerView.Adapter<QandAListAdapter.ViewHolder> {
@@ -44,21 +40,9 @@ public class QandAListAdapter extends RecyclerView.Adapter<QandAListAdapter.View
     public void onBindViewHolder(final QandAListAdapter.ViewHolder holder, final int position) {
         final QandAForm item = mData.get(position);
 
-        holder.title.setText(item.getYear() + " " + item.getName());
+        holder.title.setText(item.getYear() + " " + item.getName() + " " + item.getTestNum() + "번");
         holder.body.setText(item.getUserID());
         holder.year.setText(item.getUploadDate());
-        holder.cl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AnswerActivity.class);
-                intent.putExtra("id", item.getUserID());
-                intent.putExtra("num", item.getNum());
-                intent.putExtra("img", item.getImgUrl());
-                intent.putExtra("year", item.getYear());
-                intent.putExtra("name", item.getName());
-                context.startActivity(intent);
-            }
-        });
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
@@ -66,15 +50,12 @@ public class QandAListAdapter extends RecyclerView.Adapter<QandAListAdapter.View
     public int getItemCount() { return mData.size(); }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout cl;
         TextView title;
         TextView body;
         TextView year;
 
         ViewHolder(View itemView) {
             super(itemView);
-            // 뷰 객체에 대한 참조. (hold strong reference)
-            cl = itemView.findViewById(R.id.qanda_cl);
             title = itemView.findViewById(R.id.qanda_title);
             body = itemView.findViewById(R.id.qanda_body);
             year = itemView.findViewById(R.id.qanda_Date);
