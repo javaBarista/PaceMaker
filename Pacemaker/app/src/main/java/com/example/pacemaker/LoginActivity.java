@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);;
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         login = findViewById(R.id.login);
         join = findViewById(R.id.signup);

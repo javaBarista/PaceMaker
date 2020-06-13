@@ -40,13 +40,15 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     private SharedPreferences pref;
     private Context context;
     private HashMap<String, String> hmap;
+    private boolean istest;
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    CardListAdapter(ArrayList<CardForm> list, Context context) {
+    CardListAdapter(ArrayList<CardForm> list, Context context, boolean istest) {
         mData = list;
         this.context = context;
         pref = PreferenceManager.getDefaultSharedPreferences(context);
         hmap = MathFormulaHashMap.getData();
+        this.istest = istest;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -72,58 +74,170 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         final CardForm item = mData.get(position);
 
         holder.cardname1.setText(item.getName1());
-        holder.starCheck1.setLiked(pref.getBoolean(item.getName1(), false));
         holder.cardname2.setText(item.getName2());
-        if(item.getName2().equals("NO")) holder.cardframe2.setVisibility(View.GONE);
-        else{
-            holder.starCheck2.setLiked(pref.getBoolean(item.getName2(), false));
-            final String imgUrl2 = "http://nobles1030.cafe24.com/mathMaterial/" + hmap.get(item.getName2());
-            final Handler mHandler2 = new Handler();
-            new Thread(new Runnable(){
+
+        final Handler mHandler = new Handler();
+        final Handler mHandler2 = new Handler();
+
+        if(istest){
+            holder.starCheck1.setVisibility(View.GONE);
+            holder.starCheck2.setVisibility(View.GONE);
+
+            new Thread(new Runnable() {
                 @Override
-                public void run(){
-                    Bitmap bitmap2 = null;
+                public void run() {
+                    Bitmap bitmap1 = null;
                     try {
                         // Download Image from URL
-                        InputStream input2 = new java.net.URL(imgUrl2).openStream();
+                        InputStream input1 = new java.net.URL(item.getAddress1()).openStream();
                         // Decode Bitmap
-                        bitmap2 = BitmapFactory.decodeStream(input2);
+                        bitmap1 = BitmapFactory.decodeStream(input1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    final Bitmap finalBitmap2 = bitmapResize(bitmap2);
-                    mHandler2.post(new Runnable(){
+                    final Bitmap finalBitmap1 = bitmapResize(bitmap1);
+                    mHandler.post(new Runnable() {
                         @Override
-                        public void run(){
-                            holder.cardImage2.setImageBitmap(finalBitmap2);
+                        public void run() {
+                            holder.cardImage1.setImageBitmap(finalBitmap1);
                         }
                     });
                 }
             }).start();
 
+            if (item.getName2().equals("NO")) holder.cardframe2.setVisibility(View.GONE);
+            else{
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap2 = null;
+                        try {
+                            // Download Image from URL
+                            InputStream input2 = new java.net.URL(item.getAddress2()).openStream();
+                            // Decode Bitmap
+                            bitmap2 = BitmapFactory.decodeStream(input2);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-            holder.cardframe2.setOnClickListener(new View.OnClickListener() {
+                        final Bitmap finalBitmap2 = bitmapResize(bitmap2);
+                        mHandler2.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.cardImage2.setImageBitmap(finalBitmap2);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        }
+        else {
+            holder.starCheck1.setLiked(pref.getBoolean(item.getName1(), false));
+            if (item.getName2().equals("NO")) holder.cardframe2.setVisibility(View.GONE);
+            else {
+                holder.starCheck2.setLiked(pref.getBoolean(item.getName2(), false));
+                final String imgUrl2 = "http://nobles1030.cafe24.com/mathMaterial/" + hmap.get(item.getName2());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap2 = null;
+                        try {
+                            // Download Image from URL
+                            InputStream input2 = new java.net.URL(imgUrl2).openStream();
+                            // Decode Bitmap
+                            bitmap2 = BitmapFactory.decodeStream(input2);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        final Bitmap finalBitmap2 = bitmapResize(bitmap2);
+                        mHandler2.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.cardImage2.setImageBitmap(finalBitmap2);
+                            }
+                        });
+                    }
+                }).start();
+
+                holder.cardframe2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final PhotoView testReading = dialog.findViewById(R.id.test_reading);
+                        final Handler readingHandler = new Handler();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = null;
+                                try {
+                                    // Download Image from URL
+                                    InputStream input = new java.net.URL(imgUrl2).openStream();
+                                    // Decode Bitmap
+                                    bitmap = BitmapFactory.decodeStream(input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                final Bitmap readingBitmap = bitmap;
+                                readingHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        testReading.setImageBitmap(readingBitmap);
+                                    }
+                                });
+                            }
+                        }).start();
+                        dialog.show();
+                    }
+                });
+
+            }
+            final String imgUrl1 = "http://nobles1030.cafe24.com/mathMaterial/" + hmap.get(item.getName1());
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bitmap1 = null;
+                    try {
+                        // Download Image from URL
+                        InputStream input1 = new java.net.URL(imgUrl1).openStream();
+                        // Decode Bitmap
+                        bitmap1 = BitmapFactory.decodeStream(input1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    final Bitmap finalBitmap1 = bitmapResize(bitmap1);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.cardImage1.setImageBitmap(finalBitmap1);
+                        }
+                    });
+                }
+            }).start();
+
+            holder.cardframe1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final PhotoView testReading = dialog.findViewById(R.id.test_reading);
                     final Handler readingHandler = new Handler();
-                    new Thread(new Runnable(){
+                    new Thread(new Runnable() {
                         @Override
-                        public void run(){
+                        public void run() {
                             Bitmap bitmap = null;
                             try {
                                 // Download Image from URL
-                                InputStream input = new java.net.URL(imgUrl2).openStream();
+                                InputStream input = new java.net.URL(imgUrl1).openStream();
                                 // Decode Bitmap
                                 bitmap = BitmapFactory.decodeStream(input);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             final Bitmap readingBitmap = bitmap;
-                            readingHandler.post(new Runnable(){
+                            readingHandler.post(new Runnable() {
                                 @Override
-                                public void run(){
+                                public void run() {
                                     testReading.setImageBitmap(readingBitmap);
                                 }
                             });
@@ -132,158 +246,106 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
                     dialog.show();
                 }
             });
-        }
-        final String imgUrl1 = "http://nobles1030.cafe24.com/mathMaterial/" + hmap.get(item.getName1());
 
-        final Handler mHandler = new Handler();
-        new Thread(new Runnable(){
-            @Override
-            public void run(){
-                Bitmap bitmap1 = null;
-                try {
-                    // Download Image from URL
-                    InputStream input1 = new java.net.URL(imgUrl1).openStream();
-                    // Decode Bitmap
-                    bitmap1 = BitmapFactory.decodeStream(input1);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            holder.starCheck1.setOnLikeListener(new OnLikeListener() {
+                String arr = "{" + "\"name\":" + "\"" + item.getName1() + "\"" + "}";
+
+                @Override
+                public void liked(LikeButton likeButton) {
+                    try {
+                        String tmp = pref.getString("favorite_math", null);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    jsonArray.put(arr);
+                    Log.d("json is = ", String.valueOf(jsonArray));
+                    editor.putString("favorite_math", String.valueOf(jsonArray));
+                    editor.putBoolean(item.getName1(), true);
+                    editor.commit();
                 }
 
-                final Bitmap finalBitmap1 = bitmapResize(bitmap1);
-                mHandler.post(new Runnable(){
-                    @Override
-                    public void run(){
-                        holder.cardImage1.setImageBitmap(finalBitmap1);
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    try {
+                        String tmp = pref.getString("favorite_math", null);
+                        if (tmp != null) Log.d("favorite math is =", tmp);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
-        }).start();
-
-        holder.cardframe1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final PhotoView testReading = dialog.findViewById(R.id.test_reading);
-                final Handler readingHandler = new Handler();
-                new Thread(new Runnable(){
-                    @Override
-                    public void run(){
-                        Bitmap bitmap = null;
+                    int i = 0;
+                    while (i < jsonArray.length()) {
                         try {
-                            // Download Image from URL
-                            InputStream input = new java.net.URL(imgUrl1).openStream();
-                            // Decode Bitmap
-                            bitmap = BitmapFactory.decodeStream(input);
-                        } catch (Exception e) {
+                            Log.d("json len is :", jsonArray.getString(i));
+                            JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+                            if (item.getName1().equals(String.valueOf(jsonObject.get("name")).replace("\"", "")))
+                                break;
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        final Bitmap readingBitmap = bitmap;
-                        readingHandler.post(new Runnable(){
-                            @Override
-                            public void run(){
-                                testReading.setImageBitmap(readingBitmap);
-                            }
-                        });
+                        i++;
                     }
-                }).start();
-                dialog.show();
-            }
-        });
-
-        holder.starCheck1.setOnLikeListener(new OnLikeListener() {
-            String arr = "{" +"\"name\":"+"\""+item.getName1()+"\""+ "}";
-            @Override
-            public void liked(LikeButton likeButton) {
-                try {
-                    String tmp = pref.getString("favorite_math", null);
-                    if(tmp != null) Log.d("favorite math is =", tmp);
-                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    jsonArray.remove(i);
+                    Log.d("remove json is = ", String.valueOf(jsonArray));
+                    editor.putString("favorite_math", String.valueOf(jsonArray));
+                    editor.putBoolean(item.getName1(), false);
+                    editor.commit();
                 }
+            });
 
-                jsonArray.put(arr);
-                Log.d("json is = ", String.valueOf(jsonArray));
-                editor.putString("favorite_math", String.valueOf(jsonArray));
-                editor.putBoolean(item.getName1(), true);
-                editor.commit();
-            }
+            holder.starCheck2.setOnLikeListener(new OnLikeListener() {
+                String arr = "{" + "\"name\":" + "\"" + item.getName2() + "\"" + "}";
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                try {
-                    String tmp = pref.getString("favorite_math", null);
-                    if(tmp != null)Log.d("favorite math is =", tmp);
-                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                int i = 0;
-                while(i < jsonArray.length()){
+                @Override
+                public void liked(LikeButton likeButton) {
                     try {
-                        Log.d("json len is :", jsonArray.getString(i));
-                        JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
-                        JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        if(item.getName1().equals(String.valueOf(jsonObject.get("name")).replace("\"", ""))) break;
+                        String tmp = pref.getString("favorite_math", null);
+                        if (tmp != null) Log.d("favorite math is =", tmp);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    i++;
-                }
-                jsonArray.remove(i);
-                Log.d("remove json is = ", String.valueOf(jsonArray));
-                editor.putString("favorite_math", String.valueOf(jsonArray));
-                editor.putBoolean(item.getName1(), false);
-                editor.commit();
-            }
-        });
 
-        holder.starCheck2.setOnLikeListener(new OnLikeListener() {
-            String arr = "{" +"\"name\":"+"\""+item.getName2()+"\""+ "}";
-            @Override
-            public void liked(LikeButton likeButton) {
-                try {
-                    String tmp = pref.getString("favorite_math", null);
-                    if(tmp != null) Log.d("favorite math is =", tmp);
-                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    jsonArray.put(arr);
+                    Log.d("json is = ", String.valueOf(jsonArray));
+                    editor.putString("favorite_math", String.valueOf(jsonArray));
+                    editor.putBoolean(item.getName2(), true);
+                    editor.commit();
                 }
 
-                jsonArray.put(arr);
-                Log.d("json is = ", String.valueOf(jsonArray));
-                editor.putString("favorite_math", String.valueOf(jsonArray));
-                editor.putBoolean(item.getName2(), true);
-                editor.commit();
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                try {
-                    String tmp = pref.getString("favorite_math", null);
-                    if(tmp != null)Log.d("favorite math is =", tmp);
-                    jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                int i = 0;
-                while(i < jsonArray.length()){
+                @Override
+                public void unLiked(LikeButton likeButton) {
                     try {
-                        Log.d("json len is :", jsonArray.getString(i));
-                        JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
-                        JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        if(item.getName2().equals(String.valueOf(jsonObject.get("name")).replace("\"", ""))) break;
+                        String tmp = pref.getString("favorite_math", null);
+                        if (tmp != null) Log.d("favorite math is =", tmp);
+                        jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    i++;
+                    int i = 0;
+                    while (i < jsonArray.length()) {
+                        try {
+                            Log.d("json len is :", jsonArray.getString(i));
+                            JsonElement jsonElement = new JsonParser().parse(jsonArray.getString(i));
+                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+                            if (item.getName2().equals(String.valueOf(jsonObject.get("name")).replace("\"", "")))
+                                break;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        i++;
+                    }
+                    jsonArray.remove(i);
+                    Log.d("remove json is = ", String.valueOf(jsonArray));
+                    editor.putString("favorite_math", String.valueOf(jsonArray));
+                    editor.putBoolean(item.getName2(), false);
+                    editor.commit();
                 }
-                jsonArray.remove(i);
-                Log.d("remove json is = ", String.valueOf(jsonArray));
-                editor.putString("favorite_math", String.valueOf(jsonArray));
-                editor.putBoolean(item.getName2(), false);
-                editor.commit();
-            }
-        });
+            });
+        }
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

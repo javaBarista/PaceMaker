@@ -98,7 +98,7 @@ public class TestResultActivity extends AppCompatActivity {
                 }
             }
         }
-        mAdapter = new TestRecyclerAdapter(mList, this);
+        mAdapter = new TestRecyclerAdapter(mList, this, bundle.getString("year"), bundle.getString("college"));
         mRecyclerView.setAdapter(mAdapter);
 
         ranking = findViewById(R.id.result_ranking);

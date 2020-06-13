@@ -256,7 +256,7 @@ public class MyPageFragment extends Fragment {
                         String address = new_mail.getText().toString() + "@" + mailSpin.getSelectedItem().toString();
 
                         OkHttpClient saveClickEvent = new OkHttpClient();
-                        SharedPreferences prefs = getActivity().getSharedPreferences("PaceMaker", MODE_PRIVATE);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                         final SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("password", new_pw.getText().toString());
 

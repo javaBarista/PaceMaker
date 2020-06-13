@@ -82,7 +82,7 @@ public class MyMathFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.myMath_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        cardListAdapter = new CardListAdapter(mList, getContext());
+        cardListAdapter = new CardListAdapter(mList, getContext(), false);
         mRecyclerView.setAdapter(cardListAdapter);
 
         return view;

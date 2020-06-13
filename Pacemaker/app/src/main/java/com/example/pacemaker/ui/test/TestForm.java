@@ -8,7 +8,6 @@ public class TestForm {
     private String main_text;
     private String part;
     private String ans;
-    private boolean isChk = false;
 
     public TestForm(String num, String address, String main_text, String part, String ans){
         this.num = num;
@@ -27,6 +26,4 @@ public class TestForm {
     }
     public String getPart(){ return part; }
     public int getAnswer (){ return Integer.valueOf(ans); }
-    public void setchk(){ isChk = true; }
-    public boolean getChk() {return isChk; }
 }
