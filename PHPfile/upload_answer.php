@@ -6,19 +6,18 @@ $id = $_POST['id'];
 $body = $_POST['body'];
 $today = date("Y/m/d");
 
-$db_sql = "INSERT INTO AnswerBoard(qnum, userID, body, uploadDate) values('".$qnum."', '".$id."', '".$body."','".$today."');";
-mysqli_query($conn, $db_sql);
+$sql = "SELECT MAX(anum)as max FROM AnswerBoard WHERE qnum = '".$qnum."';";
+$result = mysqli_query($conn,$sql);
+$data = mysqli_fetch_array($result);
+$cnt = (int)$data["max"] + 1;
 
-$sql = "SELECT userID, body, uploadDate FROM AnswerBoard WHERE qnum = '".$qnum."' ORDER BY anum ASC;";
-$result = mysqli_query($conn, $sql);
+$db_sql = "INSERT INTO AnswerBoard(anum, qnum, userID, body, uploadDate) values('".$cnt."', '".$qnum."', '".$id."', '".$body."','".$today."');";
 
-if(mysqli_num_rows($result) > 0 ){
-  while($row = mysqli_fetch_assoc($result)){
-    $arr[] = $row;
-  }
+if(mysqli_query($conn,$db_sql)){
+  echo json_encode(success, JSON_UNESCAPED_UNICODE);
+} else {
+  echo json_encode(failure, JSON_UNESCAPED_UNICODE);
 }
 
-echo json_encode($arr, JSON_UNESCAPED_UNICODE);
-mysql_free_result($result);
 mysqli_close($conn);
 ?>

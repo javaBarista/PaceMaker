@@ -143,12 +143,12 @@ public class QandAActivity extends AppCompatActivity {
         }
     }
 
-    private class GetQuestion extends AsyncTask<String, Void, QandAForm[]> {
+    private class GetQuestion extends AsyncTask<Void, Void, QandAForm[]> {
 
         OkHttpClient client = new OkHttpClient();
 
         @Override
-        protected QandAForm[] doInBackground(String... URL) {
+        protected QandAForm[] doInBackground(Void... voids) {
 
             String url = "http://nobles1030.cafe24.com/request_QuestionBoard.php";
             Request request = new Request.Builder().url(url).build();

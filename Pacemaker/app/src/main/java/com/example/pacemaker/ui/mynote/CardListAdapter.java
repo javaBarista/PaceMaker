@@ -102,14 +102,10 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
             holder.starCheck2.setVisibility(View.GONE);
 
             final Dialog chk_dialog = new Dialog(context);
-            chk_dialog.setContentView(R.xml.qanda_check_dialog);
+            chk_dialog.setContentView(R.xml.delete_check_dialog);
             chk_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            final Button button = chk_dialog.findViewById(R.id.check_qanda_btn);
-            TextView dddd = chk_dialog.findViewById(R.id.if_test_delete);
-            dddd.setVisibility(View.GONE);
+            final Button button = chk_dialog.findViewById(R.id.check_delete_btn);
             TextView qqqq = chk_dialog.findViewById(R.id.if_test_use_it);
-            qqqq.setText("삭제하시겠습니까??");
-            button.setText(" 삭제 ");
 
             new Thread(new Runnable() {
                 @Override

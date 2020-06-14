@@ -19,7 +19,7 @@ $array = array(
   'year' => $data["year"],
   'name' => $data["name"],
   'testNum' => $data["testNum"],
-  'uploadDate' => $data["uploadDate"]
+  'date' => $data["uploadDate"]
 );
 
 echo json_encode($array, JSON_UNESCAPED_UNICODE);
