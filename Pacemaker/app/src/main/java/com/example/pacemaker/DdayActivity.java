@@ -191,8 +191,12 @@ public class DdayActivity extends AppCompatActivity  {
 
                 String college_name = item.getString(TAG_ID);
                 String college_date = item.getString(TAG_NAME);
-                listAdapter.addItem(college_name, countDday(college_date), college_date);
+
+                if ( !(countDday(college_date).contains("-")) ) {
+                    listAdapter.addItem(college_name, countDday(college_date), college_date);
+                }
             }
+
             listView.setAdapter(listAdapter);
         } catch (JSONException e) {
             Log.d(TAG, "showResult : ", e);
