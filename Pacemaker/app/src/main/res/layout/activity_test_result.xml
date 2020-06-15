@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="모의고사 응시생 중 등수: "
+                    android:text="실시간 등수: "
                     android:textSize="20dp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>

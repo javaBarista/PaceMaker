@@ -203,7 +203,7 @@ public class AnswerActivity extends AppCompatActivity {
                                     Log.d("is it wrong=", result);
                                     if(result.contains("success")) {
                                         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                                        tmp[0] = new AnswerForm(pref.getString("id", ""), bodyText, format.format(System.currentTimeMillis()));
+                                        tmp[0] = new AnswerForm(pref.getString("id", ""), bodyText.substring(0,500), format.format(System.currentTimeMillis()));
                                         mList.add(tmp[0]);
                                     }
                                 }

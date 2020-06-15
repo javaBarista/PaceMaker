@@ -98,7 +98,7 @@ public class MyPageFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_mypage, container, false);
 
-        pref =  PreferenceManager.getDefaultSharedPreferences(getContext());
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = pref.edit();
 
         onedu = root.findViewById(R.id.on_eduBtn);

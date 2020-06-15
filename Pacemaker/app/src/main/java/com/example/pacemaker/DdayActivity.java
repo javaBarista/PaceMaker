@@ -10,8 +10,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -86,7 +88,7 @@ public class DdayActivity extends AppCompatActivity  {
                 //Toast.makeText(getApplicationContext(), collegeName+" D-"+collegeDday, Toast.LENGTH_LONG).show();
 
                 // SharedPreferences
-                SharedPreferences sf = getSharedPreferences(sfName, 0);
+                SharedPreferences sf = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sf.edit();
                 String name = collegeName;
                 String day = collegeDday;
@@ -219,5 +221,19 @@ public class DdayActivity extends AppCompatActivity  {
     public void onStop() {
         super.onStop();
         task.cancel(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            // ...
+            // ...
+            default :
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

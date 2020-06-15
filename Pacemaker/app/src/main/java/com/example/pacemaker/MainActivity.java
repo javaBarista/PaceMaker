@@ -1,7 +1,6 @@
 package com.example.pacemaker;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +17,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private MyPageFragment myPageFragment;
     private BottomNavigationView navView;
     private static int target = 1;
-    String sfName = "dday_counter";
-    String testName, testDay;
 
     //@SuppressLint("ResourceType")
     @Override
@@ -47,38 +43,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        SharedPreferences sf = getSharedPreferences(sfName, 0);
-
         getIntent = getIntent();
-        String test = getIntent.getStringExtra("test");
-        testName = test;
         bundle = getIntent.getExtras();
-        String date = sf.getString("day_sf", bundle.getString("date"));
-
-        Calendar today = Calendar.getInstance();
-        Calendar testday = Calendar.getInstance();
-
-        int year = Integer.parseInt(date.substring(0, date.indexOf("/")));
-        int month =  Integer.parseInt(date.substring(date.indexOf("/") + 1, date.lastIndexOf("/")));
-        int day = Integer.parseInt(date.substring(date.lastIndexOf("/") + 1, date.length()));
-
-        testday.set(year, month - 1, day);
-
-        long lToday = today.getTimeInMillis()/(24*60*60*1000);
-        long lTestday = testday.getTimeInMillis()/(24*60*60*1000);
-
-        long ddaycount = lTestday - lToday;
 
         homeFragment = new HomeFragment();
         calenderFragment = new CalenderFragment();
         myPageFragment = new MyPageFragment();
 
-        testName = sf.getString("test_sf", test);
-        testDay = String.valueOf(ddaycount);
-        bundle.putString("test_name", testName);
-        bundle.putString("test_dday", testDay);
         homeFragment.setNextTest(bundle);
-
         myPageFragment.setBundle(bundle);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ import com.example.pacemaker.QandAActivity;
 import com.example.pacemaker.R;
 import com.example.pacemaker.TestSelectActivity;
 import com.example.pacemaker.TranslateActivity;
-
 import java.util.Calendar;
 
 import static android.app.Activity.RESULT_OK;
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         //dday.setText(day);
         //nextTest.setText(name);
 
-        SharedPreferences sf = this.getActivity().getSharedPreferences(sfName, 0);
+        SharedPreferences sf = PreferenceManager.getDefaultSharedPreferences(getContext());
         String test_sf = sf.getString("test_sf", day);
         String day_sf = sf.getString("day_sf", name);
         if (test_sf != null) {

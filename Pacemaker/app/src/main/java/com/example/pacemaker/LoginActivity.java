@@ -223,8 +223,9 @@ public class LoginActivity extends AppCompatActivity {
                                             bundle.putString("address", temp.substring(temp.indexOf("@") + 1));
                                         }
                                         mainmenu.putExtras(bundle);
-                                        mainmenu.putExtra("test", jsonObject.get("college").toString().replaceAll("\"",""));
-                                        mainmenu.putExtra("date", jsonObject.get("endDate").toString().replaceAll("\"",""));
+                                        editor.putString("test_sf", jsonObject.get("college").toString().replaceAll("\"",""));
+                                        editor.putString("day_sf", jsonObject.get("endDate").toString().replaceAll("\"",""));
+                                        editor.commit();
                                         startActivity(mainmenu);
                                     }
                                     else{

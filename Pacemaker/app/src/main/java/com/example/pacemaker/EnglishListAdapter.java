@@ -53,7 +53,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
         if(item.getDay3().equals("NO"))  holder.day_btn3.setVisibility(View.INVISIBLE);
 
         if(pref.getBoolean(holder.day_btn1.getText().toString(), false)){
-            holder.day_btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.dday_counter));
+            holder.day_btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
             holder.day_btn1.setTextColor(Color.parseColor("#FFA9A9A9"));
         }
         else{
@@ -61,7 +61,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
             holder.day_btn1.setTextColor(Color.parseColor("#FF000000"));
         }
         if(pref.getBoolean(holder.day_btn2.getText().toString(), false)){
-            holder.day_btn2.setBackground(ContextCompat.getDrawable(context, R.drawable.dday_counter));
+            holder.day_btn2.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
             holder.day_btn2.setTextColor(Color.parseColor("#FFA9A9A9"));
         }
         else{
@@ -69,7 +69,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
             holder.day_btn2.setTextColor(Color.parseColor("#FF000000"));
         }
         if(pref.getBoolean(holder.day_btn3.getText().toString(), false)){
-            holder.day_btn3.setBackground(ContextCompat.getDrawable(context, R.drawable.dday_counter));
+            holder.day_btn3.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
             holder.day_btn3.setTextColor(Color.parseColor("#FFA9A9A9"));
         }
         else{
