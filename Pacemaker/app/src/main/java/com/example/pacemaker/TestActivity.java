@@ -45,8 +45,9 @@ public class TestActivity extends AppCompatActivity {
     private ArrayList<TestForm> mList= new ArrayList<>();
     private CountDownTimer countDownTimer;
     private MakeTestList makeTestList = new MakeTestList();
-    private String year;
-    private String college;
+    private String identity1;
+    private String identity2;
+    private String url;
     private int count;
     private Button prevBtn;
     private Button nextBtn;
@@ -65,12 +66,20 @@ public class TestActivity extends AppCompatActivity {
 
         getIntent = getIntent();
         bundle = getIntent.getExtras();
-        year = bundle.getString("year");
-        college = bundle.getString("college");
+        if (bundle.getString("year") == null) {
+            identity1 = bundle.getString("moc_subject");
+            identity2 = bundle.getString("moc_num");
+            url = "https://nobles1030.cafe24.com/requestMockupTest.php";
+        }
+        else{
+            identity1 = bundle.getString("year");
+            identity2 = bundle.getString("college");
+            url = "https://nobles1030.cafe24.com/requestPreviousTest.php";
+        }
 
         count = Integer.parseInt(bundle.getString("count"));
-        editor.putString(year + college + "result", null); //테스트 시작전 틀린문제 비우기
-        editor.putBoolean(year + college + "complete", false);
+        editor.putString(identity1 + identity2 + "result", null); //테스트 시작전 틀린문제 비우기
+        editor.putBoolean(identity1 + identity2 + "complete", false);
         editor.commit();
 
         time = bundle.getInt("time");
@@ -89,7 +98,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onFinish() { //시간이 다 되면 액티비티 종료
                 Toast.makeText(getApplicationContext(), "시험이 종료되었습니다.", Toast.LENGTH_LONG).show();
-                editor.putBoolean(year + college + "complete", true);
+                editor.putBoolean(identity1 + identity2 + "complete", true);
                 editor.commit();
 
                 Intent resultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
@@ -100,7 +109,7 @@ public class TestActivity extends AppCompatActivity {
         }.start();
 
         testPager = findViewById(R.id.testPager);
-        makeTestList.execute(bundle.getString("year"), bundle.getString("college"));
+        makeTestList.execute();
 
         prevBtn = findViewById(R.id.prevBtn);
         nextBtn = findViewById(R.id.nextBtn);
@@ -124,15 +133,21 @@ public class TestActivity extends AppCompatActivity {
         private static int NUM_ITEMS;
         private ArrayList<TestForm> mList;
         private Bundle bundle;
-        private String year;
-        private String college;
+        private String identity1;
+        private String identity2;
 
         public MyPagerAdapter(FragmentManager fragmentManager, Bundle bundle, ArrayList<TestForm> mList) {
             super(fragmentManager);
             this.mList = mList;
             this.bundle = bundle;
-            this.year = bundle.getString("year");
-            this.college = bundle.getString("college");
+            if (bundle.getString("year") == null) {
+                identity1 = bundle.getString("moc_subject");
+                identity2 = bundle.getString("moc_num");
+            }
+            else{
+                identity1 = bundle.getString("year");
+                identity2 = bundle.getString("college");
+            }
             NUM_ITEMS = mList.size() + 1;
         }
 
@@ -146,7 +161,7 @@ public class TestActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
            if(position == NUM_ITEMS - 1) return TestFinishFragment.newInstance(bundle);
-           else return TestFragment.newInstance(year, college, mList.get(position).getNum(), mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
+           else return TestFragment.newInstance(identity1, identity2, mList.get(position).getNum(), mList.get(position).getAddress(), mList.get(position).getMain_text(),mList.get(position).isMain_text(), mList.get(position).getPart(), mList.get(position).getAnswer());
         }
         // Returns the page title for the top indicator
         @Override
@@ -156,17 +171,16 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
-    private class MakeTestList extends AsyncTask<String, Void, TestForm[]> {
+    private class MakeTestList extends AsyncTask<Void, Void, TestForm[]> {
 
         OkHttpClient client = new OkHttpClient();
 
         @Override
-        protected TestForm[] doInBackground(String... str) {
+        protected TestForm[] doInBackground(Void... voids) {
 
-            String url = "https://nobles1030.cafe24.com/requestPreviousTest.php";
             @SuppressLint("WrongThread") RequestBody body = new FormBody.Builder()
-                    .add("year", str[0])
-                    .add("college", str[1])
+                    .add("year", identity1)
+                    .add("college", identity2)
                     .build();
 
             Request request = new Request.Builder().url(url).post(body).build();
@@ -202,13 +216,13 @@ public class TestActivity extends AppCompatActivity {
             for(int i = 0; i < mList.size(); i++){
                 String arr = "{" +"\"num\":"+"\""+mList.get(i).getNum()+"\""+ "," + "\"address\":"+"\""+mList.get(i).getAddress()+"\"" + "," + "\"text\":"+"\""+mList.get(i).getMain_text()+"\"" + "," + "\"part\":"+"\""+mList.get(i).getPart()+"\"" + ","  + "\"answer\":"+"\""+String.valueOf(mList.get(i).getAnswer())+"\"" + "}";
                 try {
-                    String tmp = pref.getString(year + college + "result", null);
+                    String tmp = pref.getString(identity1 + identity2 + "result", null);
                     jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 jsonArray.put(arr);
-                editor.putString(year + college + "result", String.valueOf(jsonArray));
+                editor.putString(identity1 + identity2 + "result", String.valueOf(jsonArray));
                 editor.commit();
             }
         }

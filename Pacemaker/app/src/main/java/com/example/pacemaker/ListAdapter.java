@@ -56,11 +56,12 @@ public class ListAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수
-    public void addItem(String name, String dday) {
+    public void addItem(String name, String dday, String date) {
         ListViewItem item = new ListViewItem();
 
         item.setCollege_name(name);
         item.setCollege_dday(dday);
+        item.setCollege_date(date);
 
         listViewItemList.add(item);
     }

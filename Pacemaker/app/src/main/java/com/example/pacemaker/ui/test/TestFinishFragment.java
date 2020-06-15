@@ -12,7 +12,6 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.pacemaker.MocTestResultActivity;
 import com.example.pacemaker.R;
 import com.example.pacemaker.TestResultActivity;
 
@@ -51,9 +50,9 @@ public class TestFinishFragment extends Fragment {
                     getActivity().finish();
                 }
                 else{
-                    editor.putBoolean("moc_test" + bundle.getString("moc_test") + "complete", true);
+                    editor.putBoolean(bundle.getString("moc_subject") + bundle.getString("moc_num") + "complete", true);
                     editor.commit();
-                    Intent intent = new Intent(getContext(), MocTestResultActivity.class);
+                    Intent intent = new Intent(getContext(), TestResultActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     getActivity().finish();

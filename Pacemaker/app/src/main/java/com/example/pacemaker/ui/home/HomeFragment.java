@@ -30,6 +30,8 @@ import com.example.pacemaker.R;
 import com.example.pacemaker.TestSelectActivity;
 import com.example.pacemaker.TranslateActivity;
 
+import java.util.Calendar;
+
 import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
@@ -52,9 +54,10 @@ public class HomeFragment extends Fragment {
     protected Bundle bundle = new Bundle();
     String sfName = "dday_counter";
 
-    public void setNextTest(String name, String day){
-        this.name = name;
-        this.day = day;
+    public void setNextTest(Bundle bundle){
+        this.bundle = bundle;
+        this.name = bundle.getString("test_name");
+        this.day = bundle.getString("test_dday");
     }
 
     @SuppressLint("ResourceType")
@@ -65,15 +68,15 @@ public class HomeFragment extends Fragment {
         applybtn = root.findViewById(R.id.applybtn);
         dday = root.findViewById(R.id.dday);
         nextTest = root.findViewById(R.id.nextTest);
-        dday.setText(day);
-        nextTest.setText(name);
+        //dday.setText(day);
+        //nextTest.setText(name);
 
         SharedPreferences sf = this.getActivity().getSharedPreferences(sfName, 0);
         String test_sf = sf.getString("test_sf", day);
         String day_sf = sf.getString("day_sf", name);
         if (test_sf != null) {
             nextTest.setText(test_sf);
-            dday.setText(day_sf);
+            dday.setText(countDday(day_sf));
         }
 
         ViewGroup dday_layout = (ViewGroup) root.findViewById(R.id.dday_layout);
@@ -209,8 +212,24 @@ public class HomeFragment extends Fragment {
                 String newName = data.getStringExtra("new_nextTest");
                 String newDay = data.getStringExtra("new_dday");
                 nextTest.setText(newName);
-                dday.setText(newDay);
+                dday.setText(countDday(newDay));
             }
         }
+    }
+
+    public String countDday(String date) {
+        Calendar today = Calendar.getInstance();
+        Calendar testday = Calendar.getInstance();
+        int year = Integer.parseInt(date.substring(0, date.indexOf("/")));
+        int month =  Integer.parseInt(date.substring(date.indexOf("/") + 1, date.lastIndexOf("/")));
+        int day = Integer.parseInt(date.substring(date.lastIndexOf("/") + 1, date.length()));
+
+        testday.set(year, month - 1, day);
+
+        long lToday = today.getTimeInMillis()/(24*60*60*1000);
+        long lTestday = testday.getTimeInMillis()/(24*60*60*1000);
+        long ddaycount = lTestday - lToday;
+        String dday = String.valueOf(ddaycount);
+        return dday;
     }
 }

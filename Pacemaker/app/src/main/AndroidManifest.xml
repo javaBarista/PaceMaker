@@ -11,8 +11,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".AnswerActivity"></activity>
-        <activity android:name=".MocTestResultActivity" />
-        <activity android:name=".MocTestActivity" />
         <activity android:name=".QandAActivity" />
         <activity android:name=".MockupTestSelectActivity" />
         <activity android:name=".MathFormulaActivity" />

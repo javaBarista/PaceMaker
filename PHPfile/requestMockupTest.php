@@ -1,8 +1,8 @@
 <?php
 $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 
-$subject = $_POST['subject'];
-$round = $_POST['round'];
+$subject = $_POST['year'];
+$round = $_POST['college'];
 
 if($subject=="영어"){
     $db_sql = "SELECT num, address, main_text, part, ans FROM PaceMaker_EngMockupTest WHERE round = '".$round."';";

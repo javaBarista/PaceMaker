@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,7 +50,19 @@ public class TestResultActivity extends AppCompatActivity {
     private TextView score;
     private TextView score_all;
     private TextView ranking;
+    private LinearLayout moc_lin;
+    private TextView moc_college1;
+    private TextView moc_college2;
+    private TextView moc_college3;
+    private TextView moc_ranking1;
+    private TextView moc_ranking2;
+    private TextView moc_ranking3;
+    private TextView modify;
     private ArrayList<TestForm> mList = new ArrayList<>();
+    private String identity1;
+    private String identity2;
+    private String url;
+    private boolean isMoc = false;
     private RecyclerView mRecyclerView;
     private TestRecyclerAdapter mAdapter;
 
@@ -68,11 +81,37 @@ public class TestResultActivity extends AppCompatActivity {
         year = findViewById(R.id.result_year);
         college = findViewById(R.id.result_college);
         score_all = findViewById(R.id.all_score);
-        year.setText(bundle.getString("year"));
-        college.setText(bundle.getString("college"));
+        moc_lin = findViewById(R.id.moc_result_linear);
+        modify = findViewById(R.id.if_moc_is_modify);
+
+        if(bundle.getString("year") == null){
+            identity1 = bundle.getString("moc_subject");
+            identity2 = bundle.getString("moc_num");
+
+            moc_lin.setVisibility(View.VISIBLE);
+            modify.setText("모의고사");
+            moc_college1 = findViewById(R.id.moc_ranking_college1);
+            moc_college2 = findViewById(R.id.moc_ranking_college2);
+            moc_college3 = findViewById(R.id.moc_ranking_college3);
+            moc_ranking1 = findViewById(R.id.moc_result_ranking1);
+            moc_ranking2 = findViewById(R.id.moc_result_ranking2);
+            moc_ranking3 = findViewById(R.id.moc_result_ranking3);
+
+            url = "http://nobles1030.cafe24.com/requestMockupTest_analysis.php";
+            isMoc = true;
+        }
+        else{
+            identity1 = bundle.getString("year");
+            identity2 = bundle.getString("college");
+
+            url = "http://nobles1030.cafe24.com/requestPreviousTest_analysis.php";
+        }
+
+        year.setText(identity1);
+        college.setText(identity2);
         score_all.setText(bundle.getString("count"));
 
-        String tmp = pref.getString(bundle.getString("year") + bundle.getString("college") + "result", null);
+        String tmp = pref.getString(identity1 + identity2 + "result", null);
         try {
             jsonArray = tmp != null ? new JSONArray(tmp) : new JSONArray() ;
         } catch (JSONException e) {
@@ -98,18 +137,18 @@ public class TestResultActivity extends AppCompatActivity {
                 }
             }
         }
-        mAdapter = new TestRecyclerAdapter(mList, this, bundle.getString("year"), bundle.getString("college"));
+        mAdapter = new TestRecyclerAdapter(mList, this, identity1, identity2);
         mRecyclerView.setAdapter(mAdapter);
 
         ranking = findViewById(R.id.result_ranking);
         OkHttpClient requestRanking = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
-                .add("college", bundle.getString("college"))
-                .add("year", bundle.getString("year"))
+                .add("college", identity2)
+                .add("year", identity1)
                 .add("id", pref.getString("id", ""))
                 .add("score", score.getText().toString())
                 .build();
-        requestRanking.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/requestPreviousTest_analysis.php").post(body).build()).enqueue(new Callback() {
+        requestRanking.newCall(new Request.Builder().url(url).post(body).build()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -127,6 +166,15 @@ public class TestResultActivity extends AppCompatActivity {
                             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
                             ranking.setText(String.valueOf(jsonObject.get("rank")).replace("\"", "") + "/" + String.valueOf(jsonObject.get("all")).replace("\"", ""));
+                            if(isMoc){
+                                moc_college1.setText(String.valueOf(jsonObject.get("col1_name")).replace("\"", ""));
+                                moc_college2.setText(String.valueOf(jsonObject.get("col2_name")).replace("\"", ""));
+                                moc_college3.setText(String.valueOf(jsonObject.get("col3_name")).replace("\"", ""));
+
+                                moc_ranking1.setText(String.valueOf(jsonObject.get("col1_rank")).replace("\"", "") + "/" + String.valueOf(jsonObject.get("col1_all")).replace("\"", ""));
+                                moc_ranking2.setText(String.valueOf(jsonObject.get("col2_rank")).replace("\"", "") + "/" + String.valueOf(jsonObject.get("col2_all")).replace("\"", ""));
+                                moc_ranking3.setText(String.valueOf(jsonObject.get("col3_rank")).replace("\"", "") + "/" + String.valueOf(jsonObject.get("col3_all")).replace("\"", ""));
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

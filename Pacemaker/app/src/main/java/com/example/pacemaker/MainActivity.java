@@ -47,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        SharedPreferences sf = getSharedPreferences(sfName, 0);
+
         getIntent = getIntent();
         String test = getIntent.getStringExtra("test");
         testName = test;
-        String date = getIntent.getStringExtra("date");
         bundle = getIntent.getExtras();
+        String date = sf.getString("day_sf", bundle.getString("date"));
 
         Calendar today = Calendar.getInstance();
         Calendar testday = Calendar.getInstance();
@@ -71,10 +73,11 @@ public class MainActivity extends AppCompatActivity {
         calenderFragment = new CalenderFragment();
         myPageFragment = new MyPageFragment();
 
-        SharedPreferences sf = getSharedPreferences(sfName, 0);
         testName = sf.getString("test_sf", test);
-        testDay = sf.getString("day_sf", String.valueOf(ddaycount));
-        homeFragment.setNextTest(testName, testDay);
+        testDay = String.valueOf(ddaycount);
+        bundle.putString("test_name", testName);
+        bundle.putString("test_dday", testDay);
+        homeFragment.setNextTest(bundle);
 
         myPageFragment.setBundle(bundle);
 

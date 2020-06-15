@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -66,14 +67,16 @@ public class MockupTestSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 linearLayout.setVisibility(View.VISIBLE);
                 textView.setText(mocSpin.getSelectedItem().toString());
-                if(pref.getBoolean("moc_test" + mocSpin.getSelectedItem().toString() + "complete", false)) resultBtn.setVisibility(View.VISIBLE);
+                if(pref.getBoolean(subSpin.getSelectedItem().toString() + mocSpin.getSelectedItem().toString() + "complete", false)) resultBtn.setVisibility(View.VISIBLE);
+                else resultBtn.setVisibility(View.GONE);
             }
         });
 
         testStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mocTestIntent = new Intent(getApplicationContext(), MocTestActivity.class);
+                Intent mocTestIntent = new Intent(getApplicationContext(), TestActivity.class);
+                bundle.putString("moc_subject", subSpin.getSelectedItem().toString());
                 bundle.putInt("time", 60);
                 bundle.putString("count", "40");
                 bundle.putString("moc_num", mocSpin.getSelectedItem().toString());
@@ -86,7 +89,8 @@ public class MockupTestSelectActivity extends AppCompatActivity {
         resultBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mocResultIntent = new Intent(getApplicationContext(), MocTestResultActivity.class);
+                Intent mocResultIntent = new Intent(getApplicationContext(), TestResultActivity.class);
+                bundle.putString("moc_subject", subSpin.getSelectedItem().toString());
                 bundle.putString("count", "40");
                 bundle.putString("moc_num", mocSpin.getSelectedItem().toString());
                 mocResultIntent.putExtras(bundle);

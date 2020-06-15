@@ -40,6 +40,7 @@ public class DdayActivity extends AppCompatActivity  {
     private ListViewItem listViewItem;
     private ListAdapter listAdapter;
     private FragmentRefreshListener fragmentRefreshListener;
+    private GetData task = new GetData();
     String sfName = "dday_counter";
 
     private static String TAG = "phptest_MainActivity";
@@ -63,8 +64,6 @@ public class DdayActivity extends AppCompatActivity  {
         listViewItem = new ListViewItem();
         listView = (ListView) findViewById(R.id.college_list_view);
         listAdapter = new ListAdapter();
-
-        GetData task = new GetData();
         task.execute(url);
 
         // listview 클릭 이벤트
@@ -74,7 +73,7 @@ public class DdayActivity extends AppCompatActivity  {
                 ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
 
                 String collegeName = item.getCollege_name();
-                String collegeDday = item.getCollege_dday();
+                String collegeDday = item.getCollege_date();
 
                 if(getFragmentRefreshListener()!= null){
                     getFragmentRefreshListener().onRefresh();
@@ -132,8 +131,7 @@ public class DdayActivity extends AppCompatActivity  {
 
             pd.dismiss();
             Log.d(TAG, "response  - " + result);
-            if (result == null){
-            }
+            if (result == null){ }
             else {
                 mJsonString = result;
                 showResult();
@@ -191,7 +189,7 @@ public class DdayActivity extends AppCompatActivity  {
 
                 String college_name = item.getString(TAG_ID);
                 String college_date = item.getString(TAG_NAME);
-                listAdapter.addItem(college_name, countDday(college_date));
+                listAdapter.addItem(college_name, countDday(college_date), college_date);
             }
             listView.setAdapter(listAdapter);
         } catch (JSONException e) {
@@ -215,5 +213,11 @@ public class DdayActivity extends AppCompatActivity  {
         long ddaycount = lTestday - lToday;
         String dday = String.valueOf(ddaycount);
         return dday;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        task.cancel(true);
     }
 }
