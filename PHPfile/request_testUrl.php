@@ -5,7 +5,15 @@ $year = $_POST['year'];
 $college = $_POST['college'];
 $num = $_POST['num'];
 
-$db_sql = "SELECT address, main_text FROM PaceMaker_PreviousTests WHERE year = '".$year."' AND College_name = '".$college."' AND num = '".$num."';";
+if($year == "영어"){
+  $db_sql = "SELECT address, main_text FROM PaceMaker_EngMockupTest WHERE round = '".$college."' AND num = '".$num."';";
+}
+else if($year == "수학"){
+    $db_sql = "SELECT address, main_text FROM PaceMaker_MathMockupTest WHERE round = '".$college."' AND num = '".$num."';";
+}
+else{
+  $db_sql = "SELECT address, main_text FROM PaceMaker_PreviousTests WHERE year = '".$year."' AND College_name = '".$college."' AND num = '".$num."';";
+}
 $res = mysqli_query($conn, $db_sql);
 $data = mysqli_fetch_array($res);
 

@@ -6,7 +6,7 @@ $password = $_POST['password'];
 $name = $_POST['name'];
 $mail = $_POST['mail'];
 
-$sql = "UPDATE PaceMakerMembers SET password = '".$password."', userName = '".$name."', userEmail = '".$mail."' WHERE id = '".$id."';";
+$sql = "UPDATE PaceMakerMembers SET password = HEX(AES_ENCRYPT('".$password."', 'pwkey')), userName = '".$name."', userEmail = '".$mail."' WHERE id = '".$id."';";
 
 if(mysqli_query($con,$sql)){
   echo json_encode(success, JSON_UNESCAPED_UNICODE);
