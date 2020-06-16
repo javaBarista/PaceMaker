@@ -103,7 +103,6 @@ public class EnglishActivity extends AppCompatActivity {
             case R.id.action_trans:
                 Intent transIntent = new Intent(this, TranslateActivity.class);
                 startActivity(transIntent);
-                finish();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

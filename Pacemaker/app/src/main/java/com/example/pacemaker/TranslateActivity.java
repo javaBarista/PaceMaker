@@ -92,7 +92,6 @@ public class TranslateActivity extends AppCompatActivity {
             case R.id.action_word:
                 Intent wordIntent = new Intent(this, EnglishActivity.class);
                 startActivity(wordIntent);
-                finish();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

@@ -205,7 +205,7 @@ public class WordTestFragment extends Fragment {
                                     SharedPreferences.Editor editor = sf.edit();
                                     int day = end / (sf.getInt("voca_setting_count", 20));
                                     Log.d("test result is", "DAY "+String.valueOf(day));
-                                    editor.putBoolean("DAY "+ String.valueOf(day), true);
+                                    editor.putBoolean("DAY "+ String.valueOf(day) + String.valueOf(sf.getInt("voca_setting_count", 20)), true);
                                     editor.commit();
 
                                     ((EnglishActivity)EnglishActivity._EnglishActivity).onResume();
