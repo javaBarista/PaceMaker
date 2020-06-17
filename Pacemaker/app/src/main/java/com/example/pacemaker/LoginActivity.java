@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-
         join = findViewById(R.id.signup);
         loginBox = findViewById(R.id.loginBox);
         joinBox = findViewById(R.id.signupBox);

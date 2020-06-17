@@ -192,6 +192,7 @@ public class AnswerActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), pref.getString("id", "") + " 님은 현재 누적신고 5회 이상으로\n" + timeInFormat + " 까지 댓글 이용이 불가능합니다.", Toast.LENGTH_SHORT).show();
                 }
+                else if(!pref.getBoolean(year + name + "complete", false)) Toast.makeText(getApplicationContext(), "먼저 해당 시험을 응시하셔야 댓글을 입력 할 수 있습니다.", Toast.LENGTH_SHORT).show();
                 else if(my_ans.getText().toString().length() < 1)   Toast.makeText(getApplicationContext(), "댓글을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 else{
                     final Handler mHandler = new Handler();
