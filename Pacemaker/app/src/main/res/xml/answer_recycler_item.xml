@@ -25,7 +25,24 @@
                 android:textSize="17dp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"/>
-
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="7dp"
+                android:paddingLeft="-2dp"
+                android:paddingTop="-2dp"
+                android:src="@drawable/ic_report"
+                android:background="@drawable/day_button"
+                android:id="@+id/answer_user_report"/>
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="17dp"
+                android:paddingLeft="-2dp"
+                android:paddingTop="-2dp"
+                android:layout_marginLeft="7dp"
+                android:src="@drawable/ic_do_not_disturb"
+                android:background="@drawable/day_button"
+                android:id="@+id/answer_my_ans_delete"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

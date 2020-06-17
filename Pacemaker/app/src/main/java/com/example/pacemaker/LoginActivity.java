@@ -40,8 +40,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LinearLayout login;
-    private LinearLayout join;
+    private TextView join;
     private LinearLayout loginBox;
     private LinearLayout joinBox;
     private EditText id;
@@ -59,12 +58,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
     private Button joinBtn;
     private ImageButton checkBtn;
-    private int trigger = 0;
+    private boolean trigger = false;
     private SharedPreferences prefs;
     private Dialog chkDialog;
     private Bundle bundle = new Bundle();
     private boolean ispwChk = false;
     private boolean isvaild = false;
+    private long cvEx = 1296000000L;
 
     @SuppressLint("ResourceType")
     @Override
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        login = findViewById(R.id.login);
+
         join = findViewById(R.id.signup);
         loginBox = findViewById(R.id.loginBox);
         joinBox = findViewById(R.id.signupBox);
@@ -143,25 +143,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(trigger > 0){ trigger = 0; }
-                else{ trigger = 1; }
-
-                onSelectBox();
-            }
-        });
-
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(trigger > 0){ trigger = 0; }
-                else{ trigger = 2; }
-
-                onSelectBox();
+                if(trigger){
+                    joinBox.setVisibility(View.GONE);
+                    loginBox.setVisibility(View.VISIBLE);
+                    join.setText("Sign Up");
+                    join.setTextSize(18);
+                }
+                else {
+                    loginBox.setVisibility(View.GONE);
+                    joinBox.setVisibility(View.VISIBLE);
+                    join.setText("← Login");
+                    join.setTextSize(25);
+                }
+                trigger = !trigger;
             }
         });
 
@@ -172,9 +169,14 @@ public class LoginActivity extends AppCompatActivity {
                 OkHttpClient loginBtnClickEvent = new OkHttpClient();
                 final SharedPreferences.Editor editor = prefs.edit();
 
+                String islock = "0";
+                long expires = prefs.getLong("No_use_cvEx", 0L);
+                if(expires > 0 && System.currentTimeMillis() >= expires)    islock = "1";
+
                 RequestBody body = new FormBody.Builder()
                         .add("id", id.getText().toString())
                         .add("password", password.getText().toString())
+                        .add("lock", islock)
                         .build();
 
                 editor.putString("id", id.getText().toString());
@@ -226,6 +228,10 @@ public class LoginActivity extends AppCompatActivity {
                                         if(prefs.getString("test_sf", "").equals("")){
                                             editor.putString("test_sf", jsonObject.get("college").toString().replaceAll("\"", ""));
                                             editor.putString("day_sf", jsonObject.get("endDate").toString().replaceAll("\"", ""));
+                                            editor.commit();
+                                        }
+                                        if(Integer.parseInt(jsonObject.get("report").toString().replaceAll("\"","")) >= 5){
+                                            editor.putLong("No_use_cvEx", System.currentTimeMillis() + cvEx);
                                             editor.commit();
                                         }
                                         startActivity(mainmenu);
@@ -375,49 +381,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-    private void onSelectBox(){
-
-        final LinearLayout.LayoutParams loginWeight
-                = (LinearLayout.LayoutParams) login.getLayoutParams();
-        final LinearLayout.LayoutParams joinWeight
-                = (LinearLayout.LayoutParams) join.getLayoutParams();
-
-        switch(trigger){
-            case 0:
-                loginWeight.weight = 1;
-                joinWeight.weight = 1;
-
-                login.setLayoutParams(loginWeight);
-                join.setLayoutParams(joinWeight);
-
-                loginBox.setVisibility(View.GONE);
-                joinBox.setVisibility(View.GONE);
-                break;
-            case 1:
-                loginWeight.weight = 1;
-                joinWeight.weight = 0;
-
-                login.setLayoutParams(loginWeight);
-                join.setLayoutParams(joinWeight);
-
-                loginBox.setVisibility(View.VISIBLE);
-                joinBox.setVisibility(View.GONE);
-                break;
-            case 2:
-                loginWeight.weight = 0;
-                joinWeight.weight = 1;
-
-                login.setLayoutParams(loginWeight);
-                join.setLayoutParams(joinWeight);
-
-                loginBox.setVisibility(View.GONE);
-                joinBox.setVisibility(View.VISIBLE);
-                break;
-        }
-
-    }
-
 }

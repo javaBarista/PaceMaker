@@ -3,6 +3,8 @@ package com.example.pacemaker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -28,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -59,6 +63,7 @@ public class AnswerActivity extends AppCompatActivity {
     private String name;
     private String uploadDate;
     private String url;
+    private long expires;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +184,15 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String bodyText = my_ans.getText().toString();
-                if(my_ans.getText().toString().length() < 1)   Toast.makeText(getApplicationContext(), "댓글을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                expires = pref.getLong("No_use_cvEx", 0L);
+                if(System.currentTimeMillis() < expires){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                    Date timeInDate = new Date(expires);
+                    String timeInFormat = sdf.format(timeInDate);
+
+                    Toast.makeText(getApplicationContext(), pref.getString("id", "") + " 님은 현재 누적신고 5회 이상으로\n" + timeInFormat + " 까지 댓글 이용이 불가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if(my_ans.getText().toString().length() < 1)   Toast.makeText(getApplicationContext(), "댓글을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 else{
                     final Handler mHandler = new Handler();
                     final AnswerForm[] tmp = new AnswerForm[1];
@@ -203,7 +216,7 @@ public class AnswerActivity extends AppCompatActivity {
                                     Log.d("is it wrong=", result);
                                     if(result.contains("success")) {
                                         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                                        tmp[0] = new AnswerForm(pref.getString("id", ""), bodyText.substring(0,500), format.format(System.currentTimeMillis()));
+                                        tmp[0] = new AnswerForm(pref.getString("id", ""), bodyText, format.format(System.currentTimeMillis()));
                                         mList.add(tmp[0]);
                                     }
                                 }
@@ -211,7 +224,7 @@ public class AnswerActivity extends AppCompatActivity {
                             mHandler.post(new Runnable(){
                                 @Override
                                 public void run(){
-                                    mAdapter = new AnswerListAdapter(mList, getApplicationContext());
+                                    mAdapter = new AnswerListAdapter(mList, num, AnswerActivity.this);
                                     mRecyclerView.setAdapter(mAdapter);
                                     my_ans.setText(null);
                                     Toast.makeText(getApplicationContext(), "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
@@ -260,7 +273,7 @@ public class AnswerActivity extends AppCompatActivity {
                     mList.add(post);
                 }
                 //Adapter setting
-                mAdapter = new AnswerListAdapter(mList, getApplicationContext());
+                mAdapter = new AnswerListAdapter(mList, num, AnswerActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         }

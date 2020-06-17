@@ -3,6 +3,7 @@ $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 
 $id = $_POST['id'];
 $password = $_POST['password'];
+$lock=$_POST['lock'];
 
 $db_sql = "SELECT * FROM PaceMakerMembers WHERE id='".$id."' AND AES_DECRYPT(UNHEX(password), 'pwkey')='".$password."'";
 $result = mysqli_query($conn, $db_sql);
@@ -15,6 +16,11 @@ $today = date("Y/m/d");
 $sql = "SELECT * FROM Schedule WHERE todo = '시험' AND endDate = (SELECT MIN(endDate) FROM Schedule WHERE todo = '시험' AND endDate > '".$today."');";
 $res = mysqli_query($conn, $sql);
 
+if($lock == "1"){
+  $sql_user = "UPDATE PaceMakerMembers SET report = 0 WHERE id = '".$id."';";
+  mysqli_query($conn, $sql_user);
+}
+
 $data = mysqli_fetch_array($result);
 $next = mysqli_fetch_array($res);
 
@@ -22,7 +28,8 @@ $array = array(
   'name' => $data["userName"],
   'mail' => $data["userEmail"],
   'college' => $next["college"],
-  'endDate' => $next["endDate"]
+  'endDate' => $next["endDate"],
+  'report' => $data["report"]
 );
 
 if(mysqli_num_rows($uni_res) > 0 ){
