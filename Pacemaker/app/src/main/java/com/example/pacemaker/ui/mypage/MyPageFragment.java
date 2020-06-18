@@ -221,7 +221,8 @@ public class MyPageFragment extends Fragment {
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), ErrorReportingActivity.class);
+                startActivity(intent);
             }
         });
 
