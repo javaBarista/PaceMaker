@@ -40,7 +40,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView join;
+    private Button join;
     private LinearLayout loginBox;
     private LinearLayout joinBox;
     private EditText id;
@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginBox.setVisibility(View.GONE);
                     joinBox.setVisibility(View.VISIBLE);
                     join.setText("← Login");
-                    join.setTextSize(25);
+                    join.setTextSize(18);
                 }
                 trigger = !trigger;
             }

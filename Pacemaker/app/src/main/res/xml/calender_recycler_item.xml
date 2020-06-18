@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/point"
         android:textSize="15dp"
-        android:textColor="#FF000000"
-        android:text="●"
+        android:textColor="@color/textColor1"
+        android:text="⦁ "
         android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/college"
         android:textSize="15dp"
-        android:textColor="#FF000000"
+        android:textColor="@color/textColor1"
         android:layout_marginLeft="3dp"
         app:layout_constraintLeft_toRightOf="@+id/point"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
         android:layout_marginTop="2dp"
         android:id="@+id/todo"
         android:textSize="13dp"
-        android:textColor="#FF000000"
+        android:textColor="@color/textColor2"
         android:layout_marginLeft="2dp"
         app:layout_constraintLeft_toRightOf="@+id/college"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
         android:layout_marginRight="10dp"
         android:id="@+id/endDate"
         android:textSize="10dp"
-        android:textColor="#FF000000"
+        android:textColor="@color/colorPrimary"
         android:textStyle="italic"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +56,7 @@
         android:layout_marginTop="5dp"
         android:id="@+id/startDate"
         android:textSize="10dp"
-        android:textColor="#FF000000"
+        android:textColor="@color/colorPrimary"
         android:textStyle="italic"
         app:layout_constraintRight_toLeftOf="@+id/endDate"
         app:layout_constraintTop_toTopOf="parent" />

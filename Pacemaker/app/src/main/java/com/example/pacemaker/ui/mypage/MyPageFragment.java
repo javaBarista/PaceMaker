@@ -74,6 +74,7 @@ public class MyPageFragment extends Fragment {
     private LinearLayout myNote;
     private LinearLayout vocaSetting;
     private LinearLayout vocaLayout;
+    private LinearLayout reportBtn;
     private String id;
     private String name;
     private String college1;
@@ -212,6 +213,14 @@ public class MyPageFragment extends Fragment {
                 Intent loginIntent = new Intent(getContext(), LoginActivity.class);
                 startActivity(loginIntent);
                 getActivity().finish();
+            }
+        });
+
+        reportBtn = root.findViewById(R.id.reportBtn);
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

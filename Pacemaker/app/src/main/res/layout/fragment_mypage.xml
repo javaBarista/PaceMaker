@@ -18,483 +18,196 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
                 android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <LinearLayout
-                    android:layout_width="360dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/dday_counter"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/myName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginTop="3dp"
-                            android:text="My Name"
-                            android:textColor="#000000"
-                            android:textSize="25dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/myId"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="3dp"
-                            android:text="My ID"
-                            android:textColor="#FF696969"
-                            android:textSize="18dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="15dp"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/on_eduBtn"
-                            android:layout_width="100dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="right|center"
-                            android:background="@drawable/greedy_button"
-                            android:drawableStart="@drawable/on_edu"
-                            android:drawablePadding="-10dp"
-                            android:paddingLeft="15dp"
-                            android:text="100"
-                            android:textSize="25dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="40dp"
-                    app:cardCornerRadius="10dp">
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
 
-                    <TableLayout
-                        android:layout_width="350dp"
+                    <TextView
+                        android:id="@+id/myName"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="3dp"
+                        android:text="My Name"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="25dp" />
 
-                        <TableRow>
+                    <TextView
+                        android:id="@+id/myId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="3dp"
+                        android:text="My ID"
+                        android:textColor="#FF696969"
+                        android:textSize="18dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/on_eduBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right|center"
+                        android:background="@drawable/greedy_button2"
+                        android:drawableStart="@drawable/on_edu"
+                        android:drawablePadding="-10dp"
+                        android:paddingLeft="15dp"
+                        android:text="100"
+                        android:textColor="@color/textColor2"
+                        android:textSize="22dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="10dp">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp">
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/myInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
 
                             <LinearLayout
-                                android:id="@+id/myInfo"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="25dp"
-                                android:gravity="center"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="개인정보수정"
+                                    android:textColor="@color/textColor2"
+                                    android:textSize="22dp" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginEnd="3dp"
+                                    android:src="@drawable/ic_edit" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/myInfo_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:paddingVertical="10dp">
+                                android:visibility="gone">
+
+                                <EditText
+                                    android:id="@+id/pre_pw"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:hint="기존 비밀번호" />
+
+                                <EditText
+                                    android:id="@+id/new_pw"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:hint="신규 비밀번호" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/new_pw_chk"
+                                        android:layout_width="250dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="신규 비밀번호 확인" />
+
+                                    <TextView
+                                        android:id="@+id/isNewPwChk"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="10dp"
+                                        android:gravity="center"
+                                        android:text="불가"
+                                        android:textColor="#FFFF0000"
+                                        android:textSize="20dp"
+                                        android:textStyle="italic"
+                                        android:visibility="invisible" />
+                                </LinearLayout>
+
+                                <EditText
+                                    android:id="@+id/new_name"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
                                     android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/new_mail"
+                                        android:layout_width="130dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:hint="E-mail" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="개인정보수정"
-                                        android:textColor="@color/textColor2"
-                                        android:textSize="25dp" />
+                                        android:text=" \@ "
+                                        android:textSize="25dp"
+                                        android:textStyle="bold" />
 
-                                    <View
-                                        android:layout_width="0dp"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="1" />
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_edit"
-                                        android:layout_marginEnd="3dp"/>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/myInfo_edit"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:visibility="gone">
-
-                                    <EditText
-                                        android:id="@+id/pre_pw"
-                                        android:layout_width="250dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="3dp"
-                                        android:hint="기존 비밀번호" />
-
-                                    <EditText
-                                        android:id="@+id/new_pw"
-                                        android:layout_width="250dp"
-                                        android:layout_height="wrap_content"
-                                        android:hint="신규 비밀번호" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="3dp"
-                                        android:orientation="horizontal">
-
-                                        <EditText
-                                            android:id="@+id/new_pw_chk"
-                                            android:layout_width="250dp"
-                                            android:layout_height="wrap_content"
-                                            android:hint="신규 비밀번호 확인" />
-
-                                        <TextView
-                                            android:id="@+id/isNewPwChk"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginRight="10dp"
-                                            android:gravity="center"
-                                            android:text="불가"
-                                            android:textColor="#FFFF0000"
-                                            android:textSize="20dp"
-                                            android:textStyle="italic"
-                                            android:visibility="invisible" />
-                                    </LinearLayout>
-
-                                    <EditText
-                                        android:id="@+id/new_name"
-                                        android:layout_width="200dp"
+                                    <Spinner
+                                        android:id="@+id/new_mailSpin"
+                                        android:layout_width="150dp"
                                         android:layout_height="wrap_content" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="3dp"
-                                        android:orientation="horizontal">
-
-                                        <EditText
-                                            android:id="@+id/new_mail"
-                                            android:layout_width="130dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:hint="E-mail" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text=" \@ "
-                                            android:textSize="25dp"
-                                            android:textStyle="bold" />
-
-                                        <Spinner
-                                            android:id="@+id/new_mailSpin"
-                                            android:layout_width="150dp"
-                                            android:layout_height="wrap_content" />
-                                    </LinearLayout>
-
-                                    <Button
-                                        android:id="@+id/saveBtn"
-                                        android:layout_width="200dp"
-                                        android:layout_height="45dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_marginBottom="20dp"
-                                        android:background="@drawable/send_btn"
-                                        android:text="Save"
-                                        android:textColor="@color/colorPrimary"
-                                        android:textSize="20dp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </TableRow>
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginHorizontal="24dp"
-                            android:background="#D3D3D3" />
-
-                        <TableRow>
-
-                            <LinearLayout
-                                android:id="@+id/myPage_myNote"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="25dp"
-                                android:orientation="vertical"
-                                android:paddingVertical="12dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="My Note"
-                                    android:textColor="@color/textColor2"
-                                    android:textSize="25dp" />
-
-                            </LinearLayout>
-                        </TableRow>
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginHorizontal="24dp"
-                            android:background="#D3D3D3" />
-
-                        <TableRow>
-
-                            <LinearLayout
-                                android:id="@+id/setDailyVocaBtn"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="25dp"
-                                android:orientation="vertical"
-                                android:paddingVertical="12dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="일일 영단어 설정"
-                                    android:textColor="@color/textColor2"
-                                    android:textSize="25dp" />
-
-                                <LinearLayout
-                                    android:id="@+id/setDailyVocaLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal"
-                                    android:visibility="gone">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="#727272"
-                                        android:layout_marginTop="8dp"
-                                        android:text="단어 수  :"
-                                        android:textSize="20dp"/>
-
-                                    <Spinner
-                                        android:id="@+id/daySettingSpin"
-                                        android:layout_width="wrap_content"
-                                        android:layout_marginTop="8dp"
-                                        android:layout_height="40dp"
-                                        android:layout_marginLeft="5dp" />
-
-                                    <Button
-                                        android:id="@+id/vocaSetBtn"
-                                        android:layout_width="100dp"
-                                        android:layout_height="35dp"
-                                        android:layout_marginLeft="15dp"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_marginBottom="5dp"
-                                        android:background="@drawable/dday_counter"
-                                        android:text="설정적용"
-                                        android:textSize="18dp"
-                                        android:textColor="@color/textColor2"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </TableRow>
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginHorizontal="24dp"
-                            android:background="#D3D3D3" />
-
-                        <TableRow>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="25dp"
-                                android:orientation="vertical"
-                                android:paddingVertical="12dp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="알림 받기"
-                                        android:textColor="@color/textColor2"
-                                        android:textSize="25dp" />
-
-                                    <Switch
-                                        android:id="@+id/notiChk"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="150dp"
-                                        android:layout_gravity="center_vertical"
-                                        android:theme="@style/BrandedSwitch"
-                                        android:checked="true" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </TableRow>
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginHorizontal="24dp"
-                            android:background="#D3D3D3" />
-
-                        <TableRow>
-
-                            <LinearLayout
-                                android:id="@+id/myPage_goal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="25dp"
-                                android:orientation="vertical"
-                                android:paddingVertical="12dp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="목표대학"
-                                        android:textColor="@color/textColor2"
-                                        android:textSize="25dp" />
-
-                                    <View
-                                        android:layout_width="0dp"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="1" />
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="165dp"
-                                        android:layout_marginEnd="3dp"
-                                        android:src="@drawable/ic_edit" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="10dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="1. "
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <TextView
-                                        android:id="@+id/goal1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="첫번째 목표대학"
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <Spinner
-                                        android:id="@+id/myPage_college1"
-                                        android:layout_width="280dp"
-                                        android:layout_height="wrap_content"
-                                        android:visibility="gone" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="7dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="2. "
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <TextView
-                                        android:id="@+id/goal2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="두번째 목표대학"
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <Spinner
-                                        android:id="@+id/myPage_college2"
-                                        android:layout_width="280dp"
-                                        android:layout_height="wrap_content"
-                                        android:visibility="gone" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="7dp"
-                                    android:layout_marginBottom="10dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="3. "
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <TextView
-                                        android:id="@+id/goal3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="세번째 목표대학"
-                                        android:textColor="#727272"
-                                        android:textSize="20dp"
-                                        android:textStyle="normal" />
-
-                                    <Spinner
-                                        android:id="@+id/myPage_college3"
-                                        android:layout_width="280dp"
-                                        android:layout_height="wrap_content"
-                                        android:visibility="gone" />
                                 </LinearLayout>
 
                                 <Button
-                                    android:id="@+id/goalSaveBtn"
+                                    android:id="@+id/saveBtn"
                                     android:layout_width="200dp"
                                     android:layout_height="45dp"
                                     android:layout_gravity="center"
@@ -504,29 +217,355 @@
                                     android:text="Save"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="20dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="#D3D3D3" />
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/myPage_myNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="My Note"
+                                android:textColor="@color/textColor2"
+                                android:textSize="22dp" />
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="#D3D3D3" />
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/setDailyVocaBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="일일 영단어 설정"
+                                android:textColor="@color/textColor2"
+                                android:textSize="22dp" />
+
+                            <LinearLayout
+                                android:id="@+id/setDailyVocaLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="단어 수  :"
+                                    android:textColor="#727272"
+                                    android:textSize="20dp" />
+
+                                <Spinner
+                                    android:id="@+id/daySettingSpin"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="8dp" />
+
+                                <Button
+                                    android:id="@+id/vocaSetBtn"
+                                    android:layout_width="100dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:background="@drawable/dday_counter"
+                                    android:text="설정적용"
+                                    android:textColor="@color/textColor2"
+                                    android:textSize="18dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="#D3D3D3" />
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="알림 받기"
+                                    android:textColor="@color/textColor2"
+                                    android:textSize="22dp" />
+
+                                <Switch
+                                    android:id="@+id/notiChk"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="150dp"
+                                    android:checked="true"
+                                    android:theme="@style/BrandedSwitch" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="#D3D3D3" />
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/myPage_goal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="목표대학"
+                                    android:textColor="@color/textColor2"
+                                    android:textSize="22dp" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="165dp"
+                                    android:layout_marginEnd="3dp"
+                                    android:src="@drawable/ic_edit" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1. "
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <TextView
+                                    android:id="@+id/goal1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="첫번째 목표대학"
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <Spinner
+                                    android:id="@+id/myPage_college1"
+                                    android:layout_width="280dp"
+                                    android:layout_height="wrap_content"
                                     android:visibility="gone" />
                             </LinearLayout>
-                        </TableRow>
-                    </TableLayout>
-                </androidx.cardview.widget.CardView>
 
-                <Button
-                    android:id="@+id/logoutBtn"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/logout_btn"
-                    android:drawableStart="@drawable/ic_exit"
-                    android:drawablePadding="-70dp"
-                    android:paddingLeft="70dp"
-                    android:text="Logout"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="7dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2. "
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <TextView
+                                    android:id="@+id/goal2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="두번째 목표대학"
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <Spinner
+                                    android:id="@+id/myPage_college2"
+                                    android:layout_width="280dp"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="7dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="3. "
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <TextView
+                                    android:id="@+id/goal3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="세번째 목표대학"
+                                    android:textColor="#727272"
+                                    android:textSize="18dp"
+                                    android:textStyle="normal" />
+
+                                <Spinner
+                                    android:id="@+id/myPage_college3"
+                                    android:layout_width="280dp"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/goalSaveBtn"
+                                android:layout_width="200dp"
+                                android:layout_height="45dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:background="@drawable/send_btn"
+                                android:text="Save"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="#D3D3D3" />
+
+                    <TableRow>
+                        <LinearLayout
+                            android:id="@+id/reportBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="165dp"
+                                    android:layout_marginEnd="3dp"
+                                    android:src="@drawable/sendmail" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:text="send bug report"
+                                    android:textColor="#8F8F8F"
+                                    android:textSize="18dp" />
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/logoutBtn"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/custom_btn"
+                android:text="Logout"
+                android:textColor="#ffffff"
+                android:textSize="18dp" />
+
             </LinearLayout>
-
         </ScrollView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

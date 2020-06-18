@@ -4,73 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TranslateActivity"
-    android:background="@color/snow">
+    android:background="@color/snow"
+    tools:context=".TranslateActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
+                    android:id="@+id/trans_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#FF000000"
                     android:text="한국어"
+                    android:textColor="#FF000000"
                     android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:id="@+id/trans_from"/>
+                    android:textStyle="bold" />
+
                 <ImageView
+                    android:id="@+id/trans_comp"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_swap_horiz"
-                    android:id="@+id/trans_comp"/>
+                    android:src="@drawable/ic_swap_horiz" />
+
                 <TextView
+                    android:id="@+id/trans_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#FF000000"
                     android:text="영어"
+                    android:textColor="#FF000000"
                     android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:id="@+id/trans_to"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <EditText
+                android:id="@+id/fromTxt"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="#FFDCDCDC"
-                android:paddingHorizontal="10dp"
-                android:id="@+id/fromTxt"/>
+                android:background="#F3F3F3"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/textColor1" />
+
             <Button
+                android:id="@+id/trans_btn"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="-65dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/dday_counter"
                 android:text="번역하기"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:id="@+id/trans_btn"/>
-            <TextView
-                android:padding="10dp"
+                android:textSize="18dp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:background="#FFD8BFD8"
-                android:textSize="20dp"
-                android:id="@+id/toTxt"/>
+                android:padding="20dp"
+                android:background="#ECECEC">
+
+                <TextView
+                    android:id="@+id/toTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/textColor1"
+                    android:textSize="20dp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

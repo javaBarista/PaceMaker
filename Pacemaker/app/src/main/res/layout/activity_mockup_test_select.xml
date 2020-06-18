@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#FFFFFF">
+        android:background="@color/snow">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="35dp"
-            android:background="@drawable/greedy_button"
+            android:background="@drawable/testselect_frame"
+            android:padding="5dp"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="invisible"
@@ -121,21 +122,21 @@
 
             <Button
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="90dp"
-                android:background="@drawable/test_btn"
+                android:background="@drawable/custom_btn"
                 android:text="시험시작"
                 android:textSize="23dp"
-                android:textStyle="bold"
+                android:textColor="#ffffff"
                 android:id="@+id/moctest_start"/>
             <Button
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/result_btn"
+                android:background="@drawable/custom_btn2"
                 android:text="결과보기"
                 android:textSize="23dp"
-                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
                 android:visibility="gone"
                 android:id="@+id/go_moc_result_btn"/>
         </LinearLayout>

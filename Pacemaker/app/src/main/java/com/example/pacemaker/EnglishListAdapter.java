@@ -54,7 +54,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
 
         if(pref.getBoolean(holder.day_btn1.getText().toString() + String.valueOf(pref.getInt("voca_setting_count", 20)), false)){
             holder.day_btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
-            holder.day_btn1.setTextColor(Color.parseColor("#FFA9A9A9"));
+            holder.day_btn1.setTextColor(Color.parseColor("#797979"));
         }
         else{
             holder.day_btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.day_button));
@@ -62,7 +62,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
         }
         if(pref.getBoolean(holder.day_btn2.getText().toString() + String.valueOf(pref.getInt("voca_setting_count", 20)), false)){
             holder.day_btn2.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
-            holder.day_btn2.setTextColor(Color.parseColor("#FFA9A9A9"));
+            holder.day_btn2.setTextColor(Color.parseColor("#797979"));
         }
         else{
             holder.day_btn2.setBackground(ContextCompat.getDrawable(context, R.drawable.day_button));
@@ -70,7 +70,7 @@ public class EnglishListAdapter extends RecyclerView.Adapter<EnglishListAdapter.
         }
         if(pref.getBoolean(holder.day_btn3.getText().toString() + String.valueOf(pref.getInt("voca_setting_count", 20)), false)){
             holder.day_btn3.setBackground(ContextCompat.getDrawable(context, R.drawable.clear_day_button));
-            holder.day_btn3.setTextColor(Color.parseColor("#FFA9A9A9"));
+            holder.day_btn3.setTextColor(Color.parseColor("#797979"));
         }
         else{
             holder.day_btn3.setBackground(ContextCompat.getDrawable(context, R.drawable.day_button));
