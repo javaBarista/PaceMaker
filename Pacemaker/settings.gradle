@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':additionnal', ':activation', ':mail'
 rootProject.name='Pacemaker'

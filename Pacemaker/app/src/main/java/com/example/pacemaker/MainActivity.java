@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent eventIntent = new Intent(getApplicationContext(), EventModifyActivity.class);
                 eventIntent.putExtras(bundle);
                 startActivity(eventIntent);
-               // finish();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

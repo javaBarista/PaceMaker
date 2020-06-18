@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.pacemaker.ErrorReportingActivity;
 import com.example.pacemaker.LoginActivity;
 import com.example.pacemaker.MyNoteActivity;
 import com.example.pacemaker.R;
@@ -291,6 +292,7 @@ public class MyPageFragment extends Fragment {
                                                 editor.commit();
                                                 ispw_chk.setVisibility(View.INVISIBLE);
                                                 Toast.makeText(getContext(), "정보수정 완료", Toast.LENGTH_LONG).show();
+                                                myInfo_edit.setVisibility(View.GONE);
                                             }
                                             else{
                                                 Toast.makeText(getContext(), "Check your network", Toast.LENGTH_LONG).show();
@@ -367,6 +369,14 @@ public class MyPageFragment extends Fragment {
                                             goal3.setText(college3);
 
                                             Toast.makeText(getContext(), "정보수정 완료", Toast.LENGTH_LONG).show();
+
+                                            goal1.setVisibility(View.VISIBLE);
+                                            goal2.setVisibility(View.VISIBLE);
+                                            goal3.setVisibility(View.VISIBLE);
+                                            edit_college1.setVisibility(View.GONE);
+                                            edit_college2.setVisibility(View.GONE);
+                                            edit_college3.setVisibility(View.GONE);
+                                            goalSaveBtn.setVisibility(View.GONE);
                                         }
                                         else{
                                             Toast.makeText(getContext(), "Check your network", Toast.LENGTH_LONG).show();
