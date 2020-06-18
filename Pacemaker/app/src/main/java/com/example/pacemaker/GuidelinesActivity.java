@@ -99,7 +99,7 @@ public class GuidelinesActivity extends AppCompatActivity {
         hmap.put("강남대학교", "https://admission.kangnam.ac.kr/jeonhyung/yogang.htm?ctg_cd=transfer");
         hmap.put("건국대학교", "http//enter.konkuk.ac.kr/seoul/transfer/guide.jsp");
         hmap.put("경기대학교", "http://enter.kyonggi.ac.kr/pages/?p=24&mj=03");
-        hmap.put("경희대학교", "https://iphak.khu.ac.kr/PageLink.do");
+        hmap.put("경희대학교", "http://iphak.khu.ac.kr/intro.do");
         hmap.put("광운대학교", "https://iphak.kw.ac.kr/entry/entry_01.php");
         hmap.put("국민대학교", "https://admission.kookmin.ac.kr/transfer/application.php");
         hmap.put("단국대학교", "http://ipsi.dankook.ac.kr/jukjeon/doumi/mojip.html?bbsid=juk_paper&ctg_cd=05");
