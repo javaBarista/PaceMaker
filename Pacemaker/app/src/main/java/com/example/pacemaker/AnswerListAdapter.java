@@ -166,7 +166,7 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.It
                         public void onClick(View v) {
                             RequestBody body = new FormBody.Builder()
                                     .add("userId", data.getUserID())
-                                    .add("anum", String.valueOf(position + 1))
+                                    .add("anum", data.getAnum())
                                     .add("qnum", num)
                                     .build();
                             ClickEvent.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/pequest_remove_myans.php").post(body).build()).enqueue(new Callback() {

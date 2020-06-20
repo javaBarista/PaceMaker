@@ -217,7 +217,8 @@ public class AnswerActivity extends AppCompatActivity {
                                     Log.d("is it wrong=", result);
                                     if(result.contains("success")) {
                                         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                                        tmp[0] = new AnswerForm(pref.getString("id", ""), bodyText, format.format(System.currentTimeMillis()));
+                                        String anum = result.substring(result.lastIndexOf("\"") + 1, result.length());
+                                        tmp[0] = new AnswerForm(anum, pref.getString("id", ""), bodyText, format.format(System.currentTimeMillis()));
                                         mList.add(tmp[0]);
                                     }
                                 }

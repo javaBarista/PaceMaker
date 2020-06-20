@@ -15,6 +15,7 @@ $db_sql = "INSERT INTO AnswerBoard(anum, qnum, userID, body, uploadDate) values(
 
 if(mysqli_query($conn,$db_sql)){
   echo json_encode(success, JSON_UNESCAPED_UNICODE);
+  echo json_encode($cnt, JSON_UNESCAPED_UNICODE);
 } else {
   echo json_encode(failure, JSON_UNESCAPED_UNICODE);
 }

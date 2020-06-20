@@ -542,11 +542,10 @@
                                     android:layout_marginStart="10dp"
                                     android:text="send bug report"
                                     android:textColor="#8F8F8F"
-                                    android:textSize="18dp" />
+                                    android:textSize="18dp"
+                                    android:id="@+id/send_bug_btn"/>
 
                             </LinearLayout>
-
-
 
                         </LinearLayout>
                     </TableRow>

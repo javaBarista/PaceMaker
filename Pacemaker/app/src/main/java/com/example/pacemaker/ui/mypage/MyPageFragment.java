@@ -72,6 +72,7 @@ public class MyPageFragment extends Fragment {
     private Spinner edit_college3;
     private Spinner countSpin;
     private Button goalSaveBtn;
+    private TextView bug_btn;
     private LinearLayout myNote;
     private LinearLayout vocaSetting;
     private LinearLayout vocaLayout;
@@ -204,6 +205,16 @@ public class MyPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent myNoteIntent = new Intent(getContext(), MyNoteActivity.class);
                 startActivity(myNoteIntent);
+            }
+        });
+
+        bug_btn = root.findViewById(R.id.send_bug_btn);
+        bug_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reportingIntent = new Intent(getContext(), ErrorReportingActivity.class);
+                reportingIntent.putExtras(bundle);
+                startActivity(reportingIntent);
             }
         });
 

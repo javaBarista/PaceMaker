@@ -23,7 +23,7 @@ public class ErrorReportingActivity extends AppCompatActivity{
     private Button send;
     private Intent getIntent;
     private Bundle bundle;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "");
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "your password");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

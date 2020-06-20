@@ -3,7 +3,7 @@ $conn = mysqli_connect("localhost", "nobles1030", "hero!0628", "nobles1030");
 
 $num = $_POST['num'];
 
-$sql = "SELECT userID, body, uploadDate FROM AnswerBoard WHERE qnum = '".$num."' ORDER BY anum ASC;";
+$sql = "SELECT anum, userID, body, uploadDate FROM AnswerBoard WHERE qnum = '".$num."' ORDER BY anum ASC;";
 $result = mysqli_query($conn,$sql);
 
 if(mysqli_num_rows($result) > 0 ){
