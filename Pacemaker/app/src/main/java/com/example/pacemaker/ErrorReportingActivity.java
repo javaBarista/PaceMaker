@@ -55,7 +55,9 @@ public class ErrorReportingActivity extends AppCompatActivity{
                         mHandler.post(new Runnable(){
                             @Override
                             public void run(){
-
+                                Intent reIntent = new Intent(getApplicationContext(), ErrorReportingActivity.class);
+                                startActivity(reIntent);
+                                finish();
                                 Toast.makeText(getApplicationContext(), "전송완료.", Toast.LENGTH_SHORT).show();
                             }
                         });
