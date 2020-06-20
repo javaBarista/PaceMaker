@@ -1,8 +1,11 @@
 package com.example.pacemaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -23,7 +26,8 @@ public class ErrorReportingActivity extends AppCompatActivity{
     private Button send;
     private Intent getIntent;
     private Bundle bundle;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "your password");
+    private SendMailTask sendMailTask;
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "비밀번호라 git엔 못올리지....");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +49,8 @@ public class ErrorReportingActivity extends AppCompatActivity{
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Handler mHandler = new Handler();
-                new Thread(new Runnable(){
-                    @Override
-                    public void run(){
-                        try {
-                            mailSender.sendMail(pref.getString("id", ""), bundle.getString("mail") + "@" + bundle.getString("address"), errspin.getSelectedItem().toString(), error_body.getText().toString());
-                        } catch (Exception e) { }
-                        mHandler.post(new Runnable(){
-                            @Override
-                            public void run(){
-                                Intent reIntent = new Intent(getApplicationContext(), ErrorReportingActivity.class);
-                                startActivity(reIntent);
-                                finish();
-                                Toast.makeText(getApplicationContext(), "전송완료.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).start();
-
+                sendMailTask = new SendMailTask();
+                sendMailTask.execute();
             }
         });
     }
@@ -84,5 +71,45 @@ public class ErrorReportingActivity extends AppCompatActivity{
         arrList.add("모의고사");
         arrList.add("Q&A 게시판");
         arrList.add("기타");
+    }
+
+    private class SendMailTask extends AsyncTask<Void, Void, Void> {
+        ProgressDialog asyncDialog = new ProgressDialog( ErrorReportingActivity.this);
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("전송중입니다..");
+            // show dialog
+            asyncDialog.show();
+            new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    try {
+                        mailSender.sendMail(pref.getString("id", ""), bundle.getString("mail") + "@" + bundle.getString("address"), errspin.getSelectedItem().toString(), error_body.getText().toString());
+                    } catch (Exception e) { }
+                }
+            }).start();
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    //asyncDialog.setProgress(i * 30);
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            asyncDialog.dismiss();
+            error_body.setText(null);
+            errspin.setSelection(0);
+            Toast.makeText(getApplicationContext(), "전송완료.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
