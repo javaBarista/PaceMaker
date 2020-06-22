@@ -126,8 +126,12 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.It
                         @Override
                         public void onClick(View v) {
                             RequestBody body = new FormBody.Builder()
+                                    .add("qnum", num)
+                                    .add("anum", data.getAnum())
                                     .add("userId", data.getUserID())
-                                    .add("body", edt.getText().toString())
+                                    .add("qBody", data.getBody())
+                                    .add("rBody", edt.getText().toString())
+                                    .add("upload", data.getUploadDate())
                                     .build();
                             ClickEvent.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/Request_report_user.php").post(body).build()).enqueue(new Callback() {
 
@@ -169,7 +173,7 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.It
                                     .add("anum", data.getAnum())
                                     .add("qnum", num)
                                     .build();
-                            ClickEvent.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/pequest_remove_myans.php").post(body).build()).enqueue(new Callback() {
+                            ClickEvent.newCall(new Request.Builder().url("http://nobles1030.cafe24.com/request_remove_myans.php").post(body).build()).enqueue(new Callback() {
 
                                 @Override
                                 public void onFailure(Call call, IOException e) {}

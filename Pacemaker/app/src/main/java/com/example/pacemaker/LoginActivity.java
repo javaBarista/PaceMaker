@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordText;
     private EditText passwordText_Chk;
     private TextView passwordChk;
+    private TextView findBtn;
     private EditText mail;
     private Spinner mailList;
     private Spinner collegeList1;
@@ -77,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         join = findViewById(R.id.signup);
         loginBox = findViewById(R.id.loginBox);
         joinBox = findViewById(R.id.signupBox);
+        findBtn = findViewById(R.id.findIdPwBtn);
 
         //로그인 박스안에
         id = findViewById(R.id.id);
@@ -126,12 +128,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 passwordChk.setVisibility(View.VISIBLE);
                 if(passwordText.getText().toString().equals(passwordText_Chk.getText().toString())) {
-                    passwordChk.setText("가능");
+                    passwordChk.setText("일치");
                     passwordChk.setTextColor(Color.parseColor("#FF32CD32"));
                     ispwChk = true;
                 } else {
                     ispwChk = false;
-                    passwordChk.setText("불가");
+                    passwordChk.setText("다름");
                     passwordChk.setTextColor(Color.parseColor("#FFFF0000"));
                 }
             }
@@ -148,16 +150,26 @@ public class LoginActivity extends AppCompatActivity {
                 if(trigger){
                     joinBox.setVisibility(View.GONE);
                     loginBox.setVisibility(View.VISIBLE);
+                    findBtn.setVisibility(View.GONE);
                     join.setText("Sign Up");
                     join.setTextSize(18);
                 }
                 else {
                     loginBox.setVisibility(View.GONE);
                     joinBox.setVisibility(View.VISIBLE);
+                    findBtn.setVisibility(View.VISIBLE);
                     join.setText("← Login");
                     join.setTextSize(18);
                 }
                 trigger = !trigger;
+            }
+        });
+
+        findBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent findIntent = new Intent(getApplicationContext(), FindActivity.class);
+                startActivity(findIntent);
             }
         });
 

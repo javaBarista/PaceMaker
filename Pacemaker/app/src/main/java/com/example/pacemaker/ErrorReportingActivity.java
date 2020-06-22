@@ -27,7 +27,7 @@ public class ErrorReportingActivity extends AppCompatActivity{
     private Intent getIntent;
     private Bundle bundle;
     private SendMailTask sendMailTask;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "비밀번호라 git엔 못올리지....");
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "리얼 비밀번호");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class ErrorReportingActivity extends AppCompatActivity{
                 @Override
                 public void run(){
                     try {
-                        mailSender.sendMail(pref.getString("id", ""), bundle.getString("mail") + "@" + bundle.getString("address"), errspin.getSelectedItem().toString(), error_body.getText().toString());
+                        mailSender.sendMail(pref.getString("id", "") +"님의 " + errspin.getSelectedItem().toString() + " 에 대한 오류 문의 입니다. ", bundle.getString("mail") + "@" + bundle.getString("address"), "20166439.sw.cau@gmail.com", error_body.getText().toString());
                     } catch (Exception e) { }
                 }
             }).start();

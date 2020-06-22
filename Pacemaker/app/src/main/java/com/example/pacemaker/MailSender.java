@@ -38,14 +38,14 @@ public class MailSender  extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String id, String mail,String activity_name, String body) throws Exception {
+    public synchronized void sendMail(String title, String mail, String recipient, String body) throws Exception {
         MimeMessage message = new MimeMessage(session);
         DataHandler handler = new DataHandler(
                 new ByteArrayDataSource(body.getBytes(), "text/plain"));
         message.setSender(new InternetAddress(mail));
-        message.setSubject(id +"님의 " + activity_name + " 액티비티 에 대한 오류 문의 입니다. ");
+        message.setSubject(title);
         message.setDataHandler(handler);
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress("20166439.sw.cau@gmail.com"));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
         Transport.send(message);
     }

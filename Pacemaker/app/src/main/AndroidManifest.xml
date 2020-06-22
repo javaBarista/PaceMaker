@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ErrorReportingActivity"></activity>
+        <activity android:name=".FindActivity"></activity>
+        <activity android:name=".ErrorReportingActivity" />
         <activity android:name=".AnswerActivity" />
         <activity android:name=".QandAActivity" />
         <activity android:name=".MockupTestSelectActivity" />
