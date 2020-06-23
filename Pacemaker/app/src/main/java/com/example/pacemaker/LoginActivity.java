@@ -150,14 +150,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(trigger){
                     joinBox.setVisibility(View.GONE);
                     loginBox.setVisibility(View.VISIBLE);
-                    findBtn.setVisibility(View.GONE);
+                    findBtn.setVisibility(View.VISIBLE);
                     join.setText("Sign Up");
                     join.setTextSize(18);
                 }
                 else {
                     loginBox.setVisibility(View.GONE);
                     joinBox.setVisibility(View.VISIBLE);
-                    findBtn.setVisibility(View.VISIBLE);
+                    findBtn.setVisibility(View.GONE);
                     join.setText("← Login");
                     join.setTextSize(18);
                 }

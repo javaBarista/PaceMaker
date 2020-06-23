@@ -15,17 +15,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -45,7 +41,7 @@ public class FindActivity extends AppCompatActivity {
     private ListView idList;
     private Button findBtn;
     private SendMailTask sendMailTask;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "리얼 비밀번호");
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "비밀번호");
     private String tmp;
 
     @Override

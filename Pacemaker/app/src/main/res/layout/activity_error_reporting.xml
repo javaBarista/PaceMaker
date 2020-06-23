@@ -56,7 +56,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="360dp"
-                    android:layout_margin="25dp"
+                    android:layout_margin="35dp"
                     android:background="@drawable/word_frame"
                     android:hint="오류 내용을 적어주세요."
                     android:id="@+id/error_body"/>

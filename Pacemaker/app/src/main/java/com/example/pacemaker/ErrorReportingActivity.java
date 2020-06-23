@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,12 +28,15 @@ public class ErrorReportingActivity extends AppCompatActivity{
     private Intent getIntent;
     private Bundle bundle;
     private SendMailTask sendMailTask;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "리얼 비밀번호");
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "비밀번호");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error_reporting);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);// set drawable icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         getIntent = getIntent();
@@ -110,6 +114,20 @@ public class ErrorReportingActivity extends AppCompatActivity{
             error_body.setText(null);
             errspin.setSelection(0);
             Toast.makeText(getApplicationContext(), "전송완료.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                // TODO : process the click event for action_search item.
+                onBackPressed();
+                return true ;
+            // ...
+            // ...
+            default :
+                return super.onOptionsItemSelected(item);
         }
     }
 }
