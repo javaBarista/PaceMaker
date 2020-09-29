@@ -1,9 +1,12 @@
 package com.example.pacemaker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -82,6 +89,21 @@ public class CompetitionActivity extends AppCompatActivity {
                                         JsonObject jsonObject = jsonElement.getAsJsonObject();
                                         url = jsonObject.get("Address").toString().replaceAll("\\/", "/").replaceAll("\"", "");
 
+                                        Glide.with(getApplicationContext())
+                                                .asBitmap()
+                                                .load(url)
+                                                .into(new CustomTarget<Bitmap>() {
+                                                    @Override
+                                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                        competitonImg.setImageBitmap(resource);
+                                                    }
+
+                                                    @Override
+                                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                    }
+                                                });
+
+                                        /*
                                         final Handler mHandler = new Handler();
 
                                         new Thread(new Runnable(){
@@ -105,6 +127,8 @@ public class CompetitionActivity extends AppCompatActivity {
                                                 });
                                             }
                                         }).start();
+
+                                         */
                                     }
 
                                 } catch (IOException e) {

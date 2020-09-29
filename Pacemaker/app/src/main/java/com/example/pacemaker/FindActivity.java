@@ -41,7 +41,7 @@ public class FindActivity extends AppCompatActivity {
     private ListView idList;
     private Button findBtn;
     private SendMailTask sendMailTask;
-    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "비밀번호");
+    private MailSender mailSender = new MailSender("20166439.sw.cau@gmail.com", "trilogy!0628");
     private String tmp;
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.pacemaker.ui.calender;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -16,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -56,7 +56,6 @@ public class CalenderFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CalenderListItemAdapter mAdapter;
     private SharedPreferences pref;
-    private LinearLayout pageHide;
     private ArrayList<CalenderListItem> mList = new ArrayList<>();
     private ArrayList<DateEvent> schedule = new ArrayList<>();
     private Map<String, Integer> count = new HashMap<>();
@@ -65,34 +64,32 @@ public class CalenderFragment extends Fragment {
     public ArrayList<CalenderListItem> calenderListItems = new ArrayList<>();
     public ArrayList<ListViewItem> items = new ArrayList<>();
     private Toast toast;
-    private ListViewItem item;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         final View root = inflater.inflate(R.layout.fragment_calender, container, false);
         materialCalendarView = root.findViewById(R.id.calendarView);
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        pageHide = root.findViewById(R.id.pageHide);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        pageHide.setOnClickListener(new View.OnClickListener() {
+
+        new Thread(new Runnable(){
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+
             @Override
-            public void onClick(View v) {
-
+            public void run(){
+                materialCalendarView.state().edit()
+                        .setFirstDayOfWeek(Calendar.SUNDAY)
+                        .setMinimumDate(CalendarDay.from(year, 11, 1))
+                        .setMaximumDate(CalendarDay.from(year + 1, 0, 31))
+                        .setCalendarDisplayMode(CalendarMode.MONTHS)
+                        .commit();
+                materialCalendarView.addDecorators(
+                        new CalenderFragment.SundayDecorator(),
+                        new CalenderFragment.SaturdayDecorator(),
+                        new CalenderFragment.OneDayDecorator());
             }
-        });
-
-        materialCalendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(year, 5, 1))
-                .setMaximumDate(CalendarDay.from(year, 6, 31))
-                .setCalendarDisplayMode(CalendarMode.MONTHS)
-                .commit();
-        materialCalendarView.addDecorators(
-                new CalenderFragment.SundayDecorator(),
-                new CalenderFragment.SaturdayDecorator(),
-                new CalenderFragment.OneDayDecorator());
+        }).start();
 
         mRecyclerView = root.findViewById(R.id.calenderlist);
         mRecyclerView.setHasFixedSize(true);
@@ -374,5 +371,4 @@ public class CalenderFragment extends Fragment {
             return i < 19 ? true :false;
         }
     }
-
 }

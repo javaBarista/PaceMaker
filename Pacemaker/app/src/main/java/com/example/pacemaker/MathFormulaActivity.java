@@ -1,15 +1,22 @@
 package com.example.pacemaker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -50,28 +57,19 @@ public class MathFormulaActivity extends AppCompatActivity {
 
         mathUrlList = MathFormulaHashMap.getData();
         imgUrl += mathUrlList.get(name).toString();
-        final Handler mHandler = new Handler();
-        new Thread(new Runnable(){
-            @Override
-            public void run(){
-                Bitmap bitmap = null;
-                try {
-                    // Download Image from URL
-                    InputStream input = new java.net.URL(imgUrl).openStream();
-                    // Decode Bitmap
-                    bitmap = BitmapFactory.decodeStream(input);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                final Bitmap finalBitmap = bitmap;
-                mHandler.post(new Runnable(){
+        Glide.with(this)
+                .asBitmap()
+                .load(imgUrl)
+                .into(new CustomTarget<Bitmap>() {
                     @Override
-                    public void run(){
-                        formula_img.setImageBitmap(finalBitmap);
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        formula_img.setImageBitmap(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
                     }
                 });
-            }
-        }).start();
 
         starCheck = findViewById(R.id.like_check_math);
         starCheck.setCircleEndColorRes(R.color.colorPrimary);

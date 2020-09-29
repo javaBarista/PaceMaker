@@ -1,7 +1,5 @@
 package com.example.pacemaker.ui.test;
 
-import java.io.InputStream;
-
 public class TestForm {
     private String num;
     private String address;
